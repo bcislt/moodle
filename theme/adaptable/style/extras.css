@@ -161,7 +161,7 @@ ul.teachers {
 }
 
 .messaging-area-container .messaging-area .messages-area .messages {
-    background-color: #ece5dd;
+    background-color: [[setting:messagingbackgroundcolor]];
 }
 
 .messaging-area-container .messaging-area .messages-area .response {

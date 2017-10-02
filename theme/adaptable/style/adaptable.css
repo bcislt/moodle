@@ -1991,3 +1991,12 @@ img.smallicon {
   width: 30px;
   float: left;
 }
+
+.tag_list .inline-list a.label-info[href] {
+    color: #fff !important;
+}
+
+.userprofile .profile_tree .contentnode dd
+{
+    word-break: break-all;
+}

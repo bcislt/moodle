@@ -529,8 +529,11 @@ $string['footerlinkcolordesc'] = 'Footer blocks link colour.';
 $string['headerbkcolor'] = 'Top header background colour';
 $string['headerbkcolordesc'] = 'Set the top header background colour.';
 
-$string['msgbadgecolor'] = 'Message badge background colour.';
+$string['msgbadgecolor'] = 'Message badge background colour';
 $string['msgbadgecolordesc'] = 'Set the background colour for the messages badge / bubble in the header (displays number of unread messages)';
+
+$string['messagingbackgroundcolor'] = 'Messages main window background colour';
+$string['messagingbackgroundcolordesc'] = 'Set the background colour for the messages main chat window.';
 
 $string['headerbkcolor2'] = 'Lower header background colour';
 $string['headerbkcolor2desc'] = 'Set the lower header background colour.';
@@ -723,7 +726,7 @@ $string['coursesectionborderradiusdesc'] = 'Set the radius of course section bor
 $string['coursesectionactivityuseadaptableicons'] = 'Use Adaptable Icon Set';
 $string['coursesectionactivityuseadaptableiconsdesc'] = 'Turn this on to use Adaptable icons. If turned off, please also ensure you remove the directories adaptable/pix_plugins and adaptable/pix_core/f to use default Moodle icons.';
 $string['coursesectionactivityiconsize'] = 'Course Section Activity Icon Size';
-$string['coursesectionactivityiconsizedesc'] = 'Set the icon size for activities / files (e.g. a value of "16px" will set it at 16px x 16px).';
+$string['coursesectionactivityiconsizedesc'] = 'Set the icon size for activities / recursos (e.g. a value of "16px" will set it at 16px x 16px).';
 $string['coursesectionactivityborderwidth'] = 'Course Section Activity Border Width';
 $string['coursesectionactivityborderwidthdesc'] = 'Set the width of course section activity borders';
 
@@ -911,7 +914,7 @@ $string['coursetitlepaddingleft'] = 'Course Title Padding Left';
 $string['coursetitlepaddingleftdesc'] = 'Set padding left of course title to adjust position';
 
 $string['coursetitlemaxwidth'] = 'Course Title Maximum Width';
-$string['coursetitlemaxwidthdesc'] = 'Set the maximum width of the course title area';
+$string['coursetitlemaxwidthdesc'] = 'Set the maximum width number of characters of the course title area';
 
 $string['pageheaderheight'] = 'Page Header Height';
 $string['pageheaderheightdesc'] = 'Set the height of the main header area (containing logo and titles)';

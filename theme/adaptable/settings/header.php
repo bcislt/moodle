@@ -171,6 +171,14 @@ defined('MOODLE_INTERNAL') || die;
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
 
+    // Course Title Maximum Width.
+    $name = 'theme_adaptable/coursetitlemaxwidth';
+    $title = get_string('coursetitlemaxwidth', 'theme_adaptable');
+    $description = get_string('coursetitlemaxwidthdesc', 'theme_adaptable');
+    $setting = new admin_setting_configtext($name, $title, $description, '20');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+
     // Breadcrumb home.
     $name = 'theme_adaptable/breadcrumbhome';
     $title = get_string('breadcrumbhome', 'theme_adaptable');

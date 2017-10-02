@@ -9,9 +9,12 @@ define(['jquery', 'theme_bootstrapbase/bootstrap', 'core/log'], function($, boot
         init: function(hasaffix) {
             $(document).ready(function($) {
                 if (hasaffix) {
-                    $('#navwrap').affix({
-                        'offset': { top: $('#navwrap').offset().top}
-                    });
+                    // Check that #navwrap actually exists.
+                    if($("#navwrap").length > 0) {
+                        $('#navwrap').affix({
+                            'offset': { top: $('#navwrap').offset().top}
+                        });
+                    }
                 }
                 $('#openoverlaymenu').click(function() {
                     $('#conditionalmenu').toggleClass('open');

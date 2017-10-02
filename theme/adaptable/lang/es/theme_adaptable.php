@@ -722,59 +722,56 @@ $string['coursesectionborderradius'] = 'Radio del borde de la sección';
 $string['coursesectionborderradiusdesc'] = 'Establece el radio del borde de las esquinas de la sección del curso.';
 
 // Estilos de actividades.
-$string['coursesectionactivityuseadaptableicons'] = 'Use Adaptable Icon Set';
-$string['coursesectionactivityuseadaptableiconsdesc'] = 'Turn this on to use Adaptable icons. '.
-        'If turned off, please also ensure you remove the directories adaptable/pix_plugins and adaptable/pix_core/f to use '.
-        'default Moodle icons.';
+$string['coursesectionactivityuseadaptableicons'] = 'Usar el juego de iconos de Adaptable';
+$string['coursesectionactivityuseadaptableiconsdesc'] = 'Usar el juego de iconos de actividades de Adaptable en lugar del de Moodle. Si lo desactivas, comprueba que los directorios adaptable/pix_plugins y adaptable/pix_core/f están eliminados para poder usar los icomos por defecto de moodle.';
 
-$string['coursesectionactivityiconsize'] = 'Course Section Activity Icon Size';
-$string['coursesectionactivityiconsizedesc'] = 'Set the icon size for activities / files (e.g. a value of "16px" '.
-        'will set it at 16px x 16px).';
-$string['coursesectionactivityborderwidth'] = 'Course Section Activity Border Width';
-$string['coursesectionactivityborderwidthdesc'] = 'Set the width of course section activity borders';
+$string['coursesectionactivityiconsize'] = 'Tamaño de los iconos de actividades de las secciones del curso';
+$string['coursesectionactivityiconsizedesc'] = 'Establece el tamaño de los iconos de actividades / recursos (ejemplo: 16px establece un tamaño de 16px x 16px).';
+$string['coursesectionactivityborderwidth'] = 'Grueso del borde de las secciones de los cursos';
+$string['coursesectionactivityborderwidthdesc'] = 'Establece el grueso de borde de las secciones de actividades del curso.';
 
-$string['coursesectionactivitycolors'] = 'Course Section Activity Options';
+$string['coursesectionactivitycolors'] = 'Opciones de las secciones del curso';
 
-$string['coursesectionactivityassigntopbordercolor'] = 'Assignment activity top border display colour';
-$string['coursesectionactivityassigntopbordercolordesc'] = 'Set the colour of the top border.';
-$string['coursesectionactivityassignbgcolor'] = 'Assignment activity background colour';
-$string['coursesectionactivityassignbgcolordesc'] = 'Set the Assignment activity background colour.';
+$string['coursesectionactivityassigntopbordercolor'] = 'Color del borde superior de la actividad Tarea';
+$string['coursesectionactivityassigntopbordercolordesc'] = 'Establece el color del borde superior de la actividad Tarea.';
+$string['coursesectionactivityassignbgcolor'] = 'Color de fondo de la actividad Tarea';
+$string['coursesectionactivityassignbgcolordesc'] = 'Establece el color de fondo de la actividad Tarea.';
 
-$string['coursesectionactivityforumtopbordercolor'] = 'Forum activity top border display colour';
-$string['coursesectionactivityforumtopbordercolordesc'] = 'Set the colour of the top border.';
-$string['coursesectionactivityforumbgcolor'] = 'Forum activity background colour';
-$string['coursesectionactivityforumbgcolordesc'] = 'Set the Forum activity background colour.';
+$string['coursesectionactivityforumtopbordercolor'] = 'Color del borde superior de la actividad Foro';
+$string['coursesectionactivityforumtopbordercolordesc'] = 'Establece el color del borde superior de la actividad Foro.';
+$string['coursesectionactivityforumbgcolor'] = 'Color de fondo de la actividad Foro';
+$string['coursesectionactivityforumbgcolordesc'] = 'Establece el color de fondo de la actividad Foro.';
 
-$string['coursesectionactivityquiztopbordercolor'] = 'Quiz activity top border display colour';
-$string['coursesectionactivityquiztopbordercolordesc'] = 'Set the colour of the top border.';
-$string['coursesectionactivityquizbgcolor'] = 'Quiz activity background colour';
-$string['coursesectionactivityquizbgcolordesc'] = 'Set the Quiz activity background colour.';
+$string['coursesectionactivityquiztopbordercolor'] = 'Color del borde superior de la actividad Cuestionario';
+$string['coursesectionactivityquiztopbordercolordesc'] = 'Establece el color del borde superior de la actividad Cuestionario.';
+$string['coursesectionactivityquizbgcolor'] = 'Color de fondo de la actividad Cuestionario';
+$string['coursesectionactivityquizbgcolordesc'] = 'Establece el color de fondo de la actividad Cuestionario.';
 
 // Social Wall Settings.
-$string['socialwall'] = 'Social Wall';
-$string['socialwallheading'] = 'Social Wall Settings';
-$string['socialwalldesc'] = 'Customise the appearance of the <a href="https://moodle.org/plugins/format_socialwall">Social Wall Course Format</a> (if in use on your site)';
+$string['socialwall'] = 'Muro Social';
+$string['socialwallheading'] = 'Configuración Muro Social';
+$string['socialwalldesc'] = 'Personaliza la apariencia del <a href="https://moodle.org/plugins/format_socialwall">formato de curso Muro Social</a> (si está instalada en el sitio)';
 
-$string['socialwallbackgroundcolor'] = 'Background color';
-$string['socialwallbackgroundcolordesc'] = 'The background color of a Social Wall course.';
+$string['socialwallbackgroundcolor'] = 'Color de fondo';
+$string['socialwallbackgroundcolordesc'] = 'Establece el color de fondo del formato Muro Social.';
 
-$string['socialwallsectionradius'] = 'Border radius';
-$string['socialwallsectionradiusdesc'] = 'The border radius of Social Wall sections.';
+$string['socialwallsectionradius'] = 'Radio del borde';
+$string['socialwallsectionradiusdesc'] = 'Establece el radio del borde de las secciones del Muro Social.';
 
-$string['socialwallbordertopstyle'] = 'Border style';
-$string['socialwallbordertopstyledesc'] = 'The border style of Social Wall sections.';
+$string['socialwallbordertopstyle'] = 'Estilo del borde';
+$string['socialwallbordertopstyledesc'] = 'establece el estilo del borde de las secciones del Muro Social.';
 
-$string['socialwallborderwidth'] = 'Border width';
-$string['socialwallborderwidthdesc'] = 'The border width of Social Wall sections.';
+$string['socialwallborderwidth'] = 'Ancho del borde';
+$string['socialwallborderwidthdesc'] = 'Establece el ancho del borde de las secciones del Muro Social.';
 
-$string['socialwallbordercolor'] = 'Border color';
-$string['socialwallbordercolordesc'] = 'The border color of Social Wall sections.';
+$string['socialwallbordercolor'] = 'Color del borde';
+$string['socialwallbordercolordesc'] = 'Color del borde de las secciones del Muro Social.';
 
-$string['socialwallactionlinkcolor'] = 'Action link color';
-$string['socialwallactionlinkcolordesc'] = 'The color of action links in Social Wall.';
+$string['socialwallactionlinkcolor'] = 'Color de los enlaces';
+$string['socialwallactionlinkcolordesc'] = 'Establece el color de los enlaces.';
 
-$string['socialwallactionlinkhovercolor'] = 'Action link hover color';
-$string['socialwallactionlinkhovercolordesc'] = 'The color of action links when hovered in Social Wall.';
+$string['socialwallactionlinkhovercolor'] = 'Color hover de los enlaces';
+$string['socialwallactionlinkhovercolordesc'] = 'Establece el color hover de los enlaces.';
 
 
 // Fonts ***********************************************************.

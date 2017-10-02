@@ -2028,19 +2028,30 @@ EOT;
 
         $hidecoursetitlemobile = $PAGE->theme->settings->hidecoursetitlemobile;
 
-        // If it is a mobile and the site title/course is not hidden or it is a desktop hen we display the site title / course.
+        $coursetitlemaxwidth = (!empty($PAGE->theme->settings->coursetitlemaxwidth) ? $PAGE->theme->settings->coursetitlemaxwidth : 0);
+
+        // If it is a mobile and the site title/course is not hidden or it is a desktop then we display the site title / course.
         if (((theme_adaptable_is_mobile()) && ($hidecoursetitlemobile == 1)) || (theme_adaptable_is_desktop())) {
             // If course id is greater than 1 we display course title.
             if ($COURSE->id > 1) {
+
+                $coursetitle = $COURSE->fullname;
+                // Check max width of course title and trim if appropriate.
+                if ($coursetitlemaxwidth > 0) {
+                    if (strlen($coursetitle) > $coursetitlemaxwidth) {
+                        $coursetitle = preg_replace('/\s+?(\S+)?$/', '', substr($coursetitle, 0, $coursetitlemaxwidth)) . " ...";
+                    }
+                }
+
                 switch ($PAGE->theme->settings->enableheading) {
                     case 'fullname':
                         // Full Course Name.
-                        $retval .= '<div id="sitetitle">' . format_string($COURSE->fullname) . '</div>';
+                        $retval .= '<div id="sitetitle">' . format_string($coursetitle) . '</div>';
                         break;
 
                     case 'shortname':
                         // Short Course Name.
-                        $retval .= '<div id="sitetitle">' . format_string($COURSE->shortname) . '</div>';
+                        $retval .= '<div id="sitetitle">' . format_string($coursetitle) . '</div>';
                         break;
 
                     default:
@@ -2206,7 +2217,17 @@ EOT;
             $node->title = $item->get_title();
             $node->text = $item->get_text();
             $node->class = 'level-' . $level;
-            $node->url = $item->get_url();
+
+            // Top level menu.  Check if URL contains a valid URL, if not
+            // then use standard javascript:void(0).  Done to fix current
+            // jquery / Bootstrap incompatibility with using # in target URLS.
+            // Ref: Issue 617 on Adaptable theme issues on Bitbucket.
+            if (empty($item->get_url())) {
+                $node->url = "javascript:void(0)";
+            } else {
+                $node->url = $item->get_url();
+            }
+
             $content .= $this->render_from_template('theme_adaptable/overlaymenuitem', $node);
             $level++;
             foreach ($item->get_children() as $subitem) {
@@ -2404,7 +2425,11 @@ EOT;
      * @return string
      */
     public function parse_custom_menu($menu, $label, $class = '', $close = '') {
-        $custommenuitems = $class . $label. $close . "|#|".$label."\n";
+
+        // Top level menu option.  No URL added after $close (previously was #).
+        // Done to fix current jquery / Bootstrap version incompatibility with using #
+        // in target URLS. Ref: Issue 617 on Adaptable theme issues on Bitbucket.
+        $custommenuitems = $class . $label. $close . "||".$label."\n";
         $arr = explode("\n", $menu);
 
         // We want to force everything inputted under this menu.

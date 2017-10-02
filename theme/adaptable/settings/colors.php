@@ -127,6 +127,15 @@ defined('MOODLE_INTERNAL') || die;
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
 
+    // Messages main chat window background colour.
+    $name = 'theme_adaptable/messagingbackgroundcolor';
+    $title = get_string('messagingbackgroundcolor', 'theme_adaptable');
+    $description = get_string('messagingbackgroundcolordesc', 'theme_adaptable');
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, '#FFFFFF', $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+
     // Top header background color.
     $name = 'theme_adaptable/headerbkcolor';
     $title = get_string('headerbkcolor', 'theme_adaptable');
