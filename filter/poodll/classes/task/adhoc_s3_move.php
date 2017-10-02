@@ -18,7 +18,7 @@ namespace filter_poodll\task;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/filter/poodll/poodllfilelib.php');
+//require_once($CFG->dirroot . '/filter/poodll/poodllfilelib.php');
 
 /**
  *
@@ -44,7 +44,8 @@ class adhoc_s3_move extends \core\task\adhoc_task {
     	//so wrap some function calls in try catch to prevent that happening
     	
     	global $DB,$CFG;
-    	
+
+
     	//get passed in data we need to perform conversion
     	$cd =  $this->get_custom_data();
     	$awstools = new \filter_poodll\awstools();
@@ -113,14 +114,14 @@ class adhoc_s3_move extends \core\task\adhoc_task {
     		if($diffInSeconds > (60 * 60 * 2) || $giveup){
     			//we do not retry after two hours, we just report an error and return quietly
                 $errorstring .= ' :will not retry';
-                error_log('s3file:' . $errorstring);
+                mtrace('s3file:' . $errorstring);
                 //send to debug log
                 $this->send_debug_data($errorcode,
                     $errorstring,$userid,$contextid);
     		}else{
                 $errorstring .= ' :will retry';
-                error_log(print_r($cd,true));
-                error_log('s3file:' . $errorstring);
+                mtrace(print_r($cd,true));
+                mtrace('s3file:' . $errorstring);
                 //send to debug log
                 $this->send_debug_data($errorcode,
                     $errorstring,$userid,$contextid);

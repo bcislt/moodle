@@ -20,7 +20,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/cronlib.php');
 
-
 /**
  *
  * This is a class for working with AWS
@@ -60,7 +59,7 @@ class taskrunner
         if ($records) {
             $this->task_records = $records;
         }
-        mtrace("Found ". count($this->task_records) . " eligible to run $taskclassname task records \n\n");
+       /* mtrace("Found ". count($this->task_records) . " eligible to run $taskclassname task records \n\n"); */
         $this->timestart=$timestart;
     }
 
@@ -79,6 +78,7 @@ class taskrunner
             $record = $DB->get_record('task_adhoc', array('id' => $record->id));
             if (!$record) {
                 $lock->release();
+                $cronlock->release();
                 return false;
             }
 
@@ -86,6 +86,7 @@ class taskrunner
             // Safety check in case the task in the DB does not match a real class (maybe something was uninstalled).
             if (!$task) {
                 $lock->release();
+                $cronlock->release();
                 return false;
             }
 
@@ -97,6 +98,7 @@ class taskrunner
             }
             return $task;
         }
+         $cronlock->release();
     }
 
     /**
@@ -177,12 +179,6 @@ class taskrunner
             \core_php_time_limit::raise();
             $starttime = microtime();
 
-            // Increase memory limit
-            raise_memory_limit(MEMORY_EXTRA);
-
-            // Emulate normal session - we use admin accoutn by default
-           // cron_setup_user();
-
             // Start output log
             $timenow  = time();
             mtrace("Server Time: ".date('r', $timenow)."\n\n");
@@ -205,7 +201,6 @@ class taskrunner
             \core\task\manager::adhoc_task_complete($thetask);
         } catch (Exception $e) {
             if ($DB && $DB->is_transaction_started()) {
-                error_log('Database transaction aborted automatically in ' . get_class($thetask));
                 $DB->force_transaction_rollback();
             }
             if (isset($predbqueries)) {

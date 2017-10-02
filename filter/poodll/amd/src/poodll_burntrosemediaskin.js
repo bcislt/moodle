@@ -49,7 +49,15 @@ define(['jquery','core/log','filter_poodll/utils_amd'], function($, log, utils) 
             var preview ='<video class="poodll_preview_' + skin + '" width="320" height="240"></video>';
             return preview;
         },
-        
+        fetch_resource_audio: function(skin){
+            var resourceplayer = '<audio class="poodll_resourceplayer_' + skin + ' hide" ></audio>';
+            return resourceplayer;
+        },
+        fetch_resource_video: function(skin){
+            var resourceplayer = '<video class="poodll_resourceplayer_' + skin + ' hide" ></video>';
+            return resourceplayer;
+        },
+
         onMediaError: function(e) {
                 console.error('media error', e);
         },
@@ -69,6 +77,13 @@ define(['jquery','core/log','filter_poodll/utils_amd'], function($, log, utils) 
             ip.controlbar.savebutton.attr('disabled',false);
         },
 
+        handle_timer_update: function(controlbarid){
+            var ip = this.fetch_instanceprops(controlbarid);
+            ip.controlbar.status.html(ip.timer.fetch_display_time());
+            if(ip.timer.seconds==0 && ip.timer.initseconds >0){
+                 ip.controlbar.stopbutton.click();
+            }
+        },
 
        update_status: function(controlbarid){
             var ip = this.fetch_instanceprops(controlbarid);
@@ -111,8 +126,23 @@ define(['jquery','core/log','filter_poodll/utils_amd'], function($, log, utils) 
 
         
         //insert the control bar and return it to be reused
-        insert_controlbar_audio: function(element,controlbarid, preview){
-                var controls ='<div class="poodll_mediarecorderbox" id="' + controlbarid + '">' ;
+        insert_controlbar_audio: function(element,controlbarid, preview,resource){
+            var ip = this.fetch_instanceprops(controlbarid);
+            var skin_style = ip.config.media_skin_style;
+            
+		   var size_class = 'poodll_mediarecorder_size_auto';
+			switch(ip.config.size){
+				case 'small':
+					size_class = 'poodll_mediarecorder_size_small';
+					break;
+				case 'big':
+					size_class = 'poodll_mediarecorder_size_big';
+					break;
+				case 'auto':
+					size_class = 'poodll_mediarecorder_size_auto';		
+			}
+			
+                var controls ='<div class="poodll_mediarecorderbox_burntrose ' + skin_style + ' ' + size_class + '" id="' + controlbarid + '">' ;
                 var status = this.fetch_status_bar('burntrose');
                 controls += status,
                 controls += preview,
@@ -131,28 +161,43 @@ define(['jquery','core/log','filter_poodll/utils_amd'], function($, log, utils) 
                 controls += '</div>';
                 $(element).prepend(controls);
                 var controlbar ={
-                    status: $('#' + controlbarid + ' > .poodll_status_burntrose'),
-                    preview: $('#' + controlbarid + ' > .poodll_preview_burntrose'),
-                    startbutton: $('#' + controlbarid + ' > .poodll_start-recording'),
-                    stopbutton: $('#' + controlbarid + ' > .poodll_stop-recording'),
-                    pausebutton: $('#' + controlbarid + ' > .poodll_pause-recording'),
-                    resumebutton: $('#' + controlbarid + ' > .poodll_resume-recording'),
-                    play1: $('#' + controlbarid + ' > .poodll_play-recording'),
+                    status: $('#' + controlbarid + ' .poodll_status_burntrose'),
+                    preview: $('#' + controlbarid + ' .poodll_preview_burntrose'),
+                    startbutton: $('#' + controlbarid + ' .poodll_start-recording'),
+                    stopbutton: $('#' + controlbarid + '  .poodll_stop-recording'),
+                    pausebutton: $('#' + controlbarid + ' .poodll_pause-recording'),
+                    resumebutton: $('#' + controlbarid + ' .poodll_resume-recording'),
+                    play1: $('#' + controlbarid + ' .poodll_play-recording'),
                     playbutton: $('#' + controlbarid + ' > .poodll_playsave'),
-                    save1: $('#' + controlbarid + ' > .poodll_savebtn'),
-                    savebutton: $('#' + controlbarid + ' > .poodll_save-recording_burntrose'),
-                    savesuccess: $('#' + controlbarid + ' > .poodll_savedsuccessfully'),
+                    save1: $('#' + controlbarid + ' .poodll_savebtn'),
+                    savebutton: $('#' + controlbarid + ' .poodll_save-recording_burntrose'),
+                    savesuccess: $('#' + controlbarid + ' .poodll_savedsuccessfully'),
 
-                    playermic: $('#'+controlbarid + '> .poodll_mic'),
-                    recordmic: $('#'+controlbarid + '> .poodll_recmic'),
-                    resumemic: $('#'+controlbarid + '> .poodll_resume_mic')
+                    playermic: $('#'+controlbarid + ' .poodll_mic'),
+                    recordmic: $('#'+controlbarid + ' .poodll_recmic'),
+                    resumemic: $('#'+controlbarid + ' .poodll_resume_mic')
                 };
                 return controlbar;
         }, //end of fetch_control_bar_burntrose,
         
         //insert the control bar and return it to be reused
-        insert_controlbar_video: function(element,controlbarid, preview){
-                var controls ='<div class="poodll_mediavideobox" id="' + controlbarid + '">' ;
+        insert_controlbar_video: function(element,controlbarid, preview, resource){
+            var ip = this.fetch_instanceprops(controlbarid);
+            var skin_style = ip.config.media_skin_style;
+            
+		   var size_class = 'poodll_mediarecorder_size_auto';
+			switch(ip.config.size){
+				case 'small':
+					size_class = 'poodll_mediarecorder_size_small';
+					break;
+				case 'big':
+					size_class = 'poodll_mediarecorder_size_big';
+					break;
+				case 'auto':
+					size_class = 'poodll_mediarecorder_size_auto';		
+			}
+
+            var controls ='<div class="poodll_mediavideobox '+ skin_style + ' ' + size_class + '" id="' + controlbarid + '">' ;
             var status = this.fetch_status_bar('burntrose');
             controls += status,
             controls += preview,
@@ -195,11 +240,11 @@ define(['jquery','core/log','filter_poodll/utils_amd'], function($, log, utils) 
                 return controlbar;
         }, //end of fetch_control_bar_video_burntrose
 
-        register_controlbar_events_video: function(onMediaSuccess, mediaConstraints,controlbarid) {
-              return  this.register_controlbar_events_audio(onMediaSuccess, mediaConstraints,controlbarid);
+        register_controlbar_events_video: function(onMediaSuccess, controlbarid) {
+              return  this.register_controlbar_events_audio(onMediaSuccess, controlbarid);
         },
 
-        register_controlbar_events_audio: function(onMediaSuccess, mediaConstraints,controlbarid){
+        register_controlbar_events_audio: function(onMediaSuccess, controlbarid){
             var self = this;
             var pmr = this.pmr;
             var ip = this.fetch_instanceprops(controlbarid);
@@ -210,7 +255,7 @@ define(['jquery','core/log','filter_poodll/utils_amd'], function($, log, utils) 
                 //clear messages
                 $('#' + ip.config.widgetid  + '_messages').text('');
 
-                 pmr.do_start_audio(ip, mediaConstraints, onMediaSuccess);
+                 pmr.do_start_audio(ip,  onMediaSuccess);
 
                  ip.controlbar.playermic.hide();
                  ip.controlbar.recordmic.show();
@@ -364,3 +409,6 @@ define(['jquery','core/log','filter_poodll/utils_amd'], function($, log, utils) 
         
     };//end of returned object
 });//total end
+
+
+

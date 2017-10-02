@@ -34,6 +34,7 @@ if (defined('STDIN')) {
 
 require('../../config.php');
 $filename=required_param('filename',PARAM_TEXT);
+//require_once($CFG->dirroot . '/filter/poodll/classes/task/adhoc_s3_move.php');
 
 // extra safety
 \core\session\manager::write_close();
@@ -41,9 +42,6 @@ $filename=required_param('filename',PARAM_TEXT);
 
 // send mime type and encoding
 @header('Content-Type: text/plain; charset=utf-8');
-
-// we do not want html markup in emulated CLI
-@ini_set('html_errors', 'off');
 
 // execute the cron
 $taskclassname= '\filter_poodll\task\adhoc_s3_move';
