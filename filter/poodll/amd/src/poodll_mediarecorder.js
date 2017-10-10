@@ -42,13 +42,16 @@ define(['jquery','core/log','filter_poodll/utils_amd',  'filter_poodll/MediaStre
         	 	        	//sadly desktop safari has a bug which prevents us enabling it
         	 	        	if(utils.is_safari() && !(utils.is_ios())){
         	 	        		ret =false;
-        	 	        	}
-        	 	            ret = true;
+        	 	        	}else{
+        	 	        	    ret=true;
+                            }
+
         	 	             break;
         	 	        case 'video': 
         	 	                var IsEdge = utils.is_edge() !== -1 &&
         	 	                    (!!navigator.msSaveBlob || !!navigator.msSaveOrOpenBlob);
-								var IsSafari = utils.is_safari();
+					            var IsSafari = utils.is_safari();
+
         	 	               if(!IsEdge && ! IsSafari){ret=true;}
         	 	    }
         	 	    if(ret){
@@ -64,6 +67,7 @@ define(['jquery','core/log','filter_poodll/utils_amd',  'filter_poodll/MediaStre
         //into the element passed in. with config
         embed: function(element, config) {
             var that = this;
+
 		var controlbarid = "filter_poodll_controlbar_" + config.widgetid;
 		this.init_instance_props(controlbarid);
 		var ip = this.fetch_instanceprops(controlbarid);
@@ -111,15 +115,15 @@ define(['jquery','core/log','filter_poodll/utils_amd',  'filter_poodll/MediaStre
                    
             }
 
-		//init timer
-    		ip.timer = timer.clone();
-		ip.timer.init(ip.config.timelimit,function(){
-		            theskin.handle_timer_update(controlbarid);
-				//ip.controlbar.status.html(ip.timer.fetch_display_time());
-				}
-			);
-		 theskin.handle_timer_update(controlbarid);
-		 
+
+            //init timer
+            ip.timer = timer.clone();
+            ip.timer.init(ip.config.timelimit,function(){
+                        theskin.handle_timer_update(controlbarid);
+                    //ip.controlbar.status.html(ip.timer.fetch_display_time());
+                    }
+                );
+             theskin.handle_timer_update(controlbarid);
         },
 
 		
@@ -292,7 +296,7 @@ define(['jquery','core/log','filter_poodll/utils_amd',  'filter_poodll/MediaStre
                 }//end of switch
                 
                 //Click the stop button if playback ends;
-                preview.onended=function(){ip.controlbar.stopbutton.click();};
+                $(preview).bind('ended',function(){ip.controlbar.stopbutton.click();});
                 
             }//end of if blobs
         },
@@ -519,7 +523,6 @@ define(['jquery','core/log','filter_poodll/utils_amd',  'filter_poodll/MediaStre
 			var ip = this.fetch_instanceprops(controlbarid);
 		    ip.controlbar.status.html(ip.timer.fetch_display_time());
 		},
-
 
         
         fetch_controlbar_audio: function(element, controlbarid, preview, resource){
