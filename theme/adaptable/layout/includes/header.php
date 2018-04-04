@@ -37,18 +37,21 @@ if (empty($CFG->loginhttps)) {
 // show it (set $hidesitetitle to false).
 if ( (strstr($PAGE->pagetype, 'course')) ||
      (strstr($PAGE->pagetype, 'mod')) && ($this->page->course->id > 1) ) {
-
     $hidesitetitle = !empty(($PAGE->theme->settings->coursepageheaderhidesitetitle)) ? true : false;
 } else {
     $hidesitetitle = false;
 }
 
+
+// Screen size.
 theme_adaptable_initialise_zoom($PAGE);
 $setzoom = theme_adaptable_get_zoom();
 
 theme_adaptable_initialise_full($PAGE);
 $setfull = theme_adaptable_get_full();
 
+
+// Navbar.
 if (isset($PAGE->theme->settings->stickynavbar) && $PAGE->theme->settings->stickynavbar == 1
     && $PAGE->pagetype != "grade-report-grader-index" && $PAGE->bodyid != "page-grade-report-grader-index") {
     $fixedheader = true;
@@ -58,6 +61,8 @@ if (isset($PAGE->theme->settings->stickynavbar) && $PAGE->theme->settings->stick
 
 $PAGE->requires->js_call_amd('theme_adaptable/bsoptions', 'init', array($fixedheader));
 
+
+// Layout.
 $left = (!right_to_left());  // To know if to add 'pull-right' and 'desktop-first-column' classes in the layout for LTR.
 
 $hasmiddle = $PAGE->blocks->region_has_content('middle', $OUTPUT);
@@ -67,6 +72,7 @@ $hideheadermobile = $PAGE->theme->settings->hideheadermobile;
 $hidealertsmobile = $PAGE->theme->settings->hidealertsmobile;
 $hidesocialmobile = $PAGE->theme->settings->hidesocialmobile;
 
+
 // Load header background image if exists.
 $headerbg = '';
 
@@ -75,10 +81,12 @@ if (!empty($PAGE->theme->settings->headerbgimage)) {
                          background-position: 0 0; background-repeat: no-repeat; background-size: cover;"';
 }
 
+
 // Get the fonts name.
 $fontname = str_replace(" ", "+", $PAGE->theme->settings->fontname);
 $fontheadername = str_replace(" ", "+", $PAGE->theme->settings->fontheadername);
 $fonttitlename = str_replace(" ", "+", $PAGE->theme->settings->fonttitlename);
+
 
 // Get the fonts subset.
 if (!empty($PAGE->theme->settings->fontsubset)) {
@@ -87,23 +95,24 @@ if (!empty($PAGE->theme->settings->fontsubset)) {
     $fontssubset = '';
 }
 
+
 // Font weights.
 if (!empty($PAGE->theme->settings->fontweight)) {
-    $fontweight = ':'.$PAGE->theme->settings->fontweight;
+    $fontweight = ':'.$PAGE->theme->settings->fontweight.','.$PAGE->theme->settings->fontweight.'i';
 } else {
-    $fontweight = ':400';
+    $fontweight = ':400,400i';
 }
 
 if (!empty($PAGE->theme->settings->fontheaderweight)) {
-    $fontheaderweight = ':'.$PAGE->theme->settings->fontheaderweight;
+    $fontheaderweight = ':'.$PAGE->theme->settings->fontheaderweight.','.$PAGE->theme->settings->fontheaderweight.'i';
 } else {
-    $fontheaderweight = ':400';
+    $fontheaderweight = ':400,400i';
 }
 
 if (!empty($PAGE->theme->settings->fonttitleweight)) {
-    $fonttitleweight = ':'.$PAGE->theme->settings->fonttitleweight;
+    $fonttitleweight = ':'.$PAGE->theme->settings->fonttitleweight.','.$PAGE->theme->settings->fonttitleweight.'i';
 } else {
-    $fonttitleweight = ':700';
+    $fonttitleweight = ':700,700i';
 }
 
 // Get the HTML for the settings bits.
@@ -172,20 +181,23 @@ if (!empty($fonttitlename)  && $fonttitlename != 'default') {
     type='text/css'>
 <?php
 }
-?>
 
-<?php echo $OUTPUT->standard_head_html() ?>
+// HTML head.
+echo $OUTPUT->standard_head_html() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Twitter Card data -->
     <meta name="twitter:card" value="summary">
+    <meta name="twitter:site" value="<?php echo $SITE->fullname; ?>" />
+    <meta name="twitter:title" value="<?php echo $OUTPUT->page_title(); ?>" />
 
     <!-- Open Graph data -->
-    <meta property="og:title" content="<?php echo $SITE->fullname; ?>" />
-    <meta property="og:type" content="article" />
+    <meta property="og:title" content="<?php echo $OUTPUT->page_title(); ?>" />
+    <meta property="og:type" content="website" />
     <meta property="og:url" content="<?php echo $CFG->wwwroot; ?>" />
+    <meta property="og:site_name" content="<?php echo $SITE->fullname; ?>" />
 
-    <!-- Chrome, Firefox OS and Opera -->
+    <!-- Chrome, Firefox OS and Opera on Android -->
     <meta name="theme-color" content="<?php echo $PAGE->theme->settings->maincolor; ?>" />
 
     <!-- Windows Phone -->
@@ -197,9 +209,8 @@ if (!empty($fonttitlename)  && $fonttitlename != 'default') {
 
 <body <?php echo $OUTPUT->body_attributes(array('two-column', $setzoom)); ?>>
 
-<?php echo $OUTPUT->standard_top_of_body_html() ?>
+<?php echo $OUTPUT->standard_top_of_body_html();
 
-<?php
     // Development or wrong moodle version alert.
     echo $OUTPUT->get_dev_alert();
 ?>
@@ -257,8 +268,8 @@ if (!isloggedin() || isguestuser()) {
     $userpic = $OUTPUT->user_picture($USER, array('link' => false, 'size' => 80, 'class' => 'userpicture'));
     echo $userpic;
 
-    // Show username.
-    echo $USER->firstname;
+    // Show username based in fullnamedisplay variable.
+    echo fullname($USER);
 ?>
                 <span class="fa fa-angle-down"></span>
             </a>

@@ -28,6 +28,7 @@
     clear: both;
     border-bottom: 3px solid [[setting:menubordercolor]];
 }
+
 #navwrap.affix {
     top: 0;
     width: 100%;

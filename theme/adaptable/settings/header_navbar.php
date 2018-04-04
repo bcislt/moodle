@@ -33,8 +33,6 @@ format_text(get_string('navbardesc', 'theme_adaptable'), FORMAT_MARKDOWN)));
 
 
 // Sticky Navbar at the top. See issue #278.
-
-
 $name = 'theme_adaptable/stickynavbar';
 $title = get_string('stickynavbar', 'theme_adaptable');
 $description = get_string('stickynavbardesc', 'theme_adaptable');
@@ -43,6 +41,7 @@ $setting = new admin_setting_configcheckbox($name, $title, $description, $defaul
 $setting->set_updatedcallback('theme_reset_all_caches');
 $temp->add($setting);
 
+// Enable/Diable menu items.
 $name = 'theme_adaptable/enablehome';
 $title = get_string('home');
 $description = get_string('enablehomedesc', 'theme_adaptable');
@@ -75,6 +74,35 @@ $setting = new admin_setting_configcheckbox($name, $title, $description, $defaul
 $setting->set_updatedcallback('theme_reset_all_caches');
 $temp->add($setting);
 
+$name = 'theme_adaptable/enablethiscourse';
+$title = get_string('thiscourse', 'theme_adaptable');
+$description = get_string('enablethiscoursedesc', 'theme_adaptable');
+$default = true;
+$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+$name = 'theme_adaptable/enablezoom';
+$title = get_string('enablezoom', 'theme_adaptable');
+$description = get_string('enablezoomdesc', 'theme_adaptable');
+$default = true;
+$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+$name = 'theme_adaptable/enableshowhideblocks';
+$title = get_string('enableshowhideblocks', 'theme_adaptable');
+$description = get_string('enableshowhideblocksdesc', 'theme_adaptable');
+$default = true;
+$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+// My courses section.
+$temp->add(new admin_setting_heading('theme_adaptable_mycourses_heading',
+        get_string('headernavbarmycoursesheading', 'theme_adaptable'),
+        format_text(get_string('headernavbarmycoursesheadingdesc', 'theme_adaptable'), FORMAT_MARKDOWN)));
+
 $name = 'theme_adaptable/enablemysites';
 $title = get_string('mysites', 'theme_adaptable');
 $description = get_string('enablemysitesdesc', 'theme_adaptable');
@@ -85,6 +113,13 @@ $choices = array(
 );
 $setting->set_updatedcallback('theme_reset_all_caches');
 $setting = new admin_setting_configselect($name, $title, $description, 'excludehidden', $choices);
+$temp->add($setting);
+
+// Custom profile field value for restricting access to my courses menu.
+$name = 'theme_adaptable/enablemysitesrestriction';
+$title = get_string('enablemysitesrestriction', 'theme_adaptable');
+$description = get_string('enablemysitesrestrictiondesc', 'theme_adaptable');
+$setting = new admin_setting_configtext($name, $title, $description, '', PARAM_RAW);
 $temp->add($setting);
 
 $name = 'theme_adaptable/mycoursesmenulimit';
@@ -121,29 +156,24 @@ $default = '';
 $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_RAW);
 $temp->add($setting);
 
-$name = 'theme_adaptable/enablethiscourse';
-$title = get_string('thiscourse', 'theme_adaptable');
-$description = get_string('enablethiscoursedesc', 'theme_adaptable');
-$default = true;
-$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+$name = 'theme_adaptable/mysitesmenudisplay';
+$title = get_string('mysitesmenudisplay', 'theme_adaptable');
+$description = get_string('mysitesmenudisplaydesc', 'theme_adaptable');
+$displaychoices = array(
+        'shortcodenohover' => get_string('mysitesmenudisplayshortcodenohover', 'theme_adaptable'),
+        'shortcodehover' => get_string('mysitesmenudisplayshortcodefullnameonhover', 'theme_adaptable'),
+        'fullnamenohover' => get_string('mysitesmenudisplayfullnamenohover', 'theme_adaptable'),
+        'fullnamehover' => get_string('mysitesmenudisplayfullnamefullnameonhover', 'theme_adaptable')
+
+);
 $setting->set_updatedcallback('theme_reset_all_caches');
+$setting = new admin_setting_configselect($name, $title, $description, 'shortcodehover', $displaychoices);
 $temp->add($setting);
 
-$name = 'theme_adaptable/enablezoom';
-$title = get_string('enablezoom', 'theme_adaptable');
-$description = get_string('enablezoomdesc', 'theme_adaptable');
-$default = true;
-$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
-$setting->set_updatedcallback('theme_reset_all_caches');
-$temp->add($setting);
-
-$name = 'theme_adaptable/enableshowhideblocks';
-$title = get_string('enableshowhideblocks', 'theme_adaptable');
-$description = get_string('enableshowhideblocksdesc', 'theme_adaptable');
-$default = true;
-$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
-$setting->set_updatedcallback('theme_reset_all_caches');
-$temp->add($setting);
+// Help section.
+$temp->add(new admin_setting_heading('theme_adaptable_help_heading',
+        get_string('headernavbarhelpheading', 'theme_adaptable'),
+        format_text(get_string('headernavbarhelpheadingdesc', 'theme_adaptable'), FORMAT_MARKDOWN)));
 
 // Enable help link.
 $name = 'theme_adaptable/enablehelp';

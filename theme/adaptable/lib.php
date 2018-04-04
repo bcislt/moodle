@@ -126,12 +126,17 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:coursesectionborderradius]]' => '',
         '[[setting:coursesectionactivityiconsize]]' => '24px',
         '[[setting:coursesectionactivityborderwidth]]' => '2px',
-        '[[setting:coursesectionactivityassigntopbordercolor]]' => '#0066cc',
+        '[[setting:coursesectionactivityborderstyle]]' => 'dashed',
+        '[[setting:coursesectionactivitybordercolor]]' => '#eeeeee',
+        '[[setting:coursesectionactivityleftborderwidth]]' => '3px',
+        '[[setting:coursesectionactivityassignleftbordercolor]]' => '#0066cc',
         '[[setting:coursesectionactivityassignbgcolor]]' => '#FFFFFF',
-        '[[setting:coursesectionactivityforumtopbordercolor]]' => '#990099',
+        '[[setting:coursesectionactivityforumleftbordercolor]]' => '#990099',
         '[[setting:coursesectionactivityforumbgcolor]]' => '#FFFFFF',
-        '[[setting:coursesectionactivityquiztopbordercolor]]' => '#FF3333',
+        '[[setting:coursesectionactivityquizleftbordercolor]]' => '#FF3333',
         '[[setting:coursesectionactivityquizbgcolor]]' => '#FFFFFF',
+        '[[setting:coursesectionactivitymargintop]]' => '2px',
+        '[[setting:coursesectionactivitymarginbottom]]' => '2px',
         '[[setting:tilesbordercolor]]' => '#009688',
         '[[setting:slidermargintop]]' => '20px',
         '[[setting:slidermarginbottom]]' => '20px',
@@ -415,7 +420,7 @@ function theme_adaptable_pluginfile($course, $cm, $context, $filearea, $args, $f
             return $theme->setting_file_serve('homebk', $args, $forcedownload, $options);
         } else if ($filearea === 'pagebackground') {
             return $theme->setting_file_serve('pagebackground', $args, $forcedownload, $options);
-        } else if (preg_match("/p[1-9][0-9]/", $filearea) !== false) {
+        } else if (preg_match("/^p[1-9][0-9]?$/", $filearea) !== false) {
             return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
         } else if ((substr($filearea, 0, 9) === 'marketing') && (substr($filearea, 10, 5) === 'image')) {
             return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);

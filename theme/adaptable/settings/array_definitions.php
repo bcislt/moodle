@@ -982,7 +982,7 @@ $sliderstyles = array(
 );
 
 $bootstrap12 = array(
-    '0-0-0-0' => 'disabled',
+    '0-0-0-0' => get_string('disabled', 'theme_adaptable'),
     '12-0-0-0' => '1',
     '6-6-0-0' => '6 + 6',
     '4-4-4-0' => '4 + 4 + 4',

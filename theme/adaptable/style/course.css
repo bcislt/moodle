@@ -124,9 +124,6 @@
     border-bottom-left-radius: [[setting:coursesectionheaderborderradiusbottom]];
 }
 
-.section .activity .mod-indent-outer {
-    padding-left: 23px;
-}
 
 /* Alter nav on single-section for better onetopic course format support */
 .single-section .nav {
@@ -659,30 +656,24 @@ div.fdescription.required {
     padding: 5px 10px;
 }
 
-.section li.modtype_assign {
-    border-top: [[setting:coursesectionactivityassigntopbordercolor]] 4px solid;
-    border-left: [[setting:coursesectionactivityborderwidth]] solid #eee;
-    border-right: [[setting:coursesectionactivityborderwidth]] solid #eee;
-    border-bottom: [[setting:coursesectionactivityborderwidth]] solid #eee;
-    margin: 10px 0px 10px 0px;
+.section li.modtype_assign div.activity-wrapper {
+    -webkit-box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityassignleftbordercolor]];
+    box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityassignleftbordercolor]];
+    border-bottom: [[setting:coursesectionactivityborderwidth]] [[setting:coursesectionactivityborderstyle]] [[setting:coursesectionactivitybordercolor]];
     background-color: [[setting:coursesectionactivityassignbgcolor]];
 }
 
-.section li.modtype_forum {
-    border-top: [[setting:coursesectionactivityforumtopbordercolor]] 4px solid;
-    border-left: [[setting:coursesectionactivityborderwidth]] solid #eee;
-    border-right: [[setting:coursesectionactivityborderwidth]] solid #eee;
-    border-bottom: [[setting:coursesectionactivityborderwidth]] solid #eee;
-    margin: 10px 0px 10px 0px;
+.section li.modtype_forum div.activity-wrapper {
+    -webkit-box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityforumleftbordercolor]];
+    box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityforumleftbordercolor]];
+    border-bottom: [[setting:coursesectionactivityborderwidth]] [[setting:coursesectionactivityborderstyle]] [[setting:coursesectionactivitybordercolor]];
     background-color: [[setting:coursesectionactivityforumbgcolor]];
 }
 
-.section li.modtype_quiz {
-    border-top: [[setting:coursesectionactivityquiztopbordercolor]] 4px solid;
-    border-left: [[setting:coursesectionactivityborderwidth]] solid #eee;
-    border-right: [[setting:coursesectionactivityborderwidth]] solid #eee;
-    border-bottom: [[setting:coursesectionactivityborderwidth]] solid #eee;
-    margin: 10px 0px 10px 0px;
+.section li.modtype_quiz div.activity-wrapper {
+    -webkit-box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityquizleftbordercolor]];
+    box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityquizleftbordercolor]];
+    border-bottom: [[setting:coursesectionactivityborderwidth]] [[setting:coursesectionactivityborderstyle]] [[setting:coursesectionactivitybordercolor]];
     background-color: [[setting:coursesectionactivityquizbgcolor]];
 }
 
@@ -703,4 +694,70 @@ div.fdescription.required {
 .availabilityinfo .label-info a,
 .availabilityinfo .label-info a:hover {
     color: [[setting:alertcolorinfo]] !important;
+}
+
+
+/* Activity further information styling */
+.activity-meta-container {
+    padding: 5px 0 0 0;
+    margin: 0px 10px 0 30px;
+}
+
+span.activity-due-date {
+    background-color: #555555;
+    color: #ffffff;
+    padding: 7px;
+    margin: 0 10px 0 0;
+    line-height: 3em;
+    border-radius: 0.5em;
+    font-size: 0.9em;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+span.activity-due-date a {
+    color: #ffffff !important;
+ }
+
+span.activity-mod-feedback {
+    padding: 5px 0;
+}
+
+span.activity-mod-feedback i {
+    font-size: 1.1em;
+}
+
+span.activity-date-overdue {
+    background-color: #ee0000;
+}
+
+span.activity-date-submitted {
+    background-color: #00cc00;
+}
+
+span.activity-date-nearly-due {
+    background-color: #f79100;
+}
+
+span.activity-mod-feedback i, .activity-mod-engagement i, span.activity-due-date i {
+    font-size: 1.1em;
+}
+
+li.activity div.actions-right {
+    float: right; padding: 5px;
+}
+
+div.activity-wrapper {
+    margin: [[setting:coursesectionactivitymargintop]] 0 [[setting:coursesectionactivitymarginbottom]] 0;
+    padding: 5px 10px 5px 10px;
+}
+
+.section .activity .mod-indent-outer {
+    width: 100%;
+}
+
+.section .activity .actions-right .actions {
+    position: absolute;
+    right: 17px;
+    top: 15px;
 }

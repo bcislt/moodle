@@ -323,7 +323,8 @@ $setting = new admin_setting_configtext($name, $title, $description, '24px');
 $setting->set_updatedcallback('theme_reset_all_caches');
 $temp->add($setting);
 
-// Course Activity section border width.
+// Course Activity section bottom border width.
+// This border was originally used all around an activity but changed to just the bottom.
 $name = 'theme_adaptable/coursesectionactivityborderwidth';
 $title = get_string('coursesectionactivityborderwidth', 'theme_adaptable');
 $description = get_string('coursesectionactivityborderwidthdesc', 'theme_adaptable');
@@ -332,10 +333,37 @@ $setting = new admin_setting_configselect($name, $title, $description, '2px', $w
 $setting->set_updatedcallback('theme_reset_all_caches');
 $temp->add($setting);
 
+// Course Activity section bottom border style.
+$name = 'theme_adaptable/coursesectionactivityborderstyle';
+$title = get_string('coursesectionactivityborderstyle', 'theme_adaptable');
+$description = get_string('coursesectionactivityborderstyledesc', 'theme_adaptable');
+$radchoices = $borderstyles;
+$setting = new admin_setting_configselect($name, $title, $description, 'dashed', $radchoices);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+// Course Activity section bottom border colour.
+$name = 'theme_adaptable/coursesectionactivitybordercolor';
+$title = get_string('coursesectionactivitybordercolor', 'theme_adaptable');
+$description = get_string('coursesectionactivitybordercolordesc', 'theme_adaptable');
+$previewconfig = null;
+$setting = new admin_setting_configcolourpicker($name, $title, $description, '#eeeeee', $previewconfig);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+// Course Activity section left border width.  Controls width of all left borders.
+$name = 'theme_adaptable/coursesectionactivityleftborderwidth';
+$title = get_string('coursesectionactivityleftborderwidth', 'theme_adaptable');
+$description = get_string('coursesectionactivityleftborderwidthdesc', 'theme_adaptable');
+$widthchoices = $from0to6px;
+$setting = new admin_setting_configselect($name, $title, $description, '3px', $widthchoices);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
 // Assign Activity display colours.
-$name = 'theme_adaptable/coursesectionactivityassigntopbordercolor';
-$title = get_string('coursesectionactivityassigntopbordercolor', 'theme_adaptable');
-$description = get_string('coursesectionactivityassigntopbordercolordesc', 'theme_adaptable');
+$name = 'theme_adaptable/coursesectionactivityassignleftbordercolor';
+$title = get_string('coursesectionactivityassignleftbordercolor', 'theme_adaptable');
+$description = get_string('coursesectionactivityassignleftbordercolordesc', 'theme_adaptable');
 $previewconfig = null;
 $setting = new admin_setting_configcolourpicker($name, $title, $description, '#0066cc', $previewconfig);
 $setting->set_updatedcallback('theme_reset_all_caches');
@@ -351,9 +379,9 @@ $setting->set_updatedcallback('theme_reset_all_caches');
 $temp->add($setting);
 
 // Forum Activity display colours.
-$name = 'theme_adaptable/coursesectionactivityforumtopbordercolor';
-$title = get_string('coursesectionactivityforumtopbordercolor', 'theme_adaptable');
-$description = get_string('coursesectionactivityforumtopbordercolordesc', 'theme_adaptable');
+$name = 'theme_adaptable/coursesectionactivityforumleftbordercolor';
+$title = get_string('coursesectionactivityforumleftbordercolor', 'theme_adaptable');
+$description = get_string('coursesectionactivityforumleftbordercolordesc', 'theme_adaptable');
 $previewconfig = null;
 $setting = new admin_setting_configcolourpicker($name, $title, $description, '#990099', $previewconfig);
 $setting->set_updatedcallback('theme_reset_all_caches');
@@ -369,9 +397,9 @@ $setting->set_updatedcallback('theme_reset_all_caches');
 $temp->add($setting);
 
 // Quiz Activity display colours.
-$name = 'theme_adaptable/coursesectionactivityquiztopbordercolor';
-$title = get_string('coursesectionactivityquiztopbordercolor', 'theme_adaptable');
-$description = get_string('coursesectionactivityquiztopbordercolordesc', 'theme_adaptable');
+$name = 'theme_adaptable/coursesectionactivityquizleftbordercolor';
+$title = get_string('coursesectionactivityquizleftbordercolor', 'theme_adaptable');
+$description = get_string('coursesectionactivityquizleftbordercolordesc', 'theme_adaptable');
 $previewconfig = null;
 $setting = new admin_setting_configcolourpicker($name, $title, $description, '#FF3333', $previewconfig);
 $temp->add($setting);
@@ -382,6 +410,23 @@ $title = get_string('coursesectionactivityquizbgcolor', 'theme_adaptable');
 $description = get_string('coursesectionactivityquizbgcolordesc', 'theme_adaptable');
 $previewconfig = null;
 $setting = new admin_setting_configcolourpicker($name, $title, $description, '#FFFFFF', $previewconfig);
+$temp->add($setting);
+
+// Top and bottom margin spacing between activities.
+$name = 'theme_adaptable/coursesectionactivitymargintop';
+$title = get_string('coursesectionactivitymargintop', 'theme_adaptable');
+$description = get_string('coursesectionactivitymargintopdesc', 'theme_adaptable');
+$widthchoices = $from0to12px;
+$setting = new admin_setting_configselect($name, $title, $description, '2px', $widthchoices);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+$name = 'theme_adaptable/coursesectionactivitymarginbottom';
+$title = get_string('coursesectionactivitymarginbottom', 'theme_adaptable');
+$description = get_string('coursesectionactivitymarginbottomdesc', 'theme_adaptable');
+$widthchoices = $from0to12px;
+$setting = new admin_setting_configselect($name, $title, $description, '2px', $widthchoices);
+$setting->set_updatedcallback('theme_reset_all_caches');
 $temp->add($setting);
 
 // SocialWall course format heading.
@@ -450,6 +495,60 @@ $title = get_string('socialwallactionlinkhovercolor', 'theme_adaptable');
 $description = get_string('socialwallactionlinkhovercolordesc', 'theme_adaptable');
 $previewconfig = null;
 $setting = new admin_setting_configcolourpicker($name, $title, $description, '#009688', $previewconfig);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+// Course Activity Further Information section heading.
+$name = 'theme_adaptable/coursesectionactivityfurtherinformation';
+$heading = get_string('coursesectionactivityfurtherinformation', 'theme_adaptable');
+$setting = new admin_setting_heading($name, $heading, '');
+$temp->add($setting);
+
+$name = 'theme_adaptable/coursesectionactivityfurtherinformationassign';
+$title = get_string('coursesectionactivityfurtherinformationassign', 'theme_adaptable');
+$description = get_string('coursesectionactivityfurtherinformationassigndesc', 'theme_adaptable');
+$default = false;
+$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+$name = 'theme_adaptable/coursesectionactivityfurtherinformationquiz';
+$title = get_string('coursesectionactivityfurtherinformationquiz', 'theme_adaptable');
+$description = get_string('coursesectionactivityfurtherinformationquizdesc', 'theme_adaptable');
+$default = false;
+$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+$name = 'theme_adaptable/coursesectionactivityfurtherinformationchoice';
+$title = get_string('coursesectionactivityfurtherinformationchoice', 'theme_adaptable');
+$description = get_string('coursesectionactivityfurtherinformationchoicedesc', 'theme_adaptable');
+$default = false;
+$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+$name = 'theme_adaptable/coursesectionactivityfurtherinformationfeedback';
+$title = get_string('coursesectionactivityfurtherinformationfeedback', 'theme_adaptable');
+$description = get_string('coursesectionactivityfurtherinformationfeedbackdesc', 'theme_adaptable');
+$default = false;
+$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+$name = 'theme_adaptable/coursesectionactivityfurtherinformationlesson';
+$title = get_string('coursesectionactivityfurtherinformationlesson', 'theme_adaptable');
+$description = get_string('coursesectionactivityfurtherinformationlessondesc', 'theme_adaptable');
+$default = false;
+$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$temp->add($setting);
+
+$name = 'theme_adaptable/coursesectionactivityfurtherinformationdata';
+$title = get_string('coursesectionactivityfurtherinformationdata', 'theme_adaptable');
+$description = get_string('coursesectionactivityfurtherinformationdatadesc', 'theme_adaptable');
+$default = false;
+$setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
 $setting->set_updatedcallback('theme_reset_all_caches');
 $temp->add($setting);
 

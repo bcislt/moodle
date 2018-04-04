@@ -18,8 +18,8 @@
  * Version details
  *
  * @package    theme_adaptable
- * @copyright  2015-2017 Jeremy Hopkins (Coventry University)
- * @copyright  2015-2017 Fernando Acedo (3-bits.com)
+ * @copyright  2015-2018 Jeremy Hopkins (Coventry University)
+ * @copyright  2015-2018 Fernando Acedo (3-bits.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
@@ -465,7 +465,7 @@ $string['enableprefdesc'] = 'Display a link to the user preferences page';
 $string['enablenote'] = 'My Notifications';
 $string['enablenotedesc'] = 'Display a link to the user notifications page';
 
-$string['enableblog'] = 'My Blogs';
+$string['enableblog'] = 'Enable My blogs';
 $string['enableblogdesc'] = 'Display a link to the users blogs page';
 
 $string['enableposts'] = 'My Posts';
@@ -480,8 +480,16 @@ $string['noenrolments'] = 'No enrolments found.';
 
 $string['enablemyhomedesc'] = 'Display a link to {$a}';
 $string['enableeventsdesc'] = 'Display a link to the calendar';
-$string['enablemysitesdesc'] = 'Display a dropdown with a users courses';
+
 $string['enablethiscoursedesc'] = 'Display a dropdown with activities from the current course';
+
+// My courses menu *********************************************************.
+$string['enablemysitesdesc'] = 'Display a dropdown with a users courses';
+$string['headernavbarmycoursesheading'] = 'My Courses Menu';
+$string['headernavbarmycoursesheadingdesc'] = 'All options for the My Courses (My Sites) menu option that displays list of current user&#39;s courses';
+
+$string['enablemysitesrestriction'] = 'Restrict user&#39;s courses dropdown to a custom profile field';
+$string['enablemysitesrestrictiondesc'] = 'Restrict dropdown with a user&#39;s courses by custom profile field. E.g. usertype=staff';
 
 $string['mysitessortoverride'] = 'Enable My Courses Custom Sort';
 $string['mysitessortoverridedesc'] = 'Use custom profile fields or generic strings (year etc) to collapse past courses in sub menu';
@@ -498,6 +506,13 @@ $string['mysitesmaxlengthdesc'] = 'Adjust the max length of coursenames in the M
 
 $string['mycoursesmenulimit'] = 'My Courses Menu Limit';
 $string['mycoursesmenulimitdesc'] = 'Adjust the max number of courses that appear in the My Courses dropdown. 0 will show all courses.';
+
+$string['mysitesmenudisplay'] = 'My Courses Menu Display';
+$string['mysitesmenudisplaydesc'] = 'Choose what text to display for a menu item and on hover.';
+$string['mysitesmenudisplayshortcodenohover'] = 'Show short code and no text on hover.';
+$string['mysitesmenudisplayshortcodefullnameonhover'] = 'Show short code and full course name on hover.';
+$string['mysitesmenudisplayfullnamenohover'] = 'Show full course title and no text on hover.';
+$string['mysitesmenudisplayfullnamefullnameonhover'] = 'Show full course title and full title on hover.';
 
 $string['usernavheading'] = 'Customize the user navigation dropdown';
 $string['usernavdesc'] = 'Allows you to control all of the elements that appear in the user navigation dropdown.';
@@ -688,8 +703,8 @@ $string['coursesettingsheading'] = 'Course Formats Settings';
 $string['coursesettingsdesc'] = 'Customize some of the most used Moodle course formats to fit the main design.';
 
 // Common settings.
-$string['showyourprogress'] = 'Show d&#39;Your Progressd&#39; label ';
-$string['showyourprogressdesc'] = 'Show / hide the d&#39;Your Progressd&#39; label in the top of the course content. This label is only for information purposes and can be hidden. ';
+$string['showyourprogress'] = 'Show &#39;Your Progress&#39; label ';
+$string['showyourprogressdesc'] = 'Show / hide the &#39;Your Progress&#39; label in the top of the course content. This label is only for information purposes and can be hidden. ';
 
 // Course Section background color.
 $string['coursesectionbgcolor'] = 'Course Section Background';
@@ -737,24 +752,32 @@ $string['coursesectionactivityuseadaptableicons'] = 'Use Adaptable Icon Set';
 $string['coursesectionactivityuseadaptableiconsdesc'] = 'Turn this on to use Adaptable icons. If turned off, please also ensure you remove the directories adaptable/pix_plugins and adaptable/pix_core/f to use default Moodle icons.';
 
 $string['coursesectionactivityiconsize'] = 'Course Section Activity Icon Size';
-$string['coursesectionactivityiconsizedesc'] = 'Set the icon size for activities / recursos (e.g. a value of "16px" will set it at 16px x 16px).';
-$string['coursesectionactivityborderwidth'] = 'Course Section Activity Border Width';
-$string['coursesectionactivityborderwidthdesc'] = 'Set the width of course section activity borders';
+$string['coursesectionactivityiconsizedesc'] = 'Set the icon size for activities / recursos (e.g. a value of 16px will set it at 16px x 16px).';
+
+// These four settings actually refer to bottom border (it was originally all around border, but naming kept as it was originally).
+$string['coursesectionactivityborderwidth'] = 'Course Section Activity Bottom Border Width';
+$string['coursesectionactivityborderwidthdesc'] = 'Set width of the border that appears at the bottom of a course section activity.';
+$string['coursesectionactivityborderstyle'] = 'Course Section Activity Bottom Border Style';
+$string['coursesectionactivityborderstyledesc'] = 'Set the style of the course section activity bottom border.';
+$string['coursesectionactivitybordercolor'] = 'Course Section Activity Bottom Border Colour ';
+$string['coursesectionactivitybordercolordesc'] = 'Set the colour of the course section activity bottom border.';
+$string['coursesectionactivityleftborderwidth'] = 'Course Section Activity Left Border Width';
+$string['coursesectionactivityleftborderwidthdesc'] = 'Set width of the border that appears on the left of a course section activity.';
 
 $string['coursesectionactivitycolors'] = 'Course Section Activity Options';
 
-$string['coursesectionactivityassigntopbordercolor'] = 'Assignment activity top border display colour';
-$string['coursesectionactivityassigntopbordercolordesc'] = 'Set the colour of the top border.';
+$string['coursesectionactivityassignleftbordercolor'] = 'Assignment activity left border display colour';
+$string['coursesectionactivityassignleftbordercolordesc'] = 'Set the colour of the left border.';
 $string['coursesectionactivityassignbgcolor'] = 'Assignment activity background colour';
 $string['coursesectionactivityassignbgcolordesc'] = 'Set the Assignment activity background colour.';
 
-$string['coursesectionactivityforumtopbordercolor'] = 'Forum activity top border display colour';
-$string['coursesectionactivityforumtopbordercolordesc'] = 'Set the colour of the top border.';
+$string['coursesectionactivityforumleftbordercolor'] = 'Forum activity left border display colour';
+$string['coursesectionactivityforumleftbordercolordesc'] = 'Set the colour of the left border.';
 $string['coursesectionactivityforumbgcolor'] = 'Forum activity background colour';
 $string['coursesectionactivityforumbgcolordesc'] = 'Set the Forum activity background colour.';
 
-$string['coursesectionactivityquiztopbordercolor'] = 'Quiz activity top border display colour';
-$string['coursesectionactivityquiztopbordercolordesc'] = 'Set the colour of the top border.';
+$string['coursesectionactivityquizleftbordercolor'] = 'Quiz activity left border display colour';
+$string['coursesectionactivityquizleftbordercolordesc'] = 'Set the colour of the left border.';
 $string['coursesectionactivityquizbgcolor'] = 'Quiz activity background colour';
 $string['coursesectionactivityquizbgcolordesc'] = 'Set the Quiz activity background colour.';
 
@@ -1018,6 +1041,8 @@ $string['enableshowhideblocksdesc'] = 'Allows users to show / hide all blocks.';
 $string['fullscreenwidth'] = 'Full screen width.';
 $string['fullscreenwidthdesc'] = 'Set the max width of the theme when it is in full screen mode / zoom.';
 
+$string['headernavbarhelpheading'] = 'Help Links and Options';
+$string['headernavbarhelpheadingdesc'] = 'Options for help menu links.';
 
 // Help Links ******************************************************.
 $string['enablehelp'] = 'Help Link';
@@ -1441,8 +1466,8 @@ $string['socialiconlistdesc'] = 'Enter a delimited list to setup the social icon
 
 // Analytics *********************************.
 $string['analyticssettings'] = 'Analytics';
-$string['analyticssettingsheading'] = 'Setup Google Analytics and/or Piwik';
-$string['analyticssettingsdesc'] = 'You can setup multiple codes for Google Analytics and targed them to user profile fields. Or you can use Piwik, the open source analytics.';
+$string['analyticssettingsheading'] = 'Setup Google Analytics and/or Matomo';
+$string['analyticssettingsdesc'] = 'You can setup multiple codes for Google Analytics and targed them to user profile fields. Or you can use Matomo, the open source analytics.';
 
 // GA.
 $string['googleanalyticssettings'] = 'Google Analytics';
@@ -1461,13 +1486,13 @@ $string['analyticscountdesc'] = 'The number of analytics fields to show in the e
 $string ['analyticsprofilefield'] = 'Custom Profile Field Name=Value (optional)';
 $string ['analyticsprofilefielddesc'] = 'Add access rule using for custom profile field eg: usertype=student';
 
-// Piwik.
-$string['piwiksettings'] = 'Piwik Analytics';
-$string['piwiksettingsheading'] = 'Setup Piwik';
+// Matomo (formely Piwik).
+$string['piwiksettings'] = 'Matomo (formely Piwik) Analytics';
+$string['piwiksettingsheading'] = 'Setup Matomo';
 $string['piwiksettingsdesc'] = 'Generate clean URL for in advanced tracking.';
 
 $string['piwikenabled'] = 'Enabled';
-$string['piwikenableddesc'] = 'Enable Piwik tracking for Moodle.';
+$string['piwikenableddesc'] = 'Enable Matomo tracking for Moodle.';
 
 $string['piwiksiteid'] = 'Site ID';
 $string['piwiksiteiddesc'] = 'Enter your Site ID.';
@@ -1475,8 +1500,8 @@ $string['piwiksiteiddesc'] = 'Enter your Site ID.';
 $string['piwikimagetrack'] = 'Image Tracking';
 $string['piwikimagetrackdesc'] = 'Enable Image Tracking for Moodle for browsers with JavaScript disabled.';
 
-$string['piwiksiteurl'] = 'Piwik URL';
-$string['piwiksiteurldesc'] = 'Enter your Piwik Analytics URL without http(s) or a trailing slash';
+$string['piwiksiteurl'] = 'Matomo URL';
+$string['piwiksiteurldesc'] = 'Enter your Matomo Analytics URL without http(s) or a trailing slash';
 
 $string['piwiktrackadmin'] = 'Tracking Admins';
 $string['piwiktrackadmindesc'] = 'Enable tracking of Admin users (not recommended)';
@@ -1520,3 +1545,70 @@ $string['forumheaderbackgroundcolor'] = 'Forum post header background';
 $string['forumheaderbackgroundcolordesc'] = 'Background colour for a Forum post';
 $string['forumbodybackgroundcolor'] = 'Forum post body background';
 $string['forumbodybackgroundcolordesc'] = 'Background colour for a Forum post';
+
+// Course page further information *********************.
+// Activity display *********************************.
+$string['answered'] = 'Answered';
+$string['attempted'] = 'Attempted';
+$string['contributed'] = 'Contributed';
+$string['draft'] = 'Not published to students';
+$string['due'] = 'Due {$a}';
+$string['feedbackavailable'] = 'Feedback available';
+$string['notanswered'] = 'Not answered';
+$string['notattempted'] = 'Not attempted';
+$string['notcontributed'] = 'Not contributed';
+$string['notsubmitted'] = 'Not Submitted';
+$string['overdue'] = 'Overdue';
+$string['reopened'] = 'Reopened';
+$string['submitted'] = 'Submitted';
+
+$string['xofyanswered'] = '{$a->completed} of {$a->participants} Answered';
+$string['xofyattempted'] = '{$a->completed} of {$a->participants} Attempted';
+$string['xofycontributed'] = '{$a->completed} of {$a->participants} Contributed';
+$string['xofysubmitted'] = '{$a->completed} of {$a->participants} Submitted';
+$string['xungraded'] = '{$a} Ungraded';
+
+$string['coursesectionactivityfurtherinformation'] = 'Course page further information';
+$string['coursesectionactivityfurtherinformationassign'] = 'Show Assignment information';
+$string['coursesectionactivityfurtherinformationassigndesc'] = 'Show assignment information, such as due date, submission status.  For teachers / admins, show number of submissions.';
+$string['coursesectionactivityfurtherinformationquiz'] = 'Show quiz information';
+$string['coursesectionactivityfurtherinformationquizdesc'] = 'Show quiz information, such as submission status.  For teachers / admins, show number of submissions.';
+$string['coursesectionactivityfurtherinformationchoice'] = 'Show choice information';
+$string['coursesectionactivityfurtherinformationchoicedesc'] = 'Show choice information, such as submission status.  For teachers / admins, show number of submissions.';
+$string['coursesectionactivityfurtherinformationfeedback'] = 'Show feedback information';
+$string['coursesectionactivityfurtherinformationfeedbackdesc'] = 'Show feedback information, such as submission status.  For teachers / admins, show number of submissions.';
+$string['coursesectionactivityfurtherinformationlesson'] = 'Show lesson information';
+$string['coursesectionactivityfurtherinformationlessondesc'] = 'Show lesson information, such as submission status.  For teachers / admins, show number of submissions.';
+$string['coursesectionactivityfurtherinformationdata'] = 'Show database information';
+$string['coursesectionactivityfurtherinformationdatadesc'] = 'Show data information, such as submission status.  For teachers / admins, show number of submissions.';
+
+// Activity display margins.
+$string['coursesectionactivitymargintop'] = 'Top margin activity spacing';
+$string['coursesectionactivitymargintopdesc'] = 'Top margin spacing between activities';
+$string['coursesectionactivitymarginbottom'] = 'Bottom margin activity spacing.';
+$string['coursesectionactivitymarginbottomdesc'] = 'Bottom margin spacing between activities.';
+
+// Properties.
+$string['properties'] = 'Import / Export Settings';
+$string['propertiessub'] = 'Current theme settings';
+$string['propertiesdesc'] = 'In this section you can import / export current Adaptable theme settings (properties) in JSON format. You can also view all current settings on this Moodle installation.';
+$string['propertiesproperty'] = 'Property';
+$string['propertiesvalue'] = 'Value';
+$string['propertiesexport'] = 'Export properties as a JSON string';
+$string['propertiesreturn'] = 'Return';
+$string['putpropertiesheading'] = 'Import theme settings';
+$string['putpropertiesname'] = 'Import properties';
+$string['putpropertiesdesc'] = 'Paste the JSON string and \'Save changes\'.  Warning!  Does not validate setting values and performs a \'Purge all caches\'.';
+$string['putpropertyreport'] = 'Report:';
+$string['putpropertyversion'] = 'version:';
+$string['putpropertyproperties'] = 'Properties';
+$string['putpropertyour'] = 'Our';
+$string['putpropertiesignorecti'] = 'Ignoring all course title image settings.';
+$string['putpropertiesreportfiles'] = 'Remember to upload the following files to their settings:';
+$string['putpropertiessettingsreport'] = 'Settings report:';
+$string['putpropertiesvalue'] = '->';
+$string['putpropertiesfrom'] = 'from';
+$string['putpropertieschanged'] = 'Changed:';
+$string['putpropertiesunchanged'] = 'Unchanged:';
+$string['putpropertiesadded'] = 'Added:';
+$string['putpropertiesignored'] = 'Ignored:';

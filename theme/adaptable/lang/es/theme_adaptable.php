@@ -18,7 +18,7 @@
  * Version details
  *
  * @package    theme adaptable
- * @copyright  2015-2017 Fernando Acedo (3-bits.com)
+ * @copyright  2015-2018 Fernando Acedo (3-bits.com)
  *
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
@@ -480,8 +480,16 @@ $string['noenrolments'] = 'No hay matriculaciones.';
 
 $string['enablemyhomedesc'] = 'Mostrar un enlace a {$a}';
 $string['enableeventsdesc'] = 'Mostrar un enlace al calendario';
-$string['enablemysitesdesc'] = 'Mostrar los cursos del usuario';
+
 $string['enablethiscoursedesc'] = 'Mostrar las actividades del curso actual';
+
+// My courses menu *********************************************************.
+$string['enablemysitesdesc'] = 'Mostrar los cursos del usuario';
+$string['headernavbarmycoursesheading'] = 'Menú Mis Cursos';
+$string['headernavbarmycoursesheadingdesc'] = 'Todas las opciones del menú Mis Cursos (Mis Sitios) que muestran la lista de los cursos del usuario';
+
+$string['enablemysitesrestriction'] = 'Restringir el acceso a "Mis Cursos"';
+$string['enablemysitesrestrictiondesc'] = 'Restringir el acceso al menú "Mis Cursos" usando un campo de perfil personalizado. Ejemplo: usertype=alumno';
 
 $string['mysitessortoverride'] = 'Activar el orden personalizado de "Mis Cursos"';
 $string['mysitessortoverridedesc'] = 'Usa campos personalizados o textos (año, edad, ...) para colapsar los cursos en un desplegable.';
@@ -498,6 +506,13 @@ $string['mysitesmaxlengthdesc'] = 'Ajusta la longitud máxima del título del cu
 
 $string['mycoursesmenulimit'] = 'Límite menú Mis Cursos';
 $string['mycoursesmenulimitdesc'] = 'Establece el número máximo de cursos que aparecen en el menú Mis Cursos. 0 mostrará todos los cursos.';
+
+$string['mysitesmenudisplay'] = 'Modo visualización menú Mis Cursos';
+$string['mysitesmenudisplaydesc'] = 'Elige que texto se ha de mostrar en los items del menú al pasar el cursos por encima.';
+$string['mysitesmenudisplayshortcodenohover'] = 'Mostrar el código corto de curso y sin texto al pasar el cursor';
+$string['mysitesmenudisplayshortcodefullnameonhover'] = 'Mostrar el código corto y el título del curso al pasar el cursor';
+$string['mysitesmenudisplayfullnamenohover'] = 'Mostrar el título del curso sin texto al pasar el cursor';
+$string['mysitesmenudisplayfullnamefullnameonhover'] = 'Mostrar el título largo del curso en el menú y al pasar el cursor';
 
 $string['usernavheading'] = 'Personalizar el menú de usuario';
 $string['usernavdesc'] = 'Permite personalizar los elementos que aparecen en el menú de usuario.';
@@ -688,16 +703,16 @@ $string['coursesettingsheading'] = 'Configuración de las secciones del curso.';
 $string['coursedesc'] = 'Configura las opciones de las secciones de los cursos como el título, color de fondo y bordes.';
 
 // Common settings.
-$string['showyourprogress'] = 'Mostrar la etiqueta d&#39;Su progresod&#39; ';
-$string['showyourprogressdesc'] = 'Muestra / oculta la etiqueta d&#39;Su progresod&#39; en la parte superior del contenido del curso. Esta etiqueta es sólo informativa y puede ocultarse al alumno.';
+$string['showyourprogress'] = 'Mostrar la etiqueta &#39;Su progreso&#39; ';
+$string['showyourprogressdesc'] = 'Muestra / oculta la etiqueta &#39;Su progreso&#39; en la parte superior del contenido del curso. Esta etiqueta es sólo informativa y puede ocultarse al alumno.';
 
 // Course Section background color.
-$string['topicsweeks'] = 'Formato de curso Temas/Semanas';
-$string['topicsweeksdesc'] = 'Establece estilos para el formato de curso Temas/semanas.';
+$string['coursesectionbgcolor'] = 'Color de fondo de la sección del curso';
+$string['coursesectionbgcolordesc'] = 'Establece el color de fondo de la sección del curso.';
 
 // Topics / Weeks Settings.
-$string['topicsweeks'] = 'Formato Temas/Semanas';
-$string['topicsweeksdesc'] = 'Establece los estilos para el formato de curso Temas/Semanas.';
+$string['topicsweeks'] = 'Formato de curso Temas/Semanas';
+$string['topicsweeksdesc'] = 'Establece estilos para el formato de curso Temas/semanas.';
 
 $string['coursesectionheaderbg'] = 'Color de fondo de la cabecera';
 $string['coursesectionheaderbgdesc'] = 'Establece el color de fondo de la cabecera de la sección del curso.';
@@ -738,13 +753,21 @@ $string['coursesectionactivityuseadaptableiconsdesc'] = 'Usar el juego de iconos
 
 $string['coursesectionactivityiconsize'] = 'Tamaño de los iconos de actividades de las secciones del curso';
 $string['coursesectionactivityiconsizedesc'] = 'Establece el tamaño de los iconos de actividades / recursos (ejemplo: 16px establece un tamaño de 16px x 16px).';
+
+// These four settings actually refer to bottom border (it was originally all around border, but naming kept as it was originally).
 $string['coursesectionactivityborderwidth'] = 'Grueso del borde de las secciones de los cursos';
 $string['coursesectionactivityborderwidthdesc'] = 'Establece el grueso de borde de las secciones de actividades del curso.';
+$string['coursesectionactivityborderstyle'] = 'Course Section Activity Bottom Border Style';
+$string['coursesectionactivityborderstyledesc'] = 'Set the style of the course section activity bottom border.';
+$string['coursesectionactivitybordercolor'] = 'Course Section Activity Bottom Border Colour ';
+$string['coursesectionactivitybordercolordesc'] = 'Set the colour of the course section activity bottom border.';
+$string['coursesectionactivityleftborderwidth'] = 'Course Section Activity Left Border Width';
+$string['coursesectionactivityleftborderwidthdesc'] = 'Set width of the border that appears on the left of a course section activity.';
 
 $string['coursesectionactivitycolors'] = 'Opciones de las secciones del curso';
 
-$string['coursesectionactivityassigntopbordercolor'] = 'Color del borde superior de la actividad Tarea';
-$string['coursesectionactivityassigntopbordercolordesc'] = 'Establece el color del borde superior de la actividad Tarea.';
+$string['coursesectionactivityassignleftbordercolor'] = 'Color del borde izquierdo de la actividad Tarea';
+$string['coursesectionactivityassignleftbordercolordesc'] = 'Establece el color del borde izquierdo de la actividad Tarea.';
 $string['coursesectionactivityassignbgcolor'] = 'Color de fondo de la actividad Tarea';
 $string['coursesectionactivityassignbgcolordesc'] = 'Establece el color de fondo de la actividad Tarea.';
 
@@ -951,7 +974,7 @@ $string['searchboxpaddingdesc'] = 'Establece la separación de la parte superior
 
 $string['searchboxpaddingtop'] = 'Separación superior del cuadro de búsqueda';
 $string['searchboxpaddingtopdesc'] = 'Permite ajustar la separación, en píxeles, del cuadro de búsqueda (si se muestra en lugar de los iconos sociales)<br />'.
-        ' E.g. 5px 10px 5px 10px (top, right, bottom, left).<br>' .
+        ' E.g. 5px 10px 5px 10px (top, right, bottom, left).<br>'.
         'Los iconos sociales se pueden establecer en la sección <a href="./../admin/settings.php?section=theme_adaptable_social">Cabecersa Social</a></strong>.';
 
 $string['usernav'] = 'Barra de usuario';
@@ -1018,6 +1041,8 @@ $string['enableshowhideblocksdesc'] = 'Permite a los usuarios mostrar / ocultar 
 $string['fullscreenwidth'] = 'Ancho de pantalla completa';
 $string['fullscreenwidthdesc'] = 'Establece el ancho máximo de la pantalla en modo pantalla completa / zoom.';
 
+$string['headernavbarhelpheading'] = 'Enlaces de Ayuda y Opciones';
+$string['headernavbarhelpheadingdesc'] = 'Opciones para los items de los menus de ayuda.';
 
 // Help Links ******************************************************.
 $string['enablehelp'] = 'Enlace de ayuda';
@@ -1390,11 +1415,11 @@ $string['toolsmenuheadingdesc'] = 'Puedes configurar los enlaces a mostrar en el
 </pre><br />';
 
 $string['toolsmenuscount'] = 'Número de menús de herramientas';
-$string['toolsmenuscountdesc'] = 'Establece el número de menús de herramientas que quieres a la barra de navegación.';
+$string['toolsmenuscountdesc'] = 'Establece el número de menús de herramientas de la barra de navegación.';
 
+$string['toolsmenuheading'] = 'Tools Menu ';
 $string['toolsmenu'] = 'Menú de herramientas desplegable';
 $string['toolsmenudesc'] = 'Añade un menú desplegable en la barra de navegación.';
-
 $string['toolsmenutitle'] = 'Título menú de herramientas';
 $string['toolsmenutitledefault'] = 'Herramientas';
 $string['toolsmenutitledesc'] = 'Añade el título a mostrar en la barra de navegación.';
@@ -1422,7 +1447,7 @@ https://twitter.com/|Twitter|fa-twitter-square
 https://instagram.com|Instagram|fa-instagram
 http://example.com|Mi Web|fa-globe
 </pre>
-El listado de iconos ùedes encontrarlo en: <a href="http://fortawesome.github.io/Font-Awesome/icons">http://fortawesome.github.io/Font-Awesome/icons</a>Font-Awesome</pre>';
+El listado de iconos puedes encontrarlo en: <a href="http://fortawesome.github.io/Font-Awesome/icons">http://fortawesome.github.io/Font-Awesome/icons</a>Font-Awesome</pre>';
 
 $string['socialsize'] = 'Configurar tamaño de los iconos sociales';
 $string['socialsizemobile'] = 'Configurar tamaño de los iconos sociales en móviles';
@@ -1441,8 +1466,8 @@ $string['socialiconlistdesc'] = 'Introducir una lista delimitada por comas para 
 
 // Analytics **********************************.
 $string['analyticssettings'] = 'Analytics';
-$string['analyticssettingsheading'] = 'Configura Google Analytics y/o Piwik';
-$string['analyticssettingsdesc'] = 'Puedes configurar Google Analytics y/o Piwik para tu sitio moodle.';
+$string['analyticssettingsheading'] = 'Configura Google Analytics y/o Matomo';
+$string['analyticssettingsdesc'] = 'Puedes configurar Google Analytics y/o Matomo para tu sitio moodle.';
 
 // GA.
 $string ['googleanalyticssettings'] = 'Google Analytics';
@@ -1461,13 +1486,13 @@ $string['analyticscountdesc'] = 'Número de campos personalizados a introducir e
 $string ['analyticsprofilefield'] = 'Nombre del campo personalizado del perfíl Field Name=Value (opcional)';
 $string ['analyticsprofilefielddesc'] = 'Añade una regla de acceso usando un campo de perfil personalizado. Ejemplo: usertype=alumno';
 
-// Piwik.
-$string['piwiksettings'] = 'Piwik';
-$string['piwiksettingsheading'] = 'Configurar Piwik';
+// Matomo (anteriormente Piwik).
+$string['piwiksettings'] = 'Matomo';
+$string['piwiksettingsheading'] = 'Configurar Matomo (anteriormente Piwik)';
 $string['piwiksettingsdesc'] = 'Generar una URL limpia para el rastreo avanzado.';
 
-$string['piwikenabled'] = 'Activar Piwik';
-$string['piwikenableddesc'] = 'Activar el rastreo de Piwik para Moodle.';
+$string['piwikenabled'] = 'Activar Matomo';
+$string['piwikenableddesc'] = 'Activar el rastreo de Matomo para Moodle.';
 
 $string['piwiksiteid'] = 'ID del sitio';
 $string['piwiksiteiddesc'] = 'Introducir la ID del sitio.';
@@ -1475,8 +1500,8 @@ $string['piwiksiteiddesc'] = 'Introducir la ID del sitio.';
 $string['piwikimagetrack'] = 'Rastreo de imagen';
 $string['piwikimagetrackdesc'] = 'Activar el rastreo por imagen para navegadores con JavaScript desactivado.';
 
-$string['piwiksiteurl'] = 'URL de Piwik';
-$string['piwiksiteurldesc'] = 'Introducir la dirección del sitio Piwik sin http (o https) ni la barra invertida.';
+$string['piwiksiteurl'] = 'URL de Matomo';
+$string['piwiksiteurldesc'] = 'Introducir la dirección del sitio Matomo sin http (o https) ni la barra invertida.';
 
 $string['piwiktrackadmin'] = 'Rastreo de administradores';
 $string['piwiktrackadmindesc'] = 'Activar el rastreo de administradores (no recommendado)';
@@ -1520,3 +1545,70 @@ $string['forumheaderbackgroundcolor'] = 'Color de fondo de la cabecera de la ent
 $string['forumheaderbackgroundcolordesc'] = 'Color de fondo de la cabecera de una entrada.';
 $string['forumbodybackgroundcolor'] = 'Color de fondo del contenido de la entrada';
 $string['forumbodybackgroundcolordesc'] = 'Color de fondo del contenido de una entrada.';
+
+// Course page further information *********************.
+// Activity display *********************************.
+$string['answered'] = 'Contestada';
+$string['attempted'] = 'Intentada';
+$string['contributed'] = 'Aportada';
+$string['draft'] = 'Sin publicar para los alumnos';
+$string['due'] = 'Hecho {$a}';
+$string['feedbackavailable'] = 'Realimentación disponible';
+$string['notanswered'] = 'No contestada';
+$string['notattempted'] = 'No intentada';
+$string['notcontributed'] = 'No aportada';
+$string['notsubmitted'] = 'No presentada';
+$string['overdue'] = 'Atrasada';
+$string['reopened'] = 'Reabierta';
+$string['submitted'] = 'Presentada';
+
+$string['xofyanswered'] = '{$a->completed} de {$a->participants} contestadas';
+$string['xofyattempted'] = '{$a->completed} de {$a->participants} intentadas';
+$string['xofycontributed'] = '{$a->completed} de {$a->participants} aportadas';
+$string['xofysubmitted'] = '{$a->completed} de {$a->participants} presentadas';
+$string['xungraded'] = '{$a} sin clasificar';
+
+$string['coursesectionactivityfurtherinformation'] = 'Más información de la página del curso';
+$string['coursesectionactivityfurtherinformationassign'] = 'Mostrar información de las Tareas';
+$string['coursesectionactivityfurtherinformationassigndesc'] = 'Muestra el estado de las Tareas, como enviada, contestada, etc.  Para los profesores y administradores muestra además el número de tareas presentadas.';
+$string['coursesectionactivityfurtherinformationquiz'] = 'Muestra información de los Cuestionarios';
+$string['coursesectionactivityfurtherinformationquizdesc'] = 'Muestra información del estado de los cuestionarios como enviado, contestado, etc. Para profesores y administradores muestra además el número de cuestionarios enviados.';
+$string['coursesectionactivityfurtherinformationchoice'] = 'Muestra información de las Consultas';
+$string['coursesectionactivityfurtherinformationchoicedesc'] = 'Muestra información del estado de las consultas como enviada, contestada, etc. Para profesores y administradores muestra además el número de consultas enviadas.';
+$string['coursesectionactivityfurtherinformationfeedback'] = 'Muestra información de las Retroalimentaciones';
+$string['coursesectionactivityfurtherinformationfeedbackdesc'] = 'Muestra información del estado de las Retroalimentaciones, como enviadas, etc. Para profesores y administradores muestra además el número de retroalimentaciones enviadas.';
+$string['coursesectionactivityfurtherinformationlesson'] = 'Muestra información de las Lecciones';
+$string['coursesectionactivityfurtherinformationlessondesc'] = 'Muestra información del estado de las Lecciones, como enviada, etc. Para profesores y administradores muestra además el número de Lecciones enviadas.';
+$string['coursesectionactivityfurtherinformationdata'] = 'Muestra información de las Bases de Datos';
+$string['coursesectionactivityfurtherinformationdatadesc'] = 'Muestra información del estado de las Bases de Datos, como enviada, etc. Para profesores y administradores muestra además el número de Bases de Datos enviadas.';
+
+// Activity display margins.
+$string['coursesectionactivitymargintop'] = 'Margen superior';
+$string['coursesectionactivitymargintopdesc'] = 'Margen superior entre actividades';
+$string['coursesectionactivitymarginbottom'] = 'Margen inferior';
+$string['coursesectionactivitymarginbottomdesc'] = 'Margen inferior entre actividades.';
+
+// Properties.
+$string['properties'] = 'Importar / Exportar Configuración';
+$string['propertiessub'] = 'Configuración actual del tema';
+$string['propertiesdesc'] = 'En esta sección puedes importar / exportar la configuración de Adaptable (propiedades) en formato JSON. También puedes ver la configuración actual.';
+$string['propertiesproperty'] = 'Propiedad';
+$string['propertiesvalue'] = 'Valor';
+$string['propertiesexport'] = 'Exportar las propiedades en una cadena JSON';
+$string['propertiesreturn'] = 'Volver';
+$string['putpropertiesheading'] = 'Importar configuración';
+$string['putpropertiesname'] = 'Importar propiedades';
+$string['putpropertiesdesc'] = 'Pegar la cadena JSON y pulsar \'Guardar cambios \'.  Atención!  No se validan los valores y realiza un \'Purgar todas las cachés\'.';
+$string['putpropertyreport'] = 'Informe:';
+$string['putpropertyversion'] = 'versión:';
+$string['putpropertyproperties'] = 'Propiedades';
+$string['putpropertyour'] = 'Nuestro';
+$string['putpropertiesignorecti'] = 'Ignorando la configuración de las imagenes de titulo del curso.';
+$string['putpropertiesreportfiles'] = 'Recuerda subir los siguientes archivos a su configuración:';
+$string['putpropertiessettingsreport'] = 'Informe de configuración:';
+$string['putpropertiesvalue'] = '->';
+$string['putpropertiesfrom'] = 'desde';
+$string['putpropertieschanged'] = 'Modificados:';
+$string['putpropertiesunchanged'] = 'No modificados:';
+$string['putpropertiesadded'] = 'Añadidos:';
+$string['putpropertiesignored'] = 'Ignorados:';
