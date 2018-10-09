@@ -50,7 +50,6 @@ $setzoom = theme_adaptable_get_zoom();
 theme_adaptable_initialise_full($PAGE);
 $setfull = theme_adaptable_get_full();
 
-
 // Navbar.
 if (isset($PAGE->theme->settings->stickynavbar) && $PAGE->theme->settings->stickynavbar == 1
     && $PAGE->pagetype != "grade-report-grader-index" && $PAGE->bodyid != "page-grade-report-grader-index") {
@@ -60,7 +59,6 @@ if (isset($PAGE->theme->settings->stickynavbar) && $PAGE->theme->settings->stick
 }
 
 $PAGE->requires->js_call_amd('theme_adaptable/bsoptions', 'init', array($fixedheader));
-
 
 // Layout.
 $left = (!right_to_left());  // To know if to add 'pull-right' and 'desktop-first-column' classes in the layout for LTR.
@@ -146,6 +144,7 @@ echo $OUTPUT->doctype();
 ?>
 <html <?php echo $OUTPUT->htmlattributes(); ?>>
 <head>
+
     <title><?php echo $OUTPUT->page_title(); ?></title>
     <link rel="icon" href="<?php echo $OUTPUT->favicon(); ?>" />
 

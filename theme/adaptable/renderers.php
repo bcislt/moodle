@@ -67,7 +67,10 @@ if (file_exists("$CFG->dirroot/course/format/grid/renderer.php")) {
          * @return string HTML to output.
          */
         protected function section_nav_selection($course, $sections, $displaysection) {
-            if (!$this->topic0attop) {
+            $settings = $this->courseformat->get_settings();
+            if (!$this->section0attop) {
+                $section = 0;
+            } else if ($settings['setsection0ownpagenogridonesection'] == 2) {
                 $section = 0;
             } else {
                 $section = 1;
@@ -76,7 +79,7 @@ if (file_exists("$CFG->dirroot/course/format/grid/renderer.php")) {
         }
 
         /**
-         * Generate next/previous section links for naviation.
+         * Generate next/previous section links for navigation.
          *
          * @param stdClass $course The course entry from DB.
          * @param array $sections The course_sections entries from the DB.
@@ -84,7 +87,10 @@ if (file_exists("$CFG->dirroot/course/format/grid/renderer.php")) {
          * @return array associative array with previous and next section link.
          */
         public function get_nav_links($course, $sections, $sectionno) {
-            if (!$this->topic0attop) {
+            $settings = $this->courseformat->get_settings();
+            if (!$this->section0attop) {
+                $buffer = -1;
+            } else if ($settings['setsection0ownpagenogridonesection'] == 2) {
                 $buffer = -1;
             } else {
                 $buffer = 0;
@@ -103,8 +109,16 @@ if (file_exists("$CFG->dirroot/course/format/grid/renderer.php")) {
          * @param int $displaysection The section number in the course which is being displayed.
          */
         public function print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection) {
+            $settings = $this->courseformat->get_settings();
+            if (!$this->section0attop) {
+                $section0attop = 0;
+            } else if ($settings['setsection0ownpagenogridonesection'] == 2) {
+                $section0attop = 0;
+            } else {
+                $section0attop = 1;
+            }
             $this->print_single_section_page_content($course, $sections, $mods, $modnames, $modnamesused, $displaysection,
-                $this->topic0attop);
+                $section0attop);
         }
     }
 }
@@ -549,7 +563,7 @@ class theme_adaptable_core_renderer extends core_renderer {
         global $PAGE;
         $analytics = '';
         $analyticscount = $PAGE->theme->settings->enableanalytics;
-        $anonymize = 1;
+        $anonymize = true;
 
         // Anonymize IP.
         if (($PAGE->theme->settings->anonymizega = 1) || (empty($PAGE->theme->settings->anonymizega))) {
@@ -1749,16 +1763,23 @@ EOT;
                     $branchurl = $this->page->url;
                     $branch = $menu->add($branchlabel, $branchurl, '', 10002);
 
-                    $branchtitle = get_string('people', 'theme_adaptable');
-                    $branchlabel = '<i class="fa fa-users"></i>'.$branchtitle;
-                    $branchurl = new moodle_url('/user/index.php', array('id' => $PAGE->course->id));
-                    $branch->add($branchlabel, $branchurl, '', 100003);
+                    // Display Participants.
+                    if ($PAGE->theme->settings->displayparticipants) {
+                        $branchtitle = get_string('people', 'theme_adaptable');
+                        $branchlabel = '<i class="fa fa-users"></i>'.$branchtitle;
+                        $branchurl = new moodle_url('/user/index.php', array('id' => $PAGE->course->id));
+                        $branch->add($branchlabel, $branchurl, '', 100003);
+                    }
 
-                    $branchtitle = get_string('grades');
-                    $branchlabel = $OUTPUT->pix_icon('i/grades', '', '', array('class' => 'icon')).$branchtitle;
-                    $branchurl = new moodle_url('/grade/report/index.php', array('id' => $PAGE->course->id));
-                    $branch->add($branchlabel, $branchurl, '', 100004);
+                    // Display Grades.
+                    if ($PAGE->theme->settings->displaygrades) {
+                        $branchtitle = get_string('grades');
+                        $branchlabel = $OUTPUT->pix_icon('i/grades', '', '', array('class' => 'icon')).$branchtitle;
+                        $branchurl = new moodle_url('/grade/report/index.php', array('id' => $PAGE->course->id));
+                        $branch->add($branchlabel, $branchurl, '', 100004);
+                    }
 
+                    // Display activities.
                     foreach ($data as $modname => $modfullname) {
                         if ($modname === 'resources') {
                             $icon = $OUTPUT->pix_icon('icon', '', 'mod_page', array('class' => 'icon'));
@@ -1795,7 +1816,8 @@ EOT;
             if ($access && !$this->hideinforum()) {
                 $branchtitle = get_string('helptitle', 'theme_adaptable');
                 $branchlabel = $helpicon . $branchtitle;
-                $branchurl   = new moodle_url($PAGE->theme->settings->enablehelp.'" target="'.$PAGE->theme->settings->helptarget);
+                $branchurl = new moodle_url($PAGE->theme->settings->enablehelp, array('helptarget' => $PAGE->theme->settings->helptarget));
+
                 $branchsort  = 10003;
                 $branch = $menu->add($branchlabel, $branchurl, '', $branchsort);
             }
@@ -1815,7 +1837,7 @@ EOT;
             if ($access && !$this->hideinforum()) {
                 $branchtitle = get_string('helptitle2', 'theme_adaptable');
                 $branchlabel = $helpicon . $branchtitle;
-                $branchurl   = new moodle_url($PAGE->theme->settings->enablehelp2.'" target="'.$PAGE->theme->settings->helptarget);
+                $branchurl   = new moodle_url($PAGE->theme->settings->enablehelp2, array('helptarget' => $PAGE->theme->settings->helptarget));
                 $branchsort  = 10003;
                 $branch = $menu->add($branchlabel, $branchurl, '', $branchsort);
             }
@@ -1953,17 +1975,20 @@ EOT;
                 switch ($PAGE->theme->settings->enableheading) {
                     case 'fullname':
                         // Full Course Name.
-                        $retval .= '<div id="sitetitle">' . format_string($coursetitle) . '</div>';
+                        $retval .= '<div id="sitetitle"><h1>' . format_string($coursetitle) . '<h1></div>';
                         break;
 
                     case 'shortname':
                         // Short Course Name.
-                        $retval .= '<div id="sitetitle">' . format_string($coursetitle) . '</div>';
+                        $retval .= '<div id="sitetitle"><h1>' . format_string($coursetitle) . '</h1></div>';
                         break;
 
                     default:
                         // None.
-                        $retval .= '<div id="sitetitle"></div>';
+                        $header = theme_adaptable_remove_site_fullname($PAGE->theme->settings->sitetitletext);
+                        $sitetitlehtml = $PAGE->theme->settings->sitetitletext;
+                        $retval .= '<div id="sitetitle">' . format_text($sitetitlehtml, FORMAT_HTML) . '</div>';
+
                         break;
                 }
             }
@@ -1986,10 +2011,6 @@ EOT;
 
                             $retval .= '<div id="sitetitle">' . format_text($sitetitlehtml, FORMAT_HTML) . '</div>';
                         }
-
-                    default:
-                        // None.
-                        break;
                 }
             }
         }
@@ -2515,7 +2536,20 @@ EOT;
             } else {
                 $url = '#';
             }
-            $content .= html_writer::link($url, $menunode->get_text(), array('title' => $menunode->get_title()));
+
+            /* This is a bit of a cludge, but allows us to pass url, of type moodle_url with a param of
+             * "helptarget", which when equal to "_blank", will create a link with target="_blank" to allow the link to open
+             * in a new window.  This param is removed once checked.
+             */
+            if (is_object($url) && (get_class($url) == 'moodle_url') && ($url->get_param('helptarget') != null)) {
+                $helptarget = $url->get_param('helptarget');
+                $url->remove_params('helptarget');
+                $content .= html_writer::link($url, $menunode->get_text(), array('title' => $menunode->get_title(),
+                                             'target' => $helptarget));
+            } else {
+                $content .= html_writer::link($url, $menunode->get_text(), array('title' => $menunode->get_title()));
+            }
+
             $content .= "</li>";
         }
         return $content;
@@ -2595,4 +2629,3 @@ EOT;
         return html_writer::tag($tag, $this->blocks_for_region($region), $attributes);
     }
 }
-

@@ -44,6 +44,7 @@ $dark:          $gray-800 !default;
 //$enable-rounded: false !default;
 $border-radius: 4px !default;
 
+
 // Body
 $body-color:    $gray-800 !default;
 $body-bg:       #dae6e5 !default;
@@ -174,6 +175,14 @@ div#page-content {
     border-radius: 0;
 }
 
+.section-go-link {
+    padding: .25rem;
+    margin: .5rem;
+    background-color: $gray-100;
+    display: inline-block;
+    border: 1px solid $gray-300;
+}
+
 @media screen and (max-width: 576px) {
     div#learningcontent {
         padding: .25rem !important;
@@ -182,4 +191,16 @@ div#page-content {
 
 div#blockslider {
     margin-top: 1rem;
+}
+
+// Progress Bars
+
+.progress_bar {
+    background-color: $gray-100;
+    text-align: center;
+}
+
+.progress_bar_completed {
+    background-color: $primary;
+    text-align: right;
 }

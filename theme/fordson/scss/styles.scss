@@ -237,6 +237,7 @@ div#blockslider {
     background-color: $gray-200;
     border: 1px solid $gray-400;
     padding: 1rem;
+    position: relative;
 }
 .blockpanelbtn {
     position: absolute;
@@ -247,6 +248,12 @@ div#blockslider {
 .blockpanelbtn .btn:focus, .blockpanelbtn .btn-primary:focus {
     outline: 0;
     box-shadow: none !important;
+}
+
+button#blocksliderbuttonclose {
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 /* Footer */
@@ -367,26 +374,6 @@ div#fpslider {
 
 .ilearnsecurealert p {
     margin: 0;
-}
-
-.markettiles {
-    margin: 1rem 0;
-}
-
-.market-tile {
-    margin: 1rem 0rem;
-    background-color: $body-bg;
-    padding: 1rem;
-    border: 1px solid $dark;
-    border-top: 7px solid;
-}
-
-.marketcontent {
-    padding: 1rem;
-    background-color: $markettextbg;
-    height: 10rem;
-    overflow: auto;
-    margin-bottom: 1rem;
 }
 
 .marketcontent::-webkit-scrollbar {
@@ -820,12 +807,8 @@ ul.teacherscourseview {
 * TIDY UP 
 **/
 
-.section-go-link {
-    padding: .25rem;
-    margin: .5rem;
-    background-color: $gray-100;
-    display: inline-block;
-    border: 1px solid $gray-300;
+#page-header .singlebutton {
+    z-index: 1;
 }
 
 .dashtitle {
@@ -955,24 +938,6 @@ width: $activityiconsize;
     opacity: 1;
 }
 
-// Progress bar fixes
-
-.progress {
-    height: 1rem;
-    width: 100%;
-    position: relative;
-}
-
-.progress_bar {
-    background-color: $gray-100;
-    text-align: center;
-}
-
-.progress_bar_completed {
-    background-color: $primary;
-    text-align: right;
-}
-
 .mycoursecompletion {
     float: left;
     padding-right: 1rem;
@@ -1000,10 +965,22 @@ width: $activityiconsize;
     color: initial;
 }
 
-.progress-bar.progress-bar-info.barfill {
-    z-index: 2;
+// MISTAR SIS Grade Export Page
+.export-group {
+    background-color: $gray-100;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border: 1px solid $gray-200;
+    border-top: 7px solid $spectrum-base;
 }
 
+.export-group .col-md-3 label {
+    font-weight: bold;
+}
+
+.export-group .form-group.row.fitem:first-child {
+    border-bottom: 1px solid $gray-300;
+}
 
 //Dashboard no progress icon centered fix
 
@@ -1015,9 +992,26 @@ width: $activityiconsize;
 /**
 * Responsive Fixes
 **/
+
 div#page.container-fluid {
     padding: 0 $gutterwidth;
 }
+
+@if $gutterwidth == 0rem {
+    .row {
+        margin-right: $gutterwidth; 
+        margin-left: $gutterwidth;
+    }
+    .col-12 {
+        padding-right: $gutterwidth;
+        padding-left: $gutterwidth;
+    }
+    #page-wrapper {
+        padding-bottom: $gutterwidth;
+    }
+    
+}
+
 @media screen and (max-width: 576px) {
     div#nav-message-popover-container {display: none;}
     div#nav-notification-popover-container {display: none;}
@@ -1131,6 +1125,10 @@ div#page.container-fluid {
         padding: 0;
         content: "";
     }
+    .dir-rtl ul.breadcrumb li:after{
+        transform: scale(.707) rotate(315deg);
+        box-shadow: -3px -3px 0 1px $card-bg, -2px -3px 0 2px $card-bg;
+    }
 }
 
 @media screen and (max-width: 576px) {
@@ -1145,3 +1143,30 @@ div#page.container-fluid {
 ul.ctopics {
     width: 100%;
 }
+
+/**
+* Media Plugin Styling
+**/
+
+.path-course-view .mediaplugin, .path-course-view .mediaplugin video { 
+    max-width: 400px;
+}
+
+.path-course-view .video-js.vjs-audio {
+    width: 400px;
+}
+
+.path-course-view .mod-indent-outer .mediaplugin {
+    display: contents;
+}
+
+.path-course-view .mediaplugin_videojs>div {
+    margin: initial;
+}
+
+audio.mediaplugin_html5audio {
+    width: 400px;
+    height: 54px;
+    position: initial;
+}
+

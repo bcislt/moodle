@@ -500,6 +500,16 @@ $string['navbardropdownhovercolordesc'] = 'Dropdown menu colour when hovering ov
 $string['navbardropdowntransitiontime'] = 'Navbar transition time';
 $string['navbardropdowntransitiontimedesc'] = 'Navbar transition effect time in seconds.  Provides a fade-in animation effect when hovering over a menu that has sub-menus.';
 
+// This Course menu *********************************************************.
+$string['enablemysitesdesc'] = 'Display a dropdown with the course activities and other options';
+$string['headernavbarthiscourseheading'] = 'This Course Menu';
+$string['headernavbarthiscourseheadingdesc'] = 'In this menu the student can access directly all the course activities and the participants list and his grades.';
+
+$string['displayparticipants'] = 'Display Participants';
+$string['displayparticipantsdesc'] = 'Display the Participants item in the menu';
+$string['displaygrades'] = 'Display Grades';
+$string['displaygradesdesc'] = 'Display the Grades item in the menu';
+
 // My courses menu *********************************************************.
 $string['enablemysitesdesc'] = 'Display a dropdown with a users courses';
 $string['headernavbarmycoursesheading'] = 'My Courses Menu';
@@ -1036,7 +1046,7 @@ $string['sitetitledefault'] = 'Use Moodle site title (site name)';
 $string['sitetitlecustom'] = 'Use custom site title (enter in text box below)';
 
 $string['sitetitletext'] = 'Site title';
-$string['sitetitletextdesc'] = 'Site title displayed in the header. You can use any HTML tag and apply inline styles. It is recommended to add a h1 tag if you add the site title instead a p tag.';
+$string['sitetitletextdesc'] = 'Site title displayed in the header. You can use any HTML tag and apply inline styles. It is recommended to use an h1 HTML tag around the title, instead of the p tag that gets added as default when you type something in this field.';
 
 $string['frontpagelogin'] = 'Front Page Login';
 $string['frontpagelogindesc'] = 'Enable login form in header (will show button if turned off)';
@@ -1301,7 +1311,7 @@ $string['events'] = 'Events';
 $string['mysites'] = 'My Courses';
 $string['hiddencourses'] = 'Hidden Courses';
 $string['pastcourses'] = 'Past Courses';
-$string['people'] = 'People';
+$string['people'] = 'Participants';
 $string['help'] = 'Help';
 
 $string['dividingline'] = 'Dividing line in header';

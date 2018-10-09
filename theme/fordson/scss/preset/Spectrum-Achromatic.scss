@@ -11,6 +11,7 @@ $gray-700: #495057 !default;
 $gray-800: #373a3c !default;
 $gray-900: #212529 !default;
 
+
 $gray-base: #ccc !default;
 
 $black:    #000 !default;
@@ -37,6 +38,7 @@ $dark:          $gray-800 !default;
 
 // Options
 $enable-rounded: false !default;
+
 
 // Body
 $body-color:    $gray-800 !default;
@@ -68,8 +70,11 @@ $breadcrumb-bg: $primary !default;
 $breadcrumb-bg-hover: darken($primary, 15%) !default;
 $breadcrumb-text-color: #ffffff !default;
 
-// List group
+// Progress bars
+$progress-bg:                       $gray-300 !default;
+$progress-bar-bg:                   $spectrum-base !default;
 
+// List group
 $list-group-bg:                     $gray-200;
 $list-group-border-color:           transparent;
 
@@ -86,6 +91,28 @@ $list-group-action-hover-color:     $list-group-action-color !default;
 
 $list-group-action-active-color:    $list-group-bg !default;
 $list-group-action-active-bg:       $list-group-hover-bg !default;
+
+// Tabs
+$nav-tabs-border-color:             $gray-300 !default;
+//$nav-tabs-border-width:             $border-width !default;
+//$nav-tabs-border-radius:            $border-radius !default;
+$nav-tabs-link-hover-border-color:  $gray-200 $gray-200 $nav-tabs-border-color !default;
+$nav-tabs-link-active-color:        $gray-700 !default;
+$nav-tabs-link-active-bg:           lighten($spectrum-base, 15%) !default;
+$nav-tabs-link-active-border-color: $gray-300 $gray-300 $nav-tabs-link-active-bg !default;
+
+// Dropdowns
+$dropdown-bg:                       $white !default;
+$dropdown-border-color:             rgba($black, .15) !default;
+$dropdown-divider-bg:               $gray-200 !default;
+$dropdown-box-shadow:               0 .5rem 1rem rgba($black, .175) !default;
+
+$dropdown-link-color:               $gray-900 !default;
+$dropdown-link-hover-color:         darken($gray-900, 5%) !default;
+$dropdown-link-hover-bg:            $gray-200 !default;
+
+$dropdown-link-active-color:        $white !default;
+$dropdown-link-active-bg:           $gray-400 !default;
 
 // Alerts
 $alert-border-width:                0 !default;
@@ -111,6 +138,47 @@ $theme-colors: (
 // Import Core moodle CSS
 @import "../../boost/scss/moodle";
 
+//
+// Tabs
+//
+
+.nav-tabs {
+  border-bottom: 2px solid $nav-tabs-border-color;
+  background-color: $gray-100;
+
+  .nav-item {
+    border-bottom: $nav-tabs-border-width solid $nav-tabs-border-color;
+    margin-top: $nav-tabs-border-width;
+    border-right: 1px solid $gray-100;
+    background-color: $gray-200;
+  }
+
+  .nav-link {
+    border: $nav-tabs-border-width solid transparent;
+    @include border-top-radius($nav-tabs-border-radius);
+
+    @include hover-focus {
+      border-color: transparent;
+      background-color: $nav-tabs-link-active-bg;
+    }
+
+    &.disabled {
+      color: $nav-link-disabled-color;
+      background-color: transparent;
+      border-color: transparent;
+    }
+  }
+
+  .nav-link.active,
+  .nav-item.show .nav-link {
+    color: $nav-tabs-link-active-color;
+    background-color: $nav-tabs-link-active-bg;
+    border-color: transparent;
+  }
+}
+
+// Let theme know we are using Spectrum
+$spectrumpreset: 1;
 
 // Preset CSS
 
@@ -120,6 +188,10 @@ body {
 
 .navbar {
     box-shadow: 0 4px 8px rgba(0, 0, 0, .08);
+}
+
+div#page-navbar {
+    z-index: 1;
 }
 
 .filemanager-container,
@@ -137,6 +209,17 @@ body {
     padding: 20px 0 20px 20px;
 }
 
+.path-course-view .singlebutton.forumaddnew {
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.path-course-view .subscribelink {
+    display: inline-block;
+    float: right;
+    margin-bottom: 1rem;
+}
+
 // Content area bkg and preset uniques
 
 div#learningcontent {
@@ -145,18 +228,45 @@ div#learningcontent {
     border: 0 !important;
     box-shadow: 2px 2px 16px 5px rgba(0,0,0,.3)!important;
 }
-.withimage , .default {
-    background-color: rgba($white, 0.9);
-    background-blend-mode: luminosity;
+
+.headerbkg {
+    overflow: hidden;
 }
-.course-content ul.topics li.section, .course-content ul.weeks li.section {
-    padding-top: 0;
-    padding-bottom: 1rem;
+
+.withimage , .default, .customimage {
+    background-color: rgba($white, 0.3);
+    background-blend-mode: luminosity;
+    -webkit-mask-image: linear-gradient(to top, transparent 5%, black 75%);
+    mask-image: linear-gradient(to top, transparent 5%, black 75%);
+    filter: blur(2px) opacity(90%);
+}
+
+#page-header .card .card-body {
+	z-index: 1;
+}
+
+#page-header .btn.btn-secondary:hover {
+    color: $white;
+}
+
+aside#block-region-side-pre {
+    padding-top: 2rem;
 }
 
 div#blockslider {
+    border: 0 !important;
+    border-bottom: 2px solid $gray-400 !important;
     background-color: $gray-200 !important;
     padding: 1rem;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 101;
+}
+
+.blockpanelbtn {
+    z-index: 102 !important;
 }
 
 .page-context-header .page-header-headings, .page-context-header .header-button-group {
@@ -165,6 +275,10 @@ div#blockslider {
 
 .course-content .current::before {
     border-left: 0;
+}
+
+.course-content ul.topics li.section, .course-content ul.weeks li.section {
+    margin-bottom: 1rem;
 }
 
 .teacherdashboard .list-group-item:hover, .teacherdashboard  .list-group-item:focus {
@@ -186,13 +300,20 @@ div#myoverview_timeline_courses .list-group-item {
     border-left: 15px solid $spectrum-base;
 }
 
+.path-mod-assign [data-region="grade-actions-panel"], .path-mod-assign [data-region="grading-navigation-panel"] {
+    background-color: $white;
+}
+.path-mod-assign [data-region="grade-actions-panel"] [data-region="grade-actions"] .collapse-buttons {
+    height: initial;
+}
+
 // Remove extra padding at top of page
 
 #page-header .pb-3 {
     padding-bottom: 0 !important;
 }
 #page-header .card-body {
-    padding-bottom: 0;
+    padding-bottom: 2rem;
 }
 .course-content li#section-0 .content {
     margin-top: 0;
@@ -200,10 +321,41 @@ div#myoverview_timeline_courses .list-group-item {
 .editing .course-content li#section-0 .content {
     margin-top: 2rem; 
 }
-
 .fp-blocks {
     padding-top: 2rem;
+    padding-bottom: 1rem;
 }
+
+#page-site-index .fp-blocks {
+    padding: 0;
+}
+
+#page-wrapper {
+    min-height: 1rem;
+}
+
+// Progress Bars
+
+.progress {
+    height: 1.5rem;
+    font-weight: bold;
+    border-bottom: 3px solid $gray-400;
+}
+
+.progress-chart-container .progress-doughnut .progress-indicator svg .circle {
+    stroke: $spectrum-base;
+}
+
+/*.progress-bar {
+    background-color: $spectrum-base!important;;
+}
+.progress-chart-container .progress-doughnut .progress-indicator svg .circle {
+    stroke: $spectrum-base;
+}
+.progress_bar_completed {
+    background-color: $spectrum-base;
+    text-align: right;
+}*/
 
 // Course Tile Special styling
 
@@ -215,4 +367,89 @@ div#myoverview_timeline_courses .list-group-item {
 
 .coursedimmed1 {
     filter: opacity(0.8) grayscale(1);
+}
+
+.path-course-view .completionprogress {
+    float: initial;
+}
+
+.form-autocomplete-suggestions li:hover {
+    background-color: $gray-200;
+    color: $dark;
+}
+
+// Grading Enhancements
+
+.path-mod-assign [data-region="review-panel"].collapsed + [data-region="grade-panel"] [data-region="grade"], .path-mod-assign [data-region="grade-panel"].fullwidth [data-region="grade"] {
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gradingform_rubric {
+    max-width: min-content;
+}
+
+#page-grade-grading-pick a.action.pick.template {
+    display: inline-block;
+}
+
+#page-grade-grading-pick a.action.remove {
+    display: inline-block;
+    padding-left: 3rem;
+}
+
+#page-grade-grading-pick .box.template-preview {
+    height: 400px;
+    overflow: scroll;
+}
+
+// Quiz Module Styling Enhancements
+#page-mod-quiz-attempt .que, #page-mod-quiz-review .que {
+    margin-bottom: 4rem;
+}
+#page-mod-quiz-attempt .que .formulation, #page-mod-quiz-review .que .formulation {
+    color: initial;
+    background-color: transparent;
+    border-color: initial;
+}
+#page-mod-quiz-attempt .que .content, #page-mod-quiz-review .que .content {
+    border: 1px solid $gray-300;
+    border-top: 1rem solid $spectrum-base;
+    //background: linear-gradient(to bottom,$white 78%,$gray-200 115%); 
+    background-color: $white;
+}
+#page-mod-quiz-attempt .que .qtext, #page-mod-quiz-review .que .qtext {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $gray-200;
+}
+.que .outcome {margin-bottom: 0;}
+
+// Fix for when a user checks an answer and the question would jump positions
+#page-mod-quiz-attempt :target {
+    padding-top: 0!important;
+    margin-top: 0!important;
+}
+
+#page-mod-quiz-attempt .que .info, #page-mod-quiz-review .que .info {
+        background-color: $gray-200;
+        border: 1px solid $gray-300;
+        margin-bottom: 0;
+}
+@media screen and (min-width: 576px) {
+    #page-mod-quiz-attempt .que, #page-mod-quiz-review .que {
+        background-color: $gray-200;
+        border-right: 7px solid $gray-400;
+    }
+    #page-mod-quiz-attempt .que .info, #page-mod-quiz-review .que .info {
+        width: 8em;
+        float:right;
+        background-color: transparent;
+        border: 0;
+    }
+    #page-mod-quiz-attempt .que .content, #page-mod-quiz-review .que .content {
+        margin: 0 9.5em 0 0;
+    }
+
 }

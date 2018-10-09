@@ -90,6 +90,9 @@ $theme-colors: (
 // Import Core moodle CSS
 @import "../../boost/scss/moodle";
 
+// Let theme know we are using Modern Moodle
+$modernmoodlepreset: 1;
+
 
 // Preset CSS
 
@@ -144,4 +147,22 @@ div#learningcontent {
 
 .fp-blocks {
     padding-top: 2rem;
+}
+.section-go-link {
+    padding: .25rem;
+    margin: .5rem;
+    background-color: $gray-100;
+    display: inline-block;
+    border: 1px solid $gray-300;
+}
+// Progress Bars
+
+.progress_bar {
+    background-color: $gray-100;
+    text-align: center;
+}
+
+.progress_bar_completed {
+    background-color: $primary;
+    text-align: right;
 }
