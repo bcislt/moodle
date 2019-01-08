@@ -2047,7 +2047,7 @@ function course_get_cm_edit_actions(cm_info $mod, $indent = -1, $sr = null) {
 
     // Groupmode.
     if ($hasmanageactivities && !$mod->coursegroupmodeforce) {
-        if (plugin_supports('mod', $mod->modname, FEATURE_GROUPS, 0)) {
+        if (plugin_supports('mod', $mod->modname, FEATURE_GROUPS, false)) {
             if ($mod->effectivegroupmode == SEPARATEGROUPS) {
                 $nextgroupmode = VISIBLEGROUPS;
                 $grouptitle = $str->groupsseparate;
@@ -3754,6 +3754,41 @@ function core_course_inplace_editable($itemtype, $itemid, $newvalue) {
     if ($itemtype === 'activityname') {
         return \core_course\output\course_module_name::update($itemid, $newvalue);
     }
+}
+
+/**
+ * This function calculates the minimum and maximum cutoff values for the timestart of
+ * the given event.
+ *
+ * It will return an array with two values, the first being the minimum cutoff value and
+ * the second being the maximum cutoff value. Either or both values can be null, which
+ * indicates there is no minimum or maximum, respectively.
+ *
+ * If a cutoff is required then the function must return an array containing the cutoff
+ * timestamp and error string to display to the user if the cutoff value is violated.
+ *
+ * A minimum and maximum cutoff return value will look like:
+ * [
+ *     [1505704373, 'The date must be after this date'],
+ *     [1506741172, 'The date must be before this date']
+ * ]
+ *
+ * @param calendar_event $event The calendar event to get the time range for
+ * @param stdClass $course The course object to get the range from
+ * @return array Returns an array with min and max date.
+ */
+function core_course_core_calendar_get_valid_event_timestart_range(\calendar_event $event, $course) {
+    $mindate = null;
+    $maxdate = null;
+
+    if ($course->startdate) {
+        $mindate = [
+            $course->startdate,
+            get_string('errorbeforecoursestart', 'calendar')
+        ];
+    }
+
+    return [$mindate, $maxdate];
 }
 
 /**

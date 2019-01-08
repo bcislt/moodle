@@ -8593,6 +8593,9 @@ a.dimmed_text:visited,
   #page-admin-report-backups-index .backup-unfinished[href]:focus, #page-admin-index .adminwarning.availableupdatesinfo .moodleupdateinfo.maturity50 .info.release[href]:focus {
     background-color: #c9302c; }
 
+.custom-select {
+  width: auto; }
+
 .fade.in {
   opacity: 1; }
 
@@ -15413,6 +15416,9 @@ div#dock {
   #page-mod-lesson-view .vertical .singlebutton + .singlebutton {
     margin-left: 0;
     margin-top: 1rem; }
+
+#page-mod-lesson-view .fitem .felement .custom-select {
+  align-self: flex-start; }
 
 .path-mod-lesson .generaltable td {
   vertical-align: middle; }
