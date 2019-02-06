@@ -112,25 +112,20 @@
     height: 38px !important;
 }
 
-.dropdown-menu {
+.navbar .dropdown-menu, .headermenu .dropdown-menu, .langmenu .dropdown-menu {
     border: 1px solid #c0c0c0;
     border-radius: 0;
     font-size: [[setting:menufontsize]];
-    top: 40px;
     background-clip: padding-box;
     background-color: #fff;
-    display: block;
-    float: right;
     list-style: outside none none;
-    margin: 2px 0;
     padding: 5px 0;
     position: absolute;
     right: 0;
-    min-width: 250px;
+    min-width: 230px;
     top: 26px;
     z-index: 1000;
     border-radius: [[setting:navbardropdownborderradius]];
-
 }
 
 /* If another dropdown menu is added, please check the below two as definitions may need to be added
@@ -182,14 +177,22 @@
     border-bottom: 1px !important;
 }
 
+/*
 .navbar .nav > li > a:hover {
     background-color: #fff;
     color: #333;
 }
-
+*/
+.dropdown-submenu:hover > a,
+.dropdown-submenu:focus > a,
+.dropdown-menu > .active,
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus,
 .nav .dropdown-menu li a:hover {
-    background-color: [[setting:navbardropdownhovercolor]];
-    color: #333;
+    background-color: [[setting:navbardropdownhovercolor]] !important;
+    background-image: none !important;
+    color: #333 !important;
 }
 
 .dropdown-submenu:hover > a, .dropdown-submenu:focus > a {

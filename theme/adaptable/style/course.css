@@ -19,7 +19,7 @@
 *
 * @package    theme_adaptable
 * @copyright  2015-2016 Jeremy Hopkins (Coventry University)
-* @copyright  2015-2017 Fernando Acedo (3-bits.com)
+* @copyright  2015-2018 Fernando Acedo (3-bits.com)
 * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 *
 */
@@ -150,7 +150,8 @@
     padding: 0 20px;
 }
 
-.course-content .current  .content .sectionname {
+/* Current Section */
+#page .course-content ul li.section.main.current {
     background: [[setting:currentcolor]];
 }
 
@@ -356,7 +357,7 @@
     border-radius: [[setting:socialwallsectionradius]];
     background-color: [[setting:socialwallbackgroundcolor]];
     word-wrap: break-word;
-    font-family: [[setting:fontname]], sans-serif;
+    font-family: [[setting:fontname]];
 }
 
 /*Add padding, background, and border to all sections */

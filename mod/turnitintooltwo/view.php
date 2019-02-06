@@ -252,7 +252,7 @@ if (!empty($action)) {
             // Clean posted variables.
             $post = array();
             $post['submissiontype'] = required_param('submissiontype', PARAM_INT);
-            $post['submissiontext'] = optional_param('submissiontext', '', PARAM_TEXT);
+            $post['submissiontext'] = optional_param('submissiontext', '', PARAM_RAW);
             $post['submissiontext'] = trim($post['submissiontext']);
             $post['submissiontitle'] = optional_param('submissiontitle', '', PARAM_TEXT);
             $post['submissiontitle'] = trim(filter_var($post['submissiontitle'], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW));
@@ -730,6 +730,13 @@ switch ($do) {
                 !empty($_SESSION["digital_receipt"]) && !isset($_SESSION["digital_receipt"]["is_manual"])) {
             echo $turnitintooltwoview->show_digital_receipt($_SESSION["digital_receipt"]);
             unset($_SESSION["digital_receipt"]);
+        }
+
+        // Convert the course overview events to MDL33+ events if necessary.
+        if (($CFG->branch >= 33) && ($istutor)) {
+            foreach ($parts as $part) {
+                turnitintooltwo_update_event($turnitintooltwoassignment->turnitintooltwo, $part, null, true);
+            }
         }
 
         // Initialise inbox, if a student is logged in then populate it also incase they have no javascript.

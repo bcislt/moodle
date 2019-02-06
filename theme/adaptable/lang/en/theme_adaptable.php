@@ -20,6 +20,7 @@
  * @package    theme_adaptable
  * @copyright  2015-2018 Jeremy Hopkins (Coventry University)
  * @copyright  2015-2018 Fernando Acedo (3-bits.com)
+ * @copyright  2017-2018 Manoj Solanki (Coventry University)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
@@ -76,7 +77,7 @@ $string['region-middle'] = 'Middle';
 $string['region-frnt-footer'] = 'Footer';
 $string['region-side-post'] = 'Right';
 $string['region-side-pre'] = 'Left';
-$string['frnt-footer'] = 'Blocks in this area will only be visible to admin users.';
+$string['frnt-footer'] = 'Blocks in this area will only be visible to admin users';
 $string['side-post1'] = 'side bar in footer';
 
 $string['region-frnt-market-a'] = 'Page region 1';
@@ -107,6 +108,8 @@ $string['region-course-top-c'] = 'Course page top region 3';
 $string['region-course-top-d'] = 'Course page top region 4';
 
 $string['region-news-slider-a'] = 'Course page slider region';
+
+$string['region-course-section-a'] = 'Course page activity end bottom region';
 
 $string['region-course-bottom-a'] = 'Course page bottom region 5';
 $string['region-course-bottom-b'] = 'Course page bottom region 6';
@@ -324,6 +327,12 @@ $string['coursepagenewssliderblockregionheadingdesc'] = 'A custom block region d
 
 $string['coursepageblocksliderenabled'] = 'Enable custom slider block region on Course page';
 $string['coursepageblocksliderenableddesc'] = 'Enable this region on all course pages.';
+
+$string['coursepageactivitybottomblockregionheading'] = 'Custom course activity bottom block region';
+$string['coursepageactivitybottomblockregionheadingdesc'] = 'A custom block region that appears after the end of activities.';
+
+$string['coursepageblockactivitybottomenabled'] = 'Enable course activity bottom block region on course page';
+$string['coursepageblockactivitybottomenableddesc'] = 'Enable this region on all course pages.';
 
 $string['coursepagesidebarinfooterenabled'] = 'Move sidebar to footer on Course page';
 $string['coursepagesidebarinfooterenableddesc'] = 'Wide course page layout by moving sidebar to footer.';
@@ -837,11 +846,17 @@ $string['fontdesc'] = 'You can select the <a href="https://www.google.com/fonts"
 $string['fontname'] = 'Main font';
 $string['fontnamedesc'] = 'Select the default font or <a href="https://www.google.com/fonts" target="_blank">Google Fonts</a> used in the site.';
 
+$string['customfontname'] = 'Custom Main font';
+$string['customfontnamedesc'] = 'Enter the name of the custom Main Font only if you selected &apos;Custom&apos; in the Main Font dropdown.';
+
 $string['fontsize'] = 'Main font size';
 $string['fontsizedesc'] = 'Select the default font size (in percentage) used in the whole site.';
 
 $string['fontheadername'] = 'Headers font';
 $string['fontheadernamedesc'] = 'Select the default font or <a href="https://www.google.com/fonts" target="_blank">Google Fonts</a> used in the text and blocks headers.';
+
+$string['customfontheadername'] = 'Custom Header font';
+$string['customfontheadernamedesc'] = 'Enter the name of the custom Header font only if you selected &apos;Custom&apos; in the Header Font dropdown.';
 
 $string['fontcolor'] = 'Main font colour';
 $string['fontcolordesc'] = 'Set the colour of the font in the theme, use html hex code.';
@@ -857,6 +872,9 @@ $string['fontheaderweightdesc'] = 'Headers font weight used in the site. Select 
 
 $string['fonttitlename'] = 'Site / Course title font';
 $string['fonttitlenamedesc'] = 'Select the default font or <a href="https://www.google.com/fonts" target="_blank">Google Fonts</a> used in title site and course titles.';
+
+$string['customfonttitlename'] = 'Custom Title font';
+$string['customfonttitlenamedesc'] = 'Enter the name of the custom Title Font only if you selected &apos;Custom&apos; in the Title Font dropdown.';
 
 $string['fonttitlecolor'] = 'Site / Course title font colour';
 $string['fonttitlecolordesc'] = 'Set the colour of the site title and course title font in the theme, use html hex code.';
@@ -1350,8 +1368,6 @@ $string['mysitesexclude'] = 'Enable excluding hidden courses';
 $string['mysitesinclude'] = 'Enable including hidden courses';
 $string['mysitesdisabled'] = 'Disable';
 
-$string['frnt-footer'] = 'Blocks in this area will only be visible to admin users.';
-
 $string['enableticker'] = 'Enable the news ticker on the homepage?';
 $string['enabletickerdesc'] = 'Check to enable the homepage ticker.';
 
@@ -1549,7 +1565,7 @@ $string['piwiktrackadmin'] = 'Tracking Admins';
 $string['piwiktrackadmindesc'] = 'Enable tracking of Admin users (not recommended)';
 
 
-// Custom CSS ********************************.
+// Custom CSS and Javascript ********************************.
 $string['customcss'] = 'Custom CSS';
 $string['customcssdesc'] = 'Whatever CSS rules you add to this textarea will be reflected in every page, making for easier customization of this theme.';
 
@@ -1559,6 +1575,15 @@ $string['genericsettingsdescription'] = 'Here you can find various settings to a
 
 $string['jssection'] = 'Javascript Section';
 $string['jssectiondesc'] = 'Add javascript code to the site.';
+
+$string['jssectionrestricted'] = 'Conditional Javascript Section';
+$string['jssectionrestricteddesc'] = 'Add javascript code to the site conditionally based on a custom profile field. This javascript will only appear if this condition is met.';
+
+$string['jssectionrestrictedprofilefield'] = 'Javascript Section custom profile field';
+$string['jssectionrestrictedprofilefielddesc'] = 'Show the javascript above ONLY when user matches this custom profile field value, eg: faculty=fbl.';
+
+$string['jssectionrestricteddashboardonly'] = 'Include Javascript only on dashboard page';
+$string['jssectionrestricteddashboardonlydesc'] = 'Show the javascript only on the dashboard page. Otherwise this displays sitewide.';
 
 // Cache definitions.
 $string['cachedef_userdata'] = 'A session cache used to store user specific data.';

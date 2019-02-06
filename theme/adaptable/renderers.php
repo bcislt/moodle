@@ -28,10 +28,13 @@ defined('MOODLE_INTERNAL') || die;
 
 // Load libraries.
 require_once($CFG->dirroot.'/course/renderer.php');
-require_once($CFG->libdir.'/coursecatlib.php');
 require_once($CFG->dirroot.'/message/lib.php');
 require_once($CFG->dirroot.'/course/format/topics/renderer.php');
 require_once($CFG->dirroot.'/course/format/weeks/renderer.php');
+
+if ($CFG->version < 2018051799) {
+    require_once($CFG->libdir.'/coursecatlib.php');
+}
 
 use \theme_adaptable\traits\single_section_page;
 
@@ -538,14 +541,14 @@ class theme_adaptable_core_renderer extends core_renderer {
         $output = '';
 
         // Development version.
-        if (get_config('theme_adaptable', 'version') < '2017053000') {
+        if (get_config('theme_adaptable', 'version') < '2019011500') {
                 $output .= '<div id="beta"><h3>';
                 $output .= get_string('beta', 'theme_adaptable');
                 $output .= '</h3></div>';
         }
 
-        // Deprecated moodle version (3.4.2 or older).
-        if ($CFG->version < 2016120500) {
+        // Deprecated moodle version (3.5.3 or older).
+        if ($CFG->version < 2018051703) {
                 $output .= '<div id="beta"><center><h3>';
                 $output .= get_string('deprecated', 'theme_adaptable');
                 $output .= '</h3></center></div>';
@@ -904,7 +907,7 @@ EOT;
                 $message->smallmessage = html_to_text($message->smallmessage);
             }
             if (strlen($message->smallmessage) > 18) {
-                $messagecontent->text = substr($message->smallmessage, 0, 15) . '...';
+                $messagecontent->text = core_text::substr($message->smallmessage, 0, 15) . '...';
             } else {
                 $messagecontent->text = $message->smallmessage;
             }
@@ -1390,21 +1393,24 @@ EOT;
         $retval = '';
         $hidebreadcrumbmobile = $PAGE->theme->settings->hidebreadcrumbmobile;
 
-        // If the device is a mobile and the breadcrumb is not hidden or it is a desktop then load and show the breadcrumb.
-        if (((theme_adaptable_is_mobile()) && $hidebreadcrumbmobile = 1) || theme_adaptable_is_desktop()) {
-            if (!isset($PAGE->theme->settings->enabletickermy)) {
-                $PAGE->theme->settings->enabletickermy = 0;
-            }
-
-            // Do not show navbar on dashboard / my home if news ticker is rendering.
-            if (!($PAGE->theme->settings->enabletickermy && $PAGE->bodyid == "page-my-index")) {
-                $retval = '<div id="page-navbar" class="span12">';
-                if ($addbutton) {
-                    $retval .= '<nav class="breadcrumb-button">' . $this->page_heading_button() . '</nav>';
+        // Remove breadcrumb in a quiz page.
+        if ($PAGE->pagetype != "mod-quiz-attempt") {
+            // If the device is a mobile and the breadcrumb is not hidden or it is a desktop then load and show the breadcrumb.
+            if (((theme_adaptable_is_mobile()) && $hidebreadcrumbmobile = 1) || theme_adaptable_is_desktop()) {
+                if (!isset($PAGE->theme->settings->enabletickermy)) {
+                    $PAGE->theme->settings->enabletickermy = 0;
                 }
 
-                $retval .= $this->navbar();
-                $retval .= '</div>';
+                // Do not show navbar on dashboard / my home if news ticker is rendering.
+                if (!($PAGE->theme->settings->enabletickermy && $PAGE->bodyid == "page-my-index")) {
+                    $retval = '<div id="page-navbar" class="span12">';
+                    if ($addbutton) {
+                        $retval .= '<nav class="breadcrumb-button">' . $this->page_heading_button() . '</nav>';
+                    }
+
+                    $retval .= $this->navbar();
+                    $retval .= '</div>';
+                }
             }
         }
 
@@ -1493,9 +1499,7 @@ EOT;
         }
 
         $footer = str_replace($this->unique_performance_info_token, $performanceinfo, $footer);
-
         $footer = str_replace($this->unique_end_html_token, $this->page->requires->get_end_code(), $footer);
-
         $this->page->set_state(moodle_page::STATE_DONE);
 
         return $output . $footer;
@@ -1816,7 +1820,8 @@ EOT;
             if ($access && !$this->hideinforum()) {
                 $branchtitle = get_string('helptitle', 'theme_adaptable');
                 $branchlabel = $helpicon . $branchtitle;
-                $branchurl = new moodle_url($PAGE->theme->settings->enablehelp, array('helptarget' => $PAGE->theme->settings->helptarget));
+                $branchurl = new moodle_url($PAGE->theme->settings->enablehelp,
+                                            array('helptarget' => $PAGE->theme->settings->helptarget));
 
                 $branchsort  = 10003;
                 $branch = $menu->add($branchlabel, $branchurl, '', $branchsort);
@@ -1837,7 +1842,8 @@ EOT;
             if ($access && !$this->hideinforum()) {
                 $branchtitle = get_string('helptitle2', 'theme_adaptable');
                 $branchlabel = $helpicon . $branchtitle;
-                $branchurl   = new moodle_url($PAGE->theme->settings->enablehelp2, array('helptarget' => $PAGE->theme->settings->helptarget));
+                $branchurl   = new moodle_url($PAGE->theme->settings->enablehelp2,
+                                              array('helptarget' => $PAGE->theme->settings->helptarget));
                 $branchsort  = 10003;
                 $branch = $menu->add($branchlabel, $branchurl, '', $branchsort);
             }
@@ -1907,12 +1913,63 @@ EOT;
 
             if (!empty($PAGE->theme->settings->$menunumber) && $access == true && !$this->hideinforum()) {
                 $menu = ($PAGE->theme->settings->$menunumber);
+
+                /******************************************************************************************
+                 * @copyright 2018 Mathieu Domingo
+                 * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+                 *
+                 * Parse the end of each line to look for capabilities.
+                 */
+
+                // Explode the content of the toolmenu in an "array of lines".
+                $linesmenu = explode("\n", $menu);
+
+                // For each line we take the "$key" to be able to remove it from the "array of lines".
+                foreach ($linesmenu as $key => $line) {
+                    // Explode each line in an "array of cells".
+                    $cells = explode("|", $line);
+
+                    // If there is more than 3 cells, the user have add some "|text" to the line.
+                    if (count($cells) > 3) {
+                        // We look each cells added to the line for capabilities.
+                        for ($i = 3; $i < count($cells); $i++) {
+                            // Check if the current cell contain a valid capability or not.
+                            if (!$capinfo = get_capability_info(trim($cells[$i]))) {
+                                // NOTE: echo $cells[$i]." is not a valid capability";.
+
+                                // Should we say to the user that the capability is not valid ?
+                                // It should be better to print this when the "admin" fill the toolmenu, not when we print it.
+
+                                // If it's not valid, check the next cell (here we could change the behaviour from "do nothing" to "delete the line").
+                                continue;
+                            }
+
+                            // Check if the current user have the capability contained in the current cell.
+                            if (!has_capability(trim($cells[$i]), context_course::instance($PAGE->course->id))) {
+                                // We remove the current line from the array.
+                                unset($linesmenu[$key]);
+
+                                // We have removed the line, we don't need to check nexts cells.
+                                break;
+
+                                // NOTE: The behaviour here is "the user need to have ALL capabilities written on the line"
+                                // I.E: AND logic only, it needs a more complex traitement if we want to take in account some logics mixing OR and AND.
+                            }
+                        }
+                    }
+                }
+
+                // Once we have finish to check all lines, we recreate the menu
+                // (without the lines that the user don't have the capabilities needed) to continue the original process.
+                $menu = implode("\n", $linesmenu);
+
                 $label = $PAGE->theme->settings->$menutitle;
 
                 // Check the option of displaying a sub-menu arrow symbol.
                 if (!empty($PAGE->theme->settings->navbardisplaysubmenuarrow)) {
                     $label .= ' &nbsp;<i class="fa fa-caret-down"></i>';
                 }
+
                 $custommenuitems = $this->parse_custom_menu($menu, $label, $class, '</span>');
                 $custommenu = new custom_menu($custommenuitems);
                 $retval .= $this->render_custom_menu($custommenu);
@@ -1936,9 +1993,15 @@ EOT;
             if (!empty($PAGE->theme->settings->logo)) {
                 // Logo.
                 $retval .= '<div id="logocontainer">';
-                $retval .= "<a href='$CFG->wwwroot'>";
+                // Remove link to home page in logo when in a quiz page.
+                if ($PAGE->pagetype != "mod-quiz-attempt") {
+                    $retval .= '<a href=' . $CFG->wwwroot . '>';
+                }
                 $retval .= '<img src=' . $PAGE->theme->setting_file_url('logo', 'logo') . ' alt="logo" id="logo" />';
-                $retval .= '</a></div>';
+                if ($PAGE->pagetype != "mod-quiz-attempt") {
+                    $retval .= '</a>';
+                }
+                $retval .= '</div>';
             }
         }
 
@@ -1968,7 +2031,7 @@ EOT;
                 // Check max width of course title and trim if appropriate.
                 if (($coursetitlemaxwidth > 0) && ($coursetitle <> '')) {
                     if (strlen($coursetitle) > $coursetitlemaxwidth) {
-                        $coursetitle = substr($coursetitle, 0, $coursetitlemaxwidth) . " ...";
+                        $coursetitle = core_text::substr($coursetitle, 0, $coursetitlemaxwidth) . " ...";
                     }
                 }
 

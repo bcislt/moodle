@@ -16,6 +16,8 @@
 
 namespace theme_adaptable\privacy;
 
+defined('MOODLE_INTERNAL') || die();
+
 class provider implements
     // This theme does not store any personal user data.
     \core_privacy\local\metadata\null_provider {

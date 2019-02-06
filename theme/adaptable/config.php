@@ -18,8 +18,9 @@
  * Version details
  *
  * @package    theme_adaptable
- * @copyright  2015-2016 Jeremy Hopkins (Coventry University)
- * @copyright  2015-2016 Fernando Acedo (3-bits.com)
+ * @copyright  2015-2019 Jeremy Hopkins (Coventry University)
+ * @copyright  2015-2019 Fernando Acedo (3-bits.com)
+ * @copyright  2017-2019 Manoj Solanki (Coventry University)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
@@ -59,7 +60,8 @@ $frontlayoutregions = array('side-post',
         'frnt-market-r',
         'frnt-market-s',
         'frnt-market-t',
-        'news-slider-a');
+        'news-slider-a',
+        'course-section-a');
 
 $courselayoutregions = array('side-post',
         'middle',
@@ -72,7 +74,8 @@ $courselayoutregions = array('side-post',
         'course-bottom-a',
         'course-bottom-b',
         'course-bottom-c',
-        'course-bottom-d');
+        'course-bottom-d',
+        'course-section-a');
 
 $standardregions = array('side-post');
 
@@ -152,7 +155,7 @@ $THEME->layouts = array(
     // Part of course, typical for modules - default page layout if $cm specified in require_login().
     'incourse' => array(
         'file' => 'columns2.php',
-        'regions' => array('side-post'),
+        'regions' => array('side-post', 'course-section-a'),
         'defaultregion' => 'side-post',
     ),
     // The site home page.
@@ -167,7 +170,7 @@ $THEME->layouts = array(
         'file' => 'columns2.php',
         'regions' => array('side-post'),
         'defaultregion' => 'side-post',
-        'options' => array('nonavbar' => true),
+        'options' => array('nonavbar' => false),
     ),
     // My dashboard page.
     'mydashboard' => array(
@@ -180,8 +183,7 @@ $THEME->layouts = array(
     'mypublic' => array(
         'file' => 'columns2.php',
         'regions' => array('side-post'),
-        'defaultregion' => 'side-post',
-        'options' => array('nonavbar' => true),
+        'defaultregion' => 'side-post'
     ),
     // Login page.
     'login' => array(
@@ -233,9 +235,10 @@ $THEME->layouts = array(
     ),
     // The pagelayout used for safebrowser and securewindow.
     'secure' => array(
-        'file' => 'columns2.php',
-        'regions' => array('side-post'),
-        'defaultregion' => 'side-post'
+        'file' => 'secure.php',
+        'regions' => array('side-post', 'course-section-a'),
+        'options' => array('nofooter' => true, 'nonavbar' => true),
+        'defaultregion' => 'side-post',
     ),
 );
 
