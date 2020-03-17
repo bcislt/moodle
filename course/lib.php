@@ -1144,7 +1144,9 @@ function course_delete_module($cmid, $async = false) {
     }
 
     // Delete activity context questions and question categories.
-    question_delete_activity($cm);
+    $showinfo = !defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0';
+
+    question_delete_activity($cm, $showinfo);
 
     // Call the delete_instance function, if it returns false throw an exception.
     if (!$deleteinstancefunction($cm->instance)) {
@@ -2202,6 +2204,7 @@ function move_courses($courseids, $categoryid) {
     foreach ($dbcourses as $dbcourse) {
         $course = new stdClass();
         $course->id = $dbcourse->id;
+        $course->timemodified = time();
         $course->category  = $category->id;
         $course->sortorder = $category->sortorder + MAX_COURSES_IN_CATEGORY - $i++;
         if ($category->visible == 0) {
@@ -4014,7 +4017,6 @@ function course_get_user_administration_options($course, $context) {
         $options->outcomes = !empty($CFG->enableoutcomes) && has_capability('moodle/course:update', $context);
         $options->badges = !empty($CFG->enablebadges);
         $options->import = has_capability('moodle/restore:restoretargetimport', $context);
-        $options->publish = !empty($CFG->enablecoursepublishing) && has_capability('moodle/course:publish', $context);
         $options->reset = has_capability('moodle/course:reset', $context);
         $options->roles = has_capability('moodle/role:switchroles', $context);
     } else {
@@ -4591,7 +4593,7 @@ function course_get_recent_courses(int $userid = null, int $limit = 0, int $offs
     }
 
     $basefields = array('id', 'idnumber', 'summary', 'summaryformat', 'startdate', 'enddate', 'category',
-            'shortname', 'fullname', 'timeaccess', 'component');
+            'shortname', 'fullname', 'timeaccess', 'component', 'visible');
 
     $sort = trim($sort);
     if (empty($sort)) {
