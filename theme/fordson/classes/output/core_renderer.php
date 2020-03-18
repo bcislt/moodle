@@ -1158,7 +1158,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
         }
         $siteadmintitle = get_string('siteadminquicklink', 'theme_fordson');
         $siteadminurl = new moodle_url('/admin/search.php');
-        $hasadminlink = is_siteadmin();
+        $hasadminlink = has_capability('moodle/site:configview', $context);
         $course = $this->page->course;
         // Send to template.
         $dashmenu = ['showincourseonly' => $showincourseonly, 'togglebutton' => $togglebutton, 'togglebuttonstudent' => $togglebuttonstudent, 'hasteacherdash' => $hasteacherdash, 'hasstudentdash' => $hasstudentdash, 'haspermission' => $haspermission, 'hasadminlink' => $hasadminlink, 'siteadmintitle' => $siteadmintitle, 'siteadminurl' => $siteadminurl, ];
@@ -1446,6 +1446,19 @@ class core_renderer extends \theme_boost\output\core_renderer {
                     u.firstnamephonetic, u.lastnamephonetic, u.email, u.picture, u.maildisplay,
                     u.imagealt');
             foreach ($teachers as $staff) {
+                if ($showonlygroupteachers) {
+                    $staffgroups = groups_get_all_groups($course->id, $staff->id);
+                    $found = false;
+                    foreach ($staffgroups as $grp) {
+                        if (in_array($grp->id, $groupids)) {
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if (!$found) {
+                        continue;
+                    }
+                }
                 $picture = $OUTPUT->user_picture($staff, array(
                     'size' => 50
                 ));
@@ -1479,153 +1492,194 @@ class core_renderer extends \theme_boost\output\core_renderer {
         // Send to template.
         $haseditcog = $PAGE->theme->settings->courseeditingcog;
         $editcog = html_writer::div($this->context_header_settings_menu() , 'pull-xs-right context-header-settings-menu');
-        $dashlinks = ['showincourseonly' => $showincourseonly, 'haspermission' => $haspermission, 'courseactivities' => $courseactivities, 'togglebutton' => $togglebutton, 'togglebuttonstudent' => $togglebuttonstudent, 'userlinkstitle' => $userlinks, 'userlinksdesc' => $userlinksdesc, 'qbanktitle' => $qbank, 'activitylinkstitle' => $activitylinkstitle, 'activitylinkstitle_desc' => $activitylinkstitle_desc, 'qbankdesc' => $qbankdesc, 'badgestitle' => $badges, 'badgesdesc' => $badgesdesc, 'coursemanagetitle' => $coursemanage, 'coursemanagedesc' => $coursemanagedesc, 'coursemanagementmessage' => $coursemanagementmessage, 'progress' => $progress, 'gradeslink' => $gradeslink, 'gradeslinkstudent' => $gradeslinkstudent, 'hascourseinfogroup' => $hascourseinfogroup, 'courseinfo' => $courseinfo, 'hascoursestaffgroup' => $hascoursestaff, 'courseteachers' => $courseteachers, 'courseother' => $courseother, 'mygradestext' => $mygradestext, 'studentdashboardtextbox' => $studentdashboardtextbox, 'hasteacherdash' => $hasteacherdash, 'haseditcog'=>$haseditcog, 'editcog'=> $editcog, 'teacherdash' => array(
-            'hasquestionpermission' => $hasquestionpermission,
-            'hasbadgepermission' => $hasbadgepermission,
-            'hascoursepermission' => $hascoursepermission,
-            'hasuserpermission' => $hasuserpermission
-        ) , 'hasstudentdash' => $hasstudentdash, 'hasgradebookshow' => $hasgradebookshow, 'hascompletionshow' => $hascompletionshow, 'studentcourseadminlink' => $courseadminlink, 'studentcoursemanage' => $studentcoursemanage, 'hascourseadminshow' => $hascourseadminshow, 'hascompetency' => $hascompetency, 'competencytitle' => $competencytitle, 'competencyurl' => $competencyurl, 'dashlinks' => array(
-            array(
-                'hasuserlinks' => $gradebooktitle,
-                'title' => $gradebooktitle,
-                'url' => $gradebooklink
+        $dashlinks = [
+            'showincourseonly' => $showincourseonly, 
+            'haspermission' => $haspermission, 
+            'courseactivities' => $courseactivities, 
+            'togglebutton' => $togglebutton, 
+            'togglebuttonstudent' => $togglebuttonstudent, 
+            'userlinkstitle' => $userlinks, 
+            'userlinksdesc' => $userlinksdesc, 
+            'qbanktitle' => $qbank, 
+            'activitylinkstitle' => $activitylinkstitle, 
+            'activitylinkstitle_desc' => $activitylinkstitle_desc, 
+            'qbankdesc' => $qbankdesc, 
+            'badgestitle' => $badges, 
+            'badgesdesc' => $badgesdesc, 
+            'coursemanagetitle' => $coursemanage, 
+            'coursemanagedesc' => $coursemanagedesc, 
+            'coursemanagementmessage' => $coursemanagementmessage, 
+            'progress' => $progress, 
+            'gradeslink' => $gradeslink, 
+            'gradeslinkstudent' => $gradeslinkstudent, 
+            'hascourseinfogroup' => $hascourseinfogroup, 
+            'courseinfo' => $courseinfo, 
+            'hascoursestaffgroup' => $hascoursestaff, 
+            'courseteachers' => $courseteachers, 
+            'courseother' => $courseother, 
+            'mygradestext' => $mygradestext, 
+            'studentdashboardtextbox' => $studentdashboardtextbox, 
+            'hasteacherdash' => $hasteacherdash, 
+            'haseditcog'=>$haseditcog, 
+            'editcog'=> $editcog, 
+            'teacherdash' => array(
+                'hasquestionpermission' => $hasquestionpermission,
+                'hasbadgepermission' => $hasbadgepermission,
+                'hascoursepermission' => $hascoursepermission,
+                'hasuserpermission' => $hasuserpermission
+            ) , 
+            'hasstudentdash' => $hasstudentdash, 
+            'hasgradebookshow' => $hasgradebookshow, 
+            'hascompletionshow' => $hascompletionshow, 
+            'studentcourseadminlink' => $courseadminlink, 
+            'studentcoursemanage' => $studentcoursemanage, 
+            'hascourseadminshow' => $hascourseadminshow, 
+            'hascompetency' => $hascompetency, 
+            'competencytitle' => $competencytitle, 
+            'competencyurl' => $competencyurl, 
+            'dashlinks' => array(
+                array(
+                    'hasuserlinks' => $gradebooktitle,
+                    'title' => $gradebooktitle,
+                    'url' => $gradebooklink
+                ) ,
+                array(
+                    'hasuserlinks' => $participantstitle,
+                    'title' => $participantstitle,
+                    'url' => $participantslink
+                ) ,
+                array(
+                    'hasuserlinks' => $grouptitle,
+                    'title' => $grouptitle,
+                    'url' => $grouplink
+                ) ,
+                array(
+                    'hasuserlinks' => $enrolmethodtitle,
+                    'title' => $enrolmethodtitle,
+                    'url' => $enrolmethodlink
+                ) ,
+                array(
+                    'hasuserlinks' => $activitycompletiontitle,
+                    'title' => $activitycompletiontitle,
+                    'url' => $activitycompletionlink
+                ) ,
+                array(
+                    'hasuserlinks' => $completionreporttitle,
+                    'title' => $completionreporttitle,
+                    'url' => $completionreportlink
+                ) ,
+                array(
+                    'hasuserlinks' => $logstitle,
+                    'title' => $logstitle,
+                    'url' => $logslink
+                ) ,
+                array(
+                    'hasuserlinks' => $livelogstitle,
+                    'title' => $livelogstitle,
+                    'url' => $livelogslink
+                ) ,
+                array(
+                    'hasuserlinks' => $participationtitle,
+                    'title' => $participationtitle,
+                    'url' => $participationlink
+                ) ,
+                array(
+                    'hasuserlinks' => $activitytitle,
+                    'title' => $activitytitle,
+                    'url' => $activitylink
+                ) ,
+                array(
+                    'hasqbanklinks' => $qbanktitle,
+                    'title' => $qbanktitle,
+                    'url' => $qbanklink
+                ) ,
+                array(
+                    'hasqbanklinks' => $qcattitle,
+                    'title' => $qcattitle,
+                    'url' => $qcatlink
+                ) ,
+                array(
+                    'hasqbanklinks' => $qimporttitle,
+                    'title' => $qimporttitle,
+                    'url' => $qimportlink
+                ) ,
+                array(
+                    'hasqbanklinks' => $qexporttitle,
+                    'title' => $qexporttitle,
+                    'url' => $qexportlink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $courseedittitle,
+                    'title' => $courseedittitle,
+                    'url' => $courseeditlink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $gradestitle,
+                    'title' => $gradestitle,
+                    'url' => $gradeslink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $coursecompletiontitle,
+                    'title' => $coursecompletiontitle,
+                    'url' => $coursecompletionlink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $hascompetency,
+                    'title' => $competencytitle,
+                    'url' => $competencyurl
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $courseadmintitle,
+                    'title' => $courseadmintitle,
+                    'url' => $courseadminlink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $courseresettitle,
+                    'title' => $courseresettitle,
+                    'url' => $courseresetlink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $coursebackuptitle,
+                    'title' => $coursebackuptitle,
+                    'url' => $coursebackuplink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $courserestoretitle,
+                    'title' => $courserestoretitle,
+                    'url' => $courserestorelink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $courseimporttitle,
+                    'title' => $courseimporttitle,
+                    'url' => $courseimportlink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $recyclebintitle,
+                    'title' => $recyclebintitle,
+                    'url' => $recyclebinlink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $filtertitle,
+                    'title' => $filtertitle,
+                    'url' => $filterlink
+                ) ,
+                array(
+                    'hascoursemanagelinks' => $eventmonitoringtitle,
+                    'title' => $eventmonitoringtitle,
+                    'url' => $eventmonitoringlink
+                ) ,
+                array(
+                    'hasbadgelinks' => $badgemanagetitle,
+                    'title' => $badgemanagetitle,
+                    'url' => $badgemanagelink
+                ) ,
+                array(
+                    'hasbadgelinks' => $badgeaddtitle,
+                    'title' => $badgeaddtitle,
+                    'url' => $badgeaddlink
+                ) ,
             ) ,
-            array(
-                'hasuserlinks' => $participantstitle,
-                'title' => $participantstitle,
-                'url' => $participantslink
-            ) ,
-            array(
-                'hasuserlinks' => $grouptitle,
-                'title' => $grouptitle,
-                'url' => $grouplink
-            ) ,
-            array(
-                'hasuserlinks' => $enrolmethodtitle,
-                'title' => $enrolmethodtitle,
-                'url' => $enrolmethodlink
-            ) ,
-            array(
-                'hasuserlinks' => $activitycompletiontitle,
-                'title' => $activitycompletiontitle,
-                'url' => $activitycompletionlink
-            ) ,
-            array(
-                'hasuserlinks' => $completionreporttitle,
-                'title' => $completionreporttitle,
-                'url' => $completionreportlink
-            ) ,
-            array(
-                'hasuserlinks' => $logstitle,
-                'title' => $logstitle,
-                'url' => $logslink
-            ) ,
-            array(
-                'hasuserlinks' => $livelogstitle,
-                'title' => $livelogstitle,
-                'url' => $livelogslink
-            ) ,
-            array(
-                'hasuserlinks' => $participationtitle,
-                'title' => $participationtitle,
-                'url' => $participationlink
-            ) ,
-            array(
-                'hasuserlinks' => $activitytitle,
-                'title' => $activitytitle,
-                'url' => $activitylink
-            ) ,
-            array(
-                'hasqbanklinks' => $qbanktitle,
-                'title' => $qbanktitle,
-                'url' => $qbanklink
-            ) ,
-            array(
-                'hasqbanklinks' => $qcattitle,
-                'title' => $qcattitle,
-                'url' => $qcatlink
-            ) ,
-            array(
-                'hasqbanklinks' => $qimporttitle,
-                'title' => $qimporttitle,
-                'url' => $qimportlink
-            ) ,
-            array(
-                'hasqbanklinks' => $qexporttitle,
-                'title' => $qexporttitle,
-                'url' => $qexportlink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $courseedittitle,
-                'title' => $courseedittitle,
-                'url' => $courseeditlink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $gradestitle,
-                'title' => $gradestitle,
-                'url' => $gradeslink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $coursecompletiontitle,
-                'title' => $coursecompletiontitle,
-                'url' => $coursecompletionlink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $hascompetency,
-                'title' => $competencytitle,
-                'url' => $competencyurl
-            ) ,
-            array(
-                'hascoursemanagelinks' => $courseadmintitle,
-                'title' => $courseadmintitle,
-                'url' => $courseadminlink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $courseresettitle,
-                'title' => $courseresettitle,
-                'url' => $courseresetlink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $coursebackuptitle,
-                'title' => $coursebackuptitle,
-                'url' => $coursebackuplink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $courserestoretitle,
-                'title' => $courserestoretitle,
-                'url' => $courserestorelink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $courseimporttitle,
-                'title' => $courseimporttitle,
-                'url' => $courseimportlink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $recyclebintitle,
-                'title' => $recyclebintitle,
-                'url' => $recyclebinlink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $filtertitle,
-                'title' => $filtertitle,
-                'url' => $filterlink
-            ) ,
-            array(
-                'hascoursemanagelinks' => $eventmonitoringtitle,
-                'title' => $eventmonitoringtitle,
-                'url' => $eventmonitoringlink
-            ) ,
-            array(
-                'hasbadgelinks' => $badgemanagetitle,
-                'title' => $badgemanagetitle,
-                'url' => $badgemanagelink
-            ) ,
-            array(
-                'hasbadgelinks' => $badgeaddtitle,
-                'title' => $badgeaddtitle,
-                'url' => $badgeaddlink
-            ) ,
-        ) , ];
+            ];
         // Attach easy enrollment links if active.
         if ($globalhaseasyenrollment && $coursehaseasyenrollment) {
             $dashlinks['dashlinks'][] = array(
@@ -1682,7 +1736,9 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $context->logintopimage = $PAGE->theme->setting_file_url('logintopimage', 'logintopimage');
         $context->hascustomlogin = $PAGE->theme->settings->showcustomlogin == 1;
         $context->hasdefaultlogin = $PAGE->theme->settings->showcustomlogin == 0;
-        $context->alertbox = $PAGE->theme->settings->alertbox;
+        $context->alertbox = format_text($PAGE->theme->settings->alertbox, FORMAT_HTML, array(
+            'noclean' => true
+        ));
         if ($url) {
             $url = $url->out(false);
         }

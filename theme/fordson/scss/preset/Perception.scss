@@ -254,6 +254,13 @@ section#region-main {
     margin-top: 0;
 }
 
+li.breadcrumb-item.dimmed_text {
+    background-color: $white;
+}
+li.breadcrumb-item.dimmed_text:hover {
+    background-color: darken($white, 4%);
+}
+
 section#region-main .card, header#page-header .card {
     border: 0;
 }
@@ -313,6 +320,16 @@ div#blockslider {
 
 .blockpanelbtn {
     z-index: 102 !important;
+}
+
+button#blocksliderbutton {
+    border-radius: 0;
+    border: 0;
+}
+
+button#blocksliderbuttonclose {
+    border-radius: 0;
+    border: 0;
 }
 
 #back-to-top {
@@ -409,6 +426,15 @@ div#myoverview_timeline_courses .list-group-item {
     background-color: $gray-200;
 }
 
+#region-main .block-recentlyaccesseditems a.card.dashboard-card {
+    border: 1px solid $gray-300 !important;
+    background-color: $gray-100;
+}
+
+#region-main .dashboard-card-deck.one-row {
+    padding-bottom: 1rem;
+}
+
 // Custom Login page styling
 
 .card.loginicon {
@@ -474,7 +500,7 @@ div#fordsonlogin {
 }
 
 .dashboard-card-deck.one-row::-webkit-scrollbar {
-    height: 10px;
+    height: 7px;
     box-shadow: 0 0 5px 1px rgba(0,0,0,0.2);
 }
 .dashboard-card-deck.one-row::-webkit-scrollbar-track {
@@ -613,6 +639,10 @@ div#fordsonlogin {
     background-color: lighten($gray-100, 1%);
     padding: 1.25rem;
 }
+[data-content="inpage-reply-form"] {
+    background-color: lighten($gray-200, 4%);
+    padding: 1rem;
+}
 
 // Icon Navigation Styling
 
@@ -633,4 +663,9 @@ div#fordsonlogin {
 }
 #page-course-view-remuiformat.pagelayout-course .container-fluid #region-main {
     background: transparent;
+}
+
+.page-context-header .header-button-group {
+    display: block;
+    float: none; 
 }

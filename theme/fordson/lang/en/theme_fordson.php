@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 // Theme strings.
-$string['choosereadme'] = 'Fordson provides a unique visual experience to the default Boost theme with customization features such as color choosers and enhanced homepage experience.';
+$string['choosereadme'] = 'Fordson provides a unique visual experience to the default Boost theme with customization features such as color choosers, improved navigation, and enhanced homepage experience.';
 $string['configtitle'] = 'Fordson';
 $string['pluginname'] = 'Fordson';
 $string['region-side-pre'] = 'Right';
@@ -62,7 +62,7 @@ $string['presetfiles'] = 'Additional theme preset files';
 $string['presetfiles_desc'] = 'Preset files can be used to dramatically alter the appearance of the theme.
     See https://docs.moodle.org/dev/Boost_Presets for information on creating and sharing your own preset files.';
 $string['preset'] = 'Theme preset';
-$string['preset_desc'] = 'Pick a preset to broadly change the look of the theme. <a href="https://goo.gl/fMXzSo" target="_new">Instructions for Fordson 3.5 Theme</a>';
+$string['preset_desc'] = 'Pick a preset to broadly change the look of the theme. <a href="https://goo.gl/fMXzSo" target="_new">Instructions for Fordson </a>';
 $string['favicon'] = 'Favicon';
 $string['favicon_desc'] = 'Change the favicon for Fordson. Images with a transparent background and 32px height will work best.  Allowed types: PNG, JPG, ICO';
 $string['enhancedmydashboard'] = 'Enhanced MyDashboard';
@@ -124,7 +124,9 @@ $string['headerlogo_desc'] = 'This logo will be displayed at the top of the page
 //Slideshow
 $string['slideshowsettings'] = 'Slideshow';
 $string['slideshowheight'] = 'Slideshow Height';
-$string['slideshowheight_desc'] = 'Adjust the height of the slideshow.';
+$string['slideshowheight_desc'] = 'Adjust the height of the slideshow on the Site Home/Dashboard pages. This setting is ignored on the Custom Login Page.  On the Custom Login Page the slide height is determined by page size and width.';
+$string['slideshowspacer'] = 'Slideshow Spacer on Custom Login Page';
+$string['slideshowspacer_desc'] = 'On the custom login page this setting is used to add separation below the login form in case you put text into the slides.';
 $string['showslideshow'] = 'Activate Slideshow';
 $string['showslideshow_desc'] = 'Check this option to turn on the slideshow feature.';
 $string['slide1info'] = 'Slide 1';
@@ -139,7 +141,11 @@ $string['slidecontent'] = 'Slide Description';
 $string['slidecontent_desc'] = 'Add a description for this slide.';
 $string['slideimage'] = 'Slide Image';
 $string['slideimage_desc'] = 'Add a background image for this slide.';
-
+$string['slideshowpages'] = 'Slideshow Pages';
+$string['slideshowpages_desc'] = 'Determine what main pages the slideshow should appear on.  If using the slideshow on custom login page, it is recommended to only upload images and do not use the slide text options below. NOTE: The slideshow will not appear on mobile devices.';
+$string['slideshowpages0'] = 'Show on custom login page only';
+$string['slideshowpages1'] = 'Show on Site Home and Dashboard only';
+$string['slideshowpages2'] = 'Show everywhere';
 
 // Footer
 $string['footerheading'] = 'Footer';
@@ -200,7 +206,7 @@ $string['layoutinfo'] = 'Layout Settings';
 $string['layoutinfodesc'] = 'Control page layout by chooseing a design.';
 
 $string['pagelayout'] = 'Layout Chooser';
-$string['pagelayout_desc'] = 'Choose from the following layouts. Certain page layouts require additional adjustments on the Preset Adjustments Page.  Be sure to pay attention to: Learning Content Spacing, Header Image Height, and Content Padding as these will help adjust header image placement and padding to the left and right of the main learning content. <a href="https://goo.gl/fMXzSo" target="_new">Instructions for Fordson 3.5 Theme</a>';
+$string['pagelayout_desc'] = 'Choose from the following layouts. Certain page layouts require additional adjustments on the Preset Adjustments Page.  Be sure to pay attention to: Learning Content Spacing, Header Image Height, and Content Padding as these will help adjust header image placement and padding to the left and right of the main learning content. <a href="https://goo.gl/fMXzSo" target="_new">Instructions for Fordson</a>';
 $string['pagelayout1'] = 'Default Boost Layout';
 $string['pagelayout2'] = 'Full-Width / Top Header Image';
 $string['pagelayout3'] = 'Centered Content / Overlapping Top Header Image';
@@ -208,7 +214,7 @@ $string['pagelayout4'] = 'Centered Content / Full Screen Header Image';
 $string['pagelayout5'] = 'Default Boost Layout / Header Image in Course Title Box';
 
 $string['sectionlayout'] = 'Section Style Chooser';
-$string['sectionlayout_desc'] = 'Choose from the following topic/weekly section styles.  <a href="https://goo.gl/fMXzSo" target="_new">Instructions for Fordson 3.5 Theme</a>';
+$string['sectionlayout_desc'] = 'Choose from the following topic/weekly section styles.  <a href="https://goo.gl/fMXzSo" target="_new">Instructions for Fordson</a>';
 $string['sectionlayout1'] = 'Boost Default';
 $string['sectionlayout2'] = 'Bold Notecard';
 $string['sectionlayout3'] = 'Folder Tabs';
@@ -266,7 +272,7 @@ $string['coursestyle8'] = 'Horizontal Two Column';
 $string['coursestyle9'] = 'Corporate Training - minimal with completion progressbar';
 $string['coursestyle10'] = 'Default Moodle Course Display';
 $string['coursetilestyle'] = 'Course Tile Display';
-$string['coursetilestyle_desc'] = 'When viewing course categories you can choose from the following styles to display courses. <a href="https://goo.gl/fMXzSo" target="_new">Instructions for Fordson 3.5 Theme</a>';
+$string['coursetilestyle_desc'] = 'When viewing course categories you can choose from the following styles to display courses. <a href="https://goo.gl/fMXzSo" target="_new">Instructions for Fordson </a>';
 $string['gutterwidth'] = 'Content Padding';
 $string['gutterwidth_desc'] = 'This setting controls how much spacing is used on the left and right of the main content.';
 $string['frontpagemycoursessorting'] = 'My Courses Sort Order by Last Access';
@@ -514,8 +520,8 @@ $string['commonlyused'] = 'Customized activity and resource modules.';
 $string['commonlyuseddesc'] = 'Comma separated list of activities/resources to list at top of Activity/Resource Picker.<br>
 Default Activities:<br>
 assign,chat,choice,data,feedback,forum,glossary,lesson,lti,quiz,scorm,survey,wiki,workshop<br>
-DEfault Resources:<br>
-book,file,folder,imscp,label,page,resource,url';
+Default Resources:<br>
+book,file,folder,imscp,label,page,url';
 $string['modchoosercommonlyused'] = 'Commonly Used';
 $string['showonlycustomactivities'] = 'Show Only Custom Menu';
 $string['showonlycustomactivities_desc'] = 'If checked only the custom menu will be displayed.  This allows an organization to pick and choose which activities and resources will be used in courses. WARNING:  You must have a comma separated list of activities/resources set in the textbox above.  Otherwise you will not see any activities or resources when editing a course.';
@@ -525,3 +531,16 @@ $string['modchoosercustomlabel'] = 'Custom Chooser Label';
 $string['modchoosercustomlabel_desc'] = 'Add your own custom label for this new menu in the Chooser Module panel.';
 $string['showalltomanager'] = 'Show All Activities and Resources to Managers';
 $string['showalltomanager_desc'] = 'This setting will allow users who have the role of Manager see and access ALL activities and resources even if it is set to only show the custom menu.  Generally, a manager role is given to a user at the site or category level.  Teachers will still only see the custom menu.  This feature is determined by the user permission: View the Site Administration Tree - moodle/site:configview . Site Administrators will always see all activities and resources.';
+
+// Fordson Plugin Integration Enhancements.
+$string['integrationinfo'] = 'Plugin Integrations';
+$string['integrationinfo_desc'] = 'Fordson can activate enhanced features and better integrate with certain plugins. The settings below will allow you to use the default plugin behavior or turn on advanced features that the developers of Fordson have implemented.';
+$string['integrationon'] = 'Turn Integration On';
+$string['integrationoff'] = 'Turn Integration Off';
+
+$string['collapsibletopics'] = 'Collapsible Topics Course Format';
+$string['collapsibletopics_desc'] = 'If you install the Collapsible Topics Format ( <a href="https://moodle.org/plugins/format_collapsibletopics">format_collapsibletopics</a> ) the Fordson theme can provide an enhanced course format view and special styling that better integrates with the overall look and feel of Fordson. Special care and attention has been developed to provide a smoother user experience for users of all ages and skills.';
+$string['viewfcfmodules'] = 'View Activities and Resources';
+
+$string['easyenrollmentintegration'] = 'Easy Enrollment Plugin';
+$string['easyenrollmentintegration_desc'] = 'The Easy Enrollment plugin (<a href="https://moodle.org/plugins/enrol_easy"> Easy Enrollment Plugin</a>) allows students to enroll in courses directly from the Moodle homepage.  The enrollment plugin uses a 6 digit code or a auto-generated QR code with webcam support to enroll students.  The student enters the code or scans the QR code and is instantly enrolled into the intended course or group within the course.  This plugin auto-activates once you install Easy Enrollment and activate it in Site Administration.  It is only activated if the plugin is installed and properly configured.';
