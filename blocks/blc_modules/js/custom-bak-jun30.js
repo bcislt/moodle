@@ -12,7 +12,24 @@
 		}
 	}
     
+	function checklock() {
+		var apikey = jQuery('#apikey').val();
+			
+		jQuery.getJSON(root+"/blocks/blc_modules/check_lock.php?apikey="+encodeURIComponent(apikey), function( data ) {
+			var items = [];
+			if(data.length==0){
+				jQuery('.submitForm').attr("disabled","disabled");
+				jQuery('.statusMsg').html('<span style="color:red;"><b>An error has occured.</b></p>');
+			}
+				jQuery.each( data, function( key, val ) {
+						items.push( "<option value='" + key + "'>" + val + "</option>" );
+				});
+
+			  jQuery("#scormsubject").html( items.join( "" ) );			
+		}); 
+	}
 	function fillSubject() {
+		console.log('subject filled using scorm url call');
 		var apikey = jQuery('#apikey').val();
 			
 		jQuery.getJSON(root+"/blocks/blc_modules/load_scormsubject.php?apikey="+encodeURIComponent(apikey), function( data ) {
@@ -24,7 +41,7 @@
 				jQuery.each( data, function( key, val ) {
 						items.push( "<option value='" + key + "'>" + val + "</option>" );
 				});
-				items = items.sort();
+
 			  jQuery("#scormsubject").html( items.join( "" ) );			
 		}); 
 	}
@@ -78,7 +95,6 @@
 	}
 	
 	jQuery( document ).ready(function() {
-		
 		var pageURL = jQuery(location).attr("href");
 			pageURL = pageURL.split("&")[0];
 			pageURL = pageURL.split("#")[0];
@@ -88,6 +104,9 @@
 			checkVersion(id);
 		    
 		if ( jQuery( "#addscorm" ).hasClass( "block_blc_modules" ) ) {
+			
+			//checklock();
+			fillSubject() ;
 			
 			var notifyeditingon = jQuery("#userediting").val();
 			var allowstealthval = jQuery("#allowstealthvalue").val();
@@ -119,13 +138,10 @@
 				    		jQuery(".float-sm-right").css("float", "left");				    		
 				    	}					
 			});
-			
 			jQuery("#scormsubject").change(function(){
                 fillscorm();
 			});
-			
 			jQuery(".course-content").on("click",".add-scrom", function() {
-				fillSubject() ;
 				var secId = jQuery(this).closest(".section").attr('id');
 				var secNum = secId.split("-")[1];
 				x = secNum;
