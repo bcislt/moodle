@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/clickview/db" VERSION="20060905" COMMENT="XMLDB file for clickviewvideo module"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="clickview" COMMENT="Each record is one clickview video resource.">
+      <FIELDS>
+        -<FIELD NAME="id"           TYPE="int"  LENGTH="10"   NOTNULL="true"                  SEQUENCE="true"                        NEXT="course"/>
+        -<FIELD NAME="course"       TYPE="int"  LENGTH="10"   NOTNULL="true" DEFAULT="0"      SEQUENCE="false"  PREVIOUS="id"        NEXT="name"/>
+        -<FIELD NAME="name"         TYPE="char" LENGTH="255"  NOTNULL="true"                  SEQUENCE="false"  PREVIOUS="course"    NEXT="width"/>
+		-<FIELD NAME="width"        TYPE="int"  LENGTH="10"   NOTNULL="true" DEFAULT="0"      SEQUENCE="false"  PREVIOUS="name"      NEXT="height" />
+		-<FIELD NAME="height"       TYPE="int"  LENGTH="10"   NOTNULL="true" DEFAULT="0"      SEQUENCE="false"  PREVIOUS="width"     NEXT="autoplay" />
+		-<FIELD NAME="autoplay"     TYPE="char" LENGTH="1"    NOTNULL="true" DEFAULT="0"      SEQUENCE="false"  PREVIOUS="height"    NEXT="embedhtml" />
+		<FIELD NAME="embedhtml"    TYPE="char" LENGTH="1024" NOTNULL="true" DEFAULT="0"      SEQUENCE="false"  PREVIOUS="autoplay"  NEXT="embedlink" />
+		<FIELD NAME="embedlink"    TYPE="char" LENGTH="1024" NOTNULL="true" DEFAULT="0"      SEQUENCE="false"  PREVIOUS="embedhtml" NEXT="thumbnailurl" />
+		<FIELD NAME="thumbnailurl" TYPE="char" LENGTH="255"  NOTNULL="true" DEFAULT="0"      SEQUENCE="false"  PREVIOUS="embedlink" NEXT="title" />
+		<FIELD NAME="title"        TYPE="char" LENGTH="255"  NOTNULL="true" DEFAULT="0"      SEQUENCE="false"  PREVIOUS="thumbnailurl"/>
+    <FIELD NAME="shortcode" TYPE="char" LENGTH="16" NOTNULL="true" SEQUENCE="false" PREVIOUS="title"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
