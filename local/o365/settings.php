@@ -263,6 +263,10 @@ if ($hassiteconfig) {
         $desc = new lang_string('settings_secthead_advanced_desc', 'local_o365');
         $settings->add(new admin_setting_heading('local_o365_section_advanced', $label, $desc));
 
+        $label = new lang_string('settings_sign_off_integration', 'local_o365');
+        $desc = new lang_string('settings_sign_off_integration_details', 'local_o365', $CFG->wwwroot);
+        $settings->add(new \admin_setting_configcheckbox('local_o365/single_sign_off', $label, $desc, '0'));
+
         $label = new lang_string('settings_o365china', 'local_o365');
         $desc = new lang_string('settings_o365china_details', 'local_o365');
         $settings->add(new \admin_setting_configcheckbox('local_o365/chineseapi', $label, $desc, '0'));
@@ -431,6 +435,18 @@ if ($hassiteconfig) {
         $deploybuttonhtml .= html_writer::end_tag('p');
         $deploybuttonhtml .= html_writer::end_div();
         $settings->add(new admin_setting_heading('local_o365/teams_deploy_bot', '', $deploybuttonhtml));
+
+        // Setting teams_moodle_app_external_id.
+        $settings->add(new admin_setting_configtext('local_o365/teams_moodle_app_external_id',
+            get_string('settings_teams_moodle_app_external_id', 'local_o365'),
+            get_string('settings_teams_moodle_app_external_id_desc', 'local_o365'),
+            TEAMS_MOODLE_APP_EXTERNAL_ID));
+
+        // Setting teams_moodle_app_short_name.
+        $settings->add(new admin_setting_configtext('local_o365/teams_moodle_app_short_name',
+            get_string('settings_teams_moodle_app_short_name', 'local_o365'),
+            get_string('settings_teams_moodle_app_short_name_desc', 'local_o365'),
+            'Moodle'));
 
         // Setting bot_shared_secret.
         $sharedsecretsetting = new admin_setting_configtext('local_o365/bot_sharedsecret',

@@ -160,8 +160,7 @@ class main {
                 : $appinfo['value'][0]['objectId'];
         }
 
-        // Force using legacy api. Legacy assign user does not support app only access.
-        $apiclient = $this->construct_user_api(true);
+        $apiclient = $this->construct_user_api();
         $result = $apiclient->assign_user($muserid, $userobjectid, $appobjectid);
         if (!empty($result['odata.error'])) {
             $error = '';
@@ -670,11 +669,11 @@ class main {
         }
 
         if ($aadsync['emailsync']) {
-            $select = 'SELECT u.email,
-                       u.username,';
+            $select = 'SELECT LOWER(u.email) AS email,
+                       LOWER(u.username) AS username,';
             $where = ' WHERE u.email';
         } else {
-            $select = 'SELECT u.username,';
+            $select = 'SELECT LOWER(u.username) AS username,';
             $where = ' WHERE u.username';
         }
 
@@ -720,7 +719,7 @@ class main {
         $params = array_merge(['user'], $upnparams, $usernameparams, [$CFG->mnet_localhost_id, '0']);
         $linkedexistingusers = $DB->get_records_sql($sql, $params);
 
-        $existingusers = array_merge($existingusers, $linkedexistingusers);
+        $existingusers = $existingusers + $linkedexistingusers;
 
         foreach ($aadusers as $user) {
             $this->mtrace(' ');

@@ -15,20 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page log an auth_oidc user out.
+ * Atto text editor integration version file.
  *
- * @package local_o365
- * @author Lai Wei <lai.wei@enovation.ie>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright (C) 2018 onwards Microsoft, Inc. (http://microsoft.com/)
+ * @package    atto_teamsmeeting
+ * @copyright  2020 Enovation
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__ . '/../../config.php');
+defined('MOODLE_INTERNAL') || die();
 
-if ($USER->id) {
-    if ($USER->auth == 'oidc') {
-        require_logout();
-    }
-}
-
-redirect($CFG->wwwroot);
+$plugin->version   = 2020032701;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2016052318;        // Requires this Moodle version.
+$plugin->component = 'atto_teamsmeeting';  // Full name of the plugin (used for diagnostics).
+$plugin->maturity  = MATURITY_STABLE;        // Maturity level of this plugin version
+$plugin->release  = 'v1.2.1';        // Requires this Moodle version.

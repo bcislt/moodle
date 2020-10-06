@@ -689,11 +689,16 @@ class observers {
                     if (empty($userid) || empty($courseid)) {
                         \local_o365\utils::debug("handle_role_assigned no userid $userid or course $courseid", $caller);
                     } else {
-                        $roleteacher = $DB->get_record('role', array('shortname' => 'editingteacher'));
-                        $rolenoneditingteacher = $DB->get_record('role', array('shortname' => 'teacher'));
                         $apiclient = \local_o365\utils::get_api();
-                        if (in_array($roleid, array($roleteacher->id, $rolenoneditingteacher->id))) {
-                            $response = $apiclient->add_owner_to_course_group($courseid, $userid);
+                        $context = \context_course::instance($courseid);
+                        $roles = get_roles_with_capability('local/o365:teamowner', 'CAP_ALLOW', $context);
+                        if (!empty($roles)) {
+                            $roles = array_keys($roles);
+                            if (in_array($roleid, $roles)) {
+                                $response = $apiclient->add_owner_to_course_group($courseid, $userid);
+                            } else {
+                                $response = $apiclient->add_user_to_course_group($courseid, $userid);
+                            }
                         } else {
                             $response = $apiclient->add_user_to_course_group($courseid, $userid);
                         }
@@ -739,13 +744,16 @@ class observers {
                         \local_o365\utils::debug("handle_role_unassigned no userid $userid or course $courseid",
                             $caller);
                     } else {
-                        $roleteacher = $DB->get_record('role', array('shortname' => 'editingteacher'));
-                        $rolenoneditingteacher = $DB->get_record('role', array('shortname' => 'teacher'));
-                        if (in_array($roleid, array($roleteacher->id, $rolenoneditingteacher->id))) {
-                            $apiclient = \local_o365\utils::get_api();
-                            $response = $apiclient->remove_owner_from_course_group($courseid, $userid);
-                            // add the user back to the group as member
-                            $apiclient->add_user_to_course_group($courseid, $userid);
+                        $context = \context_course::instance($courseid);
+                        $roles = get_roles_with_capability('local/o365:teamowner', 'CAP_ALLOW', $context);
+                        if (!empty($roles)) {
+                            $roles = array_keys($roles);
+                            if (in_array($roleid, $roles)) {
+                                $apiclient = \local_o365\utils::get_api();
+                                $response = $apiclient->remove_owner_from_course_group($courseid, $userid);
+                                // add the user back to the group as member
+                                $apiclient->add_user_to_course_group($courseid, $userid);
+                            }
                         }
                     }
                 }
@@ -926,6 +934,34 @@ class observers {
         // send notification
         $botframework->send_notification($courseobjectid, $userrecord->objectid,
             $message, $listItems, $notificationendpoint);
+        return true;
+    }
+
+    /**
+     * Log out user from Office 365 if the user is using auth_oidc.
+     *
+     * @param \core\event\user_loggedout $event
+     *
+     * @return bool
+     */
+    public static function handle_user_loggedout(\core\event\user_loggedout $event) {
+        global $CFG;
+
+        $singlesignoffsetting = get_config('local_o365', 'single_sign_off');
+
+        if ($singlesignoffsetting) {
+            $eventdata = $event->get_data();
+
+            $user = \core_user::get_user($eventdata['userid']);
+
+            if ($user && $user->auth == 'oidc') {
+                $ssologouturl = 'https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=' .
+                    urlencode($CFG->wwwroot);
+
+                redirect($ssologouturl);
+            }
+        }
+
         return true;
     }
 }
