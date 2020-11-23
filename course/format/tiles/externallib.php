@@ -215,13 +215,13 @@ class format_tiles_external extends external_api
 
         $existingicon = $DB->get_record(
             'course_format_options',
-            ['format' => 'tiles', 'name' => $optionname, 'courseid' => $data['courseid'], 'sectionid' => $data['sectionid']]
+            ['courseid' => $data['courseid'], 'format' => 'tiles', 'sectionid' => $data['sectionid'], 'name' => $optionname]
         );
         if (!isset($existingicon->value)) {
             // No icon is presently stored for this so we need to insert new record.
             $record = new stdClass();
-            $record->format = 'tiles';
             $record->courseid = $data['courseid'];
+            $record->format = 'tiles';
             $record->sectionid = $data['sectionid'];
             $record->name = $optionname;
             $record->value = $data['image'];
@@ -230,13 +230,13 @@ class format_tiles_external extends external_api
             // We are dealing with a tile icon for one particular section, so check if user has picked the course default.
             $defaulticonthiscourse = $DB->get_record(
                 'course_format_options',
-                ['format' => 'tiles', 'name' => 'defaulttileicon', 'courseid' => $data['courseid'], 'sectionid' => 0]
+                ['courseid' => $data['courseid'], 'format' => 'tiles', 'sectionid' => 0, 'name' => 'defaulttileicon']
             )->value;
             if ($data['image'] == $defaulticonthiscourse) {
                 // Using default icon for a tile do don't store anything in database = default.
                 $result = $DB->delete_records(
                     'course_format_options',
-                    ['format' => 'tiles', 'name' => 'tileicon', 'courseid' => $data['courseid'], 'sectionid' => $data['sectionid']]
+                    ['courseid' => $data['courseid'], 'format' => 'tiles', 'sectionid' => $data['sectionid'], 'name' => 'tileicon']
                 );
             } else {
                 // User has not picked default and there is an existing record so update it.
@@ -476,8 +476,7 @@ class format_tiles_external extends external_api
         self::validate_context($coursecontext);
 
         course_view(context_course::instance($courseid), $sectionid);
-        $result = array('status' => true, 'warnings' => []);
-        return $result;
+        return array('status' => true, 'warnings' => []);
     }
 
     /**
@@ -650,7 +649,7 @@ class format_tiles_external extends external_api
                     ""
                 );
             }
-        };
+        }
         $data = array(
             'status' => true,
             'warnings' => [],
@@ -805,7 +804,7 @@ class format_tiles_external extends external_api
         $sectioninfo = $modinfo->get_section_info_all();
         $canviewhidden = has_capability('moodle/course:viewhiddensections', $context);
         $renderer = $PAGE->get_renderer('format_tiles');
-        $templateable = new \format_tiles\output\course_output($course, true, $params['sectionid']);
+        $templateable = new \format_tiles\output\course_output($course, true);
         $showprogressaspercent = $templateable->courseformatoptions['courseshowtileprogress'] == 2;
         // First add the info about the section and its availability.
         foreach ($sectionnums as $sectionnum) {
@@ -833,10 +832,14 @@ class format_tiles_external extends external_api
         $completionenabled = $course->enablecompletion && !isguestuser();
         if ($completionenabled) {
             foreach ($sections as $section) {
-                $completionthistile = $templateable->section_progress(
-                    $modinfo->sections[$section['sectionnum']],
-                    $modinfo->cms
-                );
+                if (isset($modinfo->sections[$section['sectionnum']])) {
+                    $completionthistile = $templateable->section_progress(
+                        $modinfo->sections[$section['sectionnum']],
+                        $modinfo->cms
+                    );
+                } else {
+                    $completionthistile = ['completed' => 0, 'outof' => 0];
+                }
                 $completiondata = $templateable->completion_indicator(
                     $completionthistile['completed'],
                     $completionthistile['outof'],

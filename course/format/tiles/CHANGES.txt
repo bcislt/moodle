@@ -191,3 +191,27 @@ Other
 - Better handling of import/backup error avoidance for issue 45 (teacher can exclude offending section from backup/restore).
 - For courses which have a large number of sections as a result of the issue, do not display them all / show warning to editor.
 - On course sections which have too high a section number, display an error message to editors and suggest a fix.
+
+3.9.0.5 Beta (2020080605)
+=========================
+- Fix typo on backup section count check
+
+3.9.0.6 (2020080606)
+=========================
+- Align queries with index on course_format_options table
+- Minor fixes
+
+3.9.0.7 (2020080607)
+=========================
+- Bug fixes
+- Add experimental tool to enable site admin to delete empty tiles in bulk.
+- Minor improvements to 'restricted' tags incl for Moodle 3.10
+- Tests - avoid deprecation warnings for PHP9
+
+3.9.0.8 (2020080608)
+====================
+- Bug fix with empty section deletion task
+
+3.9.0.9 (2020080609)
+====================
+- Minor refactoring and tidying

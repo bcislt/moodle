@@ -247,15 +247,18 @@ class format_topcoll_courseformatrenderer_testcase extends advanced_testcase {
         global $CFG;
         $this->init();
         $section = $this->courseformat->get_section(1);
+        $section->visible = false;
+
         $theclass = self::call_method($this->outputus, 'section_hidden',
             array($section, null));
         $thevalue = '<li id="section-1" class="section main clearfix hidden col-sm-12 col-md-12 col-lg-12" role="region" ';
         $thevalue .= 'aria-labelledby="sectionid-'.$section->id.'-title" data-sectionid="1">';
         $thevalue .= '<div class="left side"><span class="cps_centre">1</span></div>';
-        $thevalue .= '<div class="content sectionhidden"><h3 id="sectionid-'.$section->id.'-title" class="section-title">Not available</h3></div>';
-        $thevalue .= '<div class="right side">';
-        $thevalue .= '<a title="View only &#039;Topic 1&#039;" class="cps_centre" ';
-        $thevalue .= 'href="'.$CFG->wwwroot.'/course/view.php?id='.$this->course->id.'&amp;section=1">Topic<br />1</a></div>';
+        $thevalue .= '<div class="content sectionhidden"><h3 id="sectionid-'.$section->id.'-title" class="section-title">Section 1</h3>';
+        $thevalue .= '<div class="section_availability"><div class="availabilityinfo ishidden">'.PHP_EOL;
+        $thevalue .= '    <span class="badge badge-info">Not available</span>'.PHP_EOL;
+        $thevalue .= '</div></div></div>';
+        $thevalue .= '<div class="right side"></div>';
         $thevalue .= '</li>';
 
         $this->assertEquals($thevalue, $theclass);
@@ -269,6 +272,7 @@ class format_topcoll_courseformatrenderer_testcase extends advanced_testcase {
         }
 
         $this->init();
+        $this->outputus->set_user_preference(null, 0, 1);  // As is done in format.php.
         $section0 = $this->courseformat->get_section(0);
         $section1 = $this->courseformat->get_section(1);
 
@@ -315,6 +319,7 @@ class format_topcoll_courseformatrenderer_testcase extends advanced_testcase {
         }
 
         $this->init(1, 1);
+        $this->outputus->set_user_preference(null, 0, 1);  // As is done in format.php.
         $section0 = $this->courseformat->get_section(0);
         $section1 = $this->courseformat->get_section(1);
 
@@ -362,6 +367,7 @@ class format_topcoll_courseformatrenderer_testcase extends advanced_testcase {
         }
 
         $this->init(0);
+        $this->outputus->set_user_preference(null, 0, 1);  // As is done in format.php.
         $section0 = $this->courseformat->get_section(0);
 
         self::call_method($this->outputus, 'print_multiple_section_page',

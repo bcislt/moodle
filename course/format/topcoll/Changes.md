@@ -1,12 +1,30 @@
 ﻿Version Information
 ===================
-Version 3.9.0.3 - 24/7/20
+Version 3.9.1.0 - 10/11/20
+  1. Fix 'Tests fail on PHP7.4' - #77.
+  2. Colour fixes for Adaptable theme version 3.0.0.
+  3. Fix 'Show hidden sections in collapsed form does not reveal section titles to students' - CONTRIB-7510.
+  4. Port of fixes to activity meta from Adaptable - https://gitlab.com/jezhops/moodle-theme_adaptable/-/issues/161.
+  5. Fix 'Lesson meta information shows "Not attempted" even if it has been' - #79.
+  6. Update activity.php from Adaptable.
+  7. Due date label doesn't honor overridden dates for mod_assign - #82 - thanks to https://github.com/golenkovm for the patch.
+  8. Initial Behat test.
+  9. No students port from Adaptable - https://gitlab.com/jezhops/moodle-theme_adaptable/-/issues/185.
+ 10. Fix 'Due date disappears when moving activities' - #87.
+ 11. Fix 'Issue with Assignment Meta-information' - #86.
+ 12. Make show information alert colors accessible - #88 - thanks to https://github.com/haietza for the colours.
+
+Version 3.9.0.4 - 31/07/2020
+  1. Add 'Duplicate section' functionality from 'onetopic' format, thanks to David Herney Bernal for the code - #72.
+  2. Apply MDL-68330 - #74.
+
+Version 3.9.0.3 - 24/7/2020
   1. Fix title.
 
-Version 3.9.0.2 - 21/7/20
+Version 3.9.0.2 - 21/7/2020
   1. Fix logic in restore of backup file for 'numsections' - #73.
 
-Version 3.9.0.1 - 19/7/20
+Version 3.9.0.1 - 19/7/2020
   1. Apply MDL-65539.
   2. Apply MDL-68231.
   3. Apply MDL-68235.

@@ -147,6 +147,10 @@ class format_topcoll_course_renderer extends \core_course_renderer {
      * @return string
      */
     public function course_section_cm($course, &$completioninfo, cm_info $mod, $sectionreturn, $displayoptions = array()) {
+        if ($this->page->user_is_editing()) { // Don't display the activity meta when editing so that drag and drop is not broken.
+            return parent::course_section_cm($course, $completioninfo, $mod, $sectionreturn, $displayoptions);
+        }
+
         $output = '';
         /* We return empty string (because course module will not be displayed at all)
            if:
@@ -168,10 +172,6 @@ class format_topcoll_course_renderer extends \core_course_renderer {
         }
 
         $output .= html_writer::start_tag('div');
-
-        if ($this->page->user_is_editing()) {
-            $output .= course_get_cm_move($mod, $sectionreturn);
-        }
 
         $output .= html_writer::start_tag('div', array('class' => 'mod-indent-outer'));
 
@@ -208,14 +208,7 @@ class format_topcoll_course_renderer extends \core_course_renderer {
             $output .= $contentpart;
         }
 
-        $modicons = '';
-        if ($this->page->user_is_editing()) {
-            $editactions = course_get_cm_edit_actions($mod, $mod->indent, $sectionreturn);
-            $modicons .= ' '. $this->course_section_cm_edit_actions($editactions, $mod, $displayoptions);
-            $modicons .= $mod->afterediticons;
-        }
-
-        $modicons .= $this->course_section_cm_completion($course, $completioninfo, $mod, $displayoptions);
+        $modicons = $this->course_section_cm_completion($course, $completioninfo, $mod, $displayoptions);
 
         if (!empty($modicons)) {
             $output .= html_writer::span($modicons, 'actions');
@@ -248,6 +241,7 @@ class format_topcoll_course_renderer extends \core_course_renderer {
         $output .= html_writer::end_tag('div');
 
         $output .= html_writer::end_tag('div');
+
         return $output;
     }
 
@@ -258,20 +252,24 @@ class format_topcoll_course_renderer extends \core_course_renderer {
      * @return string
      */
     protected function course_section_cm_get_meta(cm_info $mod) {
-        global $COURSE, $OUTPUT;
+        global $COURSE;
 
         if (is_guest(context_course::instance($COURSE->id))) {
             return '';
         }
 
+        // If module is not visible to the user then don't bother getting meta data.
+        if (!$mod->uservisible) {
+            return '';
+        }
+
         // Do we have an activity function for this module for returning meta data?
         $meta = \format_topcoll\activity::module_meta($mod);
-        if (!$meta->is_set(true)) {
+        if (($meta == null) || (!$meta->is_set(true))) {
             // Can't get meta data for this module.
             return '';
         }
         $content = '';
-        $duedate = '';
 
         $warningclass = '';
         if ($meta->submitted) {
@@ -288,7 +286,7 @@ class format_topcoll_course_renderer extends \core_course_renderer {
             } else {
                 // Only display if this is really a student on the course (i.e. not anyone who can grade an assignment).
                 if (!has_capability('mod/assign:grade', $mod->context)) {
-                    $content .= html_writer::start_tag('div', array('class' => 'ct-activity-mod-engagement' . $warningclass));
+                    $content .= html_writer::start_tag('div', array('class' => 'ct-activity-mod-engagement'.$warningclass));
                     $content .= $activitycontent;
                     $content .= html_writer::end_tag('div');
                 }
@@ -306,8 +304,6 @@ class format_topcoll_course_renderer extends \core_course_renderer {
             $dateformat = get_string('strftimedate', 'langconfig');
             $due = get_string('due', 'format_topcoll', userdate($meta->$field, $dateformat));
 
-            $pastdue = $meta->$field < time();
-
             // Create URL for due date.
             $url = new \moodle_url("/mod/{$mod->modname}/view.php", ['id' => $mod->id]);
             $dateformat = get_string('strftimedate', 'langconfig');
@@ -316,36 +312,36 @@ class format_topcoll_course_renderer extends \core_course_renderer {
 
             /* Display assignment status (due, nearly due, overdue), as long as it hasn't been submitted,
                or submission not required. */
-            if ( (!$meta->submitted) && (!$meta->submissionnotrequired) ) {
+            if ((!$meta->submitted) && (!$meta->submissionnotrequired)) {
                 $warningclass = '';
                 $labeltext = '';
 
+                $time = time();
                 // If assignment is 7 days before date due(nearly due).
                 $timedue = $meta->$field - (86400 * 7);
-                if ( (time() > $timedue) &&  !(time() > $meta->$field) ) {
+                if (($time > $timedue) &&  ($time <= $meta->$field)) {
                     if ($mod->modname == 'assign') {
                         $warningclass = ' ct-activity-date-nearly-due';
                     }
-                } else if (time() > $meta->$field) { // If assignment is actually overdue.
+                } else if ($time > $meta->$field) { // If assignment is actually overdue.
                     if ($mod->modname == 'assign') {
                         $warningclass = ' ct-activity-date-overdue';
                     }
-                    $labeltext .= $OUTPUT->pix_icon('i/warning', get_string('warning', 'format_topcoll'));
+                    $labeltext .= $this->output->pix_icon('i/warning', get_string('warning', 'format_topcoll'));
                 }
 
                 $labeltext .= $due;
 
                 $activityclass = '';
                 if ($mod->modname == 'assign') {
-                        $activityclass = 'ct-activity-due-date';
+                    $activityclass = 'ct-activity-due-date';
                 }
-                $duedate .= html_writer::start_tag('span', array('class' => $activityclass . $warningclass));
+                $duedate = html_writer::start_tag('span', array('class' => $activityclass . $warningclass));
                 $duedate .= html_writer::link($url, $labeltext);
                 $duedate .= html_writer::end_tag('span');
+                $content .= html_writer::start_tag('div', array('class' => 'ct-activity-mod-engagement'));
+                $content .= $duedate . html_writer::end_tag('div');
             }
-
-            $content .= html_writer::start_tag('div', array('class' => 'ct-activity-mod-engagement'));
-            $content .= $duedate . html_writer::end_tag('div');
         }
 
         if ($meta->isteacher) {
@@ -353,11 +349,11 @@ class format_topcoll_course_renderer extends \core_course_renderer {
             $engagementmeta = array();
 
             // Below, !== false means we get 0 out of x submissions.
-            if (!$meta->submissionnotrequired && $meta->numsubmissions !== false) {
+            if (!$meta->submissionnotrequired && $meta->numparticipants !== false) {
                 $engagementmeta[] = get_string('xofy'.$meta->submitstrkey, 'format_topcoll',
                     (object) array(
                         'completed' => $meta->numsubmissions,
-                        'participants' => \format_topcoll\toolbox::course_participant_count($COURSE->id, $mod->modname)
+                        'participants' => $meta->numparticipants
                     )
                 );
             }
@@ -376,9 +372,9 @@ class format_topcoll_course_renderer extends \core_course_renderer {
                 );
                 $url = new moodle_url("/mod/{$mod->modname}/view.php", $params);
 
-                $icon = $OUTPUT->pix_icon('docs', get_string('info'));
+                $icon = $this->output->pix_icon('docs', get_string('info'));
                 $content .= html_writer::start_tag('div', array('class' => 'ct-activity-mod-engagement'));
-                $content .= html_writer::link($url, $icon . $engagementstr);
+                $content .= html_writer::link($url, $icon.$engagementstr, array('class' => 'ct-activity-action'));
                 $content .= html_writer::end_tag('div');
             }
 
@@ -391,7 +387,7 @@ class format_topcoll_course_renderer extends \core_course_renderer {
                 }
                 $content .= html_writer::start_tag('span', array('class' => 'ct-activity-mod-feedback'));
 
-                $feedbackavailable = $OUTPUT->pix_icon('t/message', get_string('feedback')) .
+                $feedbackavailable = $this->output->pix_icon('t/message', get_string('feedback')) .
                     get_string('feedbackavailable', 'format_topcoll');
                 $content .= html_writer::link($url, $feedbackavailable);
                 $content .= html_writer::end_tag('span');
@@ -402,7 +398,6 @@ class format_topcoll_course_renderer extends \core_course_renderer {
                 // TODO - spit out a 'submissions allowed from' tag.
                 return $content;
             }
-
         }
 
         return $content;
@@ -414,10 +409,9 @@ class format_topcoll_course_renderer extends \core_course_renderer {
      * @param cm_info $mod
      * @param activity_meta $meta
      * @return string
-     * @throws coding_exception
      */
     public function submission_cta(cm_info $mod, \format_topcoll\activity_meta $meta) {
-        global $CFG, $OUTPUT;
+        global $CFG;
 
         if (empty($meta->submissionnotrequired)) {
             $url = $CFG->wwwroot.'/mod/'.$mod->modname.'/view.php?id='.$mod->id;
@@ -428,16 +422,26 @@ class format_topcoll_course_renderer extends \core_course_renderer {
                 } else {
                     $submittedonstr = ' '.userdate($meta->timesubmitted, get_string('strftimedate', 'langconfig'));
                 }
-                $message = $OUTPUT->pix_icon('i/checked', get_string('checked', 'format_topcoll')).$meta->submittedstr.$submittedonstr;
+                $message = $this->output->pix_icon('i/checked', get_string('checked', 'format_topcoll')).$meta->submittedstr.$submittedonstr;
             } else {
-                $warningstr = $meta->draft ? $meta->draftstr : $meta->notsubmittedstr;
-                $warningstr = $meta->reopened ? $meta->reopenedstr : $warningstr;
-                $message = $warningstr;
+                if ($meta->expired) {
+                    $warningstr = $meta->expiredstr;
+                    $warningicon = 't/locked';
+                } else if ($meta->reopened) {
+                    $warningstr = $meta->reopenedstr;
+                    $warningicon = 't/unlocked';
+                } else if ($meta->draft) {
+                    $warningstr = $meta->draftstr;
+                    $warningicon = 'i/warning';
+                } else {
+                    $warningstr = $meta->notsubmittedstr;
+                    $warningicon = 'i/warning';
+                }
 
-                $message = $OUTPUT->pix_icon('i/warning', get_string('warning', 'format_topcoll')).$message;
+                $message = $this->output->pix_icon($warningicon, get_string('warning', 'format_topcoll')).$warningstr;
             }
 
-            return html_writer::link($url, $message);
+            return html_writer::link($url, $message, array('class' => 'ct-activity-action'));
         }
         return '';
     }
